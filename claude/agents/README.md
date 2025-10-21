@@ -58,19 +58,16 @@ This document provides an overview of all agents in the ecosystem, their capabil
 | ------------------ | ------------------------------------------------------------------------------------------------------------ | ------------- | --------------- | ----------------------------------- |
 | **dataviz-master** | Publication-quality scientific and bioinformatics data visualization in Python (matplotlib, seaborn, plotly) | Yes (0.7)     | `.memories/`    | visual-design-critic, memory-keeper |
 
-## DevOps & Infrastructure Agents
-
-| Agent                | Purpose                                                    | Learning Mode | Stores Patterns | Key Integrations |
-| -------------------- | ---------------------------------------------------------- | ------------- | --------------- | ---------------- |
-| **docker-optimizer** | Optimize Docker images for size, security, and performance | Yes (0.7)     | `.memories/`    | memory-keeper    |
-
 ## Utility Agents
 
-| Agent                              | Purpose                                    | Learning Mode | Stores Patterns | Key Integrations |
-| ---------------------------------- | ------------------------------------------ | ------------- | --------------- | ---------------- |
-| **pr-description-writer**          | Generate PR descriptions from git diffs    | No            | N/A             | None             |
-| **prompt-optimization-specialist** | Refine and optimize prompts                | No            | N/A             | None             |
-| **tts-status-notifier**            | Audio notifications for long-running tasks | No            | N/A             | None             |
+| Agent                              | Purpose                                                                        | Learning Mode | Stores Patterns | Key Integrations                                          |
+| ---------------------------------- | ------------------------------------------------------------------------------ | ------------- | --------------- | --------------------------------------------------------- |
+| **pr-description-writer**          | Generate PR descriptions from git diffs                                        | No            | N/A             | None                                                      |
+| **prompt-optimization-specialist** | LLM cognition expert using prompt-optimization skill to refine prompts         | No            | N/A             | prompt-optimization skill, gemini-consultant, gpt5-consultant, codex-consultant, multi-perspective-reviewer |
+
+**Note:** `tts-status-notifier` agent was migrated to `tts-notifier` skill, which can be invoked directly or used by other agents.
+
+**Note:** The prompt-optimization-specialist agent demonstrates the **agent-as-skill-wrapper pattern** - it uses the `prompt-optimization` skill for technical prompt engineering knowledge while providing cognitive expertise in LLM processing and human-AI communication.
 
 ## Integration Map
 
@@ -136,6 +133,10 @@ Some agents act as wrappers around skills, combining technical capabilities with
 **obsidian-vault-manager + obsidian-vault**
 - **obsidian-vault skill:** Vault structure, markdown formatting, YAML frontmatter, folder hierarchy, attachment rules
 - **obsidian-vault-manager agent:** Search & prevent duplication, strategic note placement, knowledge connections, consolidation decisions
+
+**prompt-optimization-specialist + prompt-optimization**
+- **prompt-optimization skill:** Anthropic's prompt engineering patterns, foundational techniques, advanced patterns (CoT, persona-as-cognition, self-consistency, multi-agent debate), example transformations
+- **prompt-optimization-specialist agent:** LLM cognition expert, human intent extraction, cognitive trade-off analysis (effectiveness vs token cost), chaining with external consultants
 
 **When to Use This Pattern:**
 
@@ -229,13 +230,17 @@ Skills are reusable capabilities that can be invoked by agents or users. Unlike 
 | **testing-anti-patterns** | Avoid common testing mistakes: never test mock behavior, never add test-only methods to production, never mock without understanding | None - Pure workflow discipline |
 | **git-worktrees** | Create isolated git worktrees with smart directory selection and safety verification | None - Pure workflow discipline |
 | **receiving-code-review** | Handle code review feedback with technical rigor, verification before implementation, and appropriate pushback | None - Pure workflow discipline |
+| **docker-optimization** | Optimize Docker images for size, security, and performance with multi-stage builds and framework-specific patterns | None - Pure best practices knowledge |
 | **tts-notifier** | Audio notifications for completed tasks using TTS | `scripts/tts-notify` - Kokoro ONNX-based speech synthesis |
 | **mermaid-diagrams** | Create, debug, and optimize Mermaid diagrams for visual documentation | `scripts/validate_diagram.py` - Syntax validation and rendering script<br/>`references/syntax_guide.md` - Comprehensive syntax rules<br/>`references/diagram_templates.md` - Reusable diagram templates |
 | **graphviz-diagrams** | Create architecture diagrams, protocol contracts, and system visualizations using Graphviz DOT | `scripts/validate_diagram.py` - DOT validation and multi-engine rendering<br/>`references/syntax_guide.md` - Shape conventions and DOT syntax<br/>`references/layout_engines.md` - Layout engine selection guide<br/>`references/protocol_templates.md` - Protocol contract templates |
 | **obsidian-vault** | Manage Obsidian vault operations for Ricardo's vault (formatting, structure, linking) | `references/vault_structure.md` - Folder hierarchy, naming conventions, attachment rules<br/>`references/markdown_formatting.md` - YAML frontmatter, markdown standards, tag system |
+| **prompt-optimization** | Transform rough prompts into polished, effective prompts using Anthropic's best practices | `references/advanced_techniques.md` - CoT, persona-as-cognition, self-consistency, debate, context engineering<br/>`references/examples.md` - Example transformations for common scenarios |
 
 **Migration Notes:**
 - `tts-status-notifier` agent → `tts-notifier` skill
 - `mermaid-expert` agent → `mermaid-diagrams` skill (agent uses skill for technical execution)
 - `graphviz-architect` agent → `graphviz-diagrams` skill (agent uses skill for technical execution)
 - `obsidian-vault-manager` agent → `obsidian-vault` skill (archived - can invoke skill directly)
+- `prompt-optimization-specialist` agent → `prompt-optimization` skill (agent uses skill for technical knowledge)
+- `docker-optimizer` agent → `docker-optimization` skill (archived - can invoke skill directly)
