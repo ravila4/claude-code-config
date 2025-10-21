@@ -163,4 +163,14 @@ When creating a new agent:
 
 ### Refactoring Needed
 
-- Add hook for tts-status-notifier after notification events
+- ~~Add hook for tts-status-notifier after notification events~~ - Converted to skill (tts-notifier)
+
+### Skills
+
+Skills are reusable capabilities that can be invoked by agents or users. Unlike agents, skills don't have their own context but provide specialized workflows and bundled resources.
+
+| Skill | Purpose | Key Resources |
+|-------|---------|---------------|
+| **tts-notifier** | Audio notifications for completed tasks using TTS | `scripts/tts-notify` - Kokoro ONNX-based speech synthesis |
+
+**Note:** The `tts-status-notifier` agent has been deprecated in favor of the `tts-notifier` skill, which can be used by any agent or user.

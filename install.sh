@@ -67,6 +67,11 @@ if [ -d "$REPO_DIR/claude/plugins" ]; then
     create_symlink "$REPO_DIR/claude/plugins" "$CLAUDE_DIR/plugins" "plugins"
 fi
 
+# Link skills directory if it exists
+if [ -d "$REPO_DIR/claude/skills" ]; then
+    create_symlink "$REPO_DIR/claude/skills" "$CLAUDE_DIR/skills" "skills"
+fi
+
 # Link scripts directory if it exists
 if [ -d "$REPO_DIR/claude/scripts" ]; then
     create_symlink "$REPO_DIR/claude/scripts" "$CLAUDE_DIR/scripts" "scripts"
