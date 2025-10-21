@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://claude-code-agents/schemas/pattern.schema.json",
+  "title": "Code Pattern",
+  "description": "Schema for code patterns stored and validated by memory-keeper",
+  "type": "object",
+  "required": [
+    "pattern_id",
+    "category",
+    "pattern",
+    "confidence",
+    "source"
+  ],
+  "properties": {
+    "pattern_id": {
+      "type": "string",
+      "description": "Unique identifier for the pattern",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the pattern",
+      "examples": [
+        "data-fetching",
+        "error-handling",
+        "data-processing",
+        "testing"
+      ]
+    },
+    "project_context": {
+      "type": "array",
+      "description": "Projects or contexts where this pattern applies",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pattern": {
+      "type": "object",
+      "required": [
+        "DO"
+      ],
+      "properties": {
+        "DO": {
+          "type": "object",
+          "required": [
+            "code",
+            "explanation"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Recommended code pattern"
+            },
+            "explanation": {
+              "type": "string",
+              "description": "Why this pattern should be used"
+            },
+            "examples": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "DONT": {
+          "type": "object",
+          "required": [
+            "code",
+            "explanation"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Anti-pattern to avoid"
+            },
+            "explanation": {
+              "type": "string",
+              "description": "Why this pattern should be avoided"
+            },
+            "migration": {
+              "type": "string",
+              "description": "How to migrate from anti-pattern to correct pattern"
+            }
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score for this pattern (0.0-1.0)"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "type",
+        "date"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "user-instruction",
+            "documentation",
+            "code-review",
+            "debugging-session",
+            "inferred"
+          ],
+          "description": "Source of the pattern"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date pattern was established"
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Whether pattern has been verified by user"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to documentation or source"
+        }
+      }
+    },
+    "applies_to": {
+      "type": "object",
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "File patterns where this applies (e.g., *.py, *.tsx)"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Conditions when this pattern applies"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for categorization and search"
+    }
+  }
+}

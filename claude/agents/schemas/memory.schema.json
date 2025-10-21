@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://claude-code-agents/schemas/memory.schema.json",
+  "title": "Memory File",
+  "description": "Schema for .memories/ flat-file storage used by agents",
+  "type": "object",
+  "required": ["version", "project", "created", "updated"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Schema version (e.g., '1.0')"
+    },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Project name"
+        },
+        "type": {
+          "type": "string",
+          "description": "Project type (e.g., 'python-package', 'python-pipeline')"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this memory file was created"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this memory file was last updated"
+    },
+    "patterns": {
+      "type": "array",
+      "items": {
+        "$ref": "pattern.schema.json"
+      },
+      "description": "Code patterns stored in this memory file"
+    },
+    "anti_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "reason", "alternative"],
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "description": "Anti-pattern code or description"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why this is an anti-pattern"
+          },
+          "alternative": {
+            "type": "string",
+            "description": "What to use instead"
+          }
+        }
+      }
+    },
+    "debugging_solutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["error_signature", "solution", "confidence"],
+        "properties": {
+          "error_signature": {
+            "type": "string",
+            "description": "Unique signature of the error"
+          },
+          "error_type": {
+            "type": "string",
+            "description": "Type of error (e.g., TypeError, ValueError)"
+          },
+          "solution": {
+            "type": "string",
+            "description": "How to fix this error"
+          },
+          "context": {
+            "type": "string",
+            "description": "Context where this error occurs"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "source": {
+            "type": "string",
+            "enum": ["user-instruction", "debugging-session", "documentation"]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "architectural_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["decision", "rationale", "timestamp"],
+        "properties": {
+          "decision": {
+            "type": "string",
+            "description": "The architectural decision made"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Why this decision was made"
+          },
+          "alternatives_considered": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "description": "User preferences and project-specific settings",
+      "properties": {
+        "style": {
+          "type": "object"
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "frameworks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

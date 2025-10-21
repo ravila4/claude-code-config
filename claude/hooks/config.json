@@ -1,0 +1,8 @@
+{
+  "postToolUse": [
+    {
+      "matcher": "WebFetch",
+      "command": "claude/hooks/webfetch-post.sh"
+    }
+  ]
+}
