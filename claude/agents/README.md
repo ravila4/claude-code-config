@@ -17,12 +17,14 @@ This document provides an overview of all agents in the ecosystem, their capabil
 
 ## Architecture & Design Agents
 
-| Agent                            | Purpose                                                            | Learning Mode | Stores Patterns | Key Integrations                                                 |
-| -------------------------------- | ------------------------------------------------------------------ | ------------- | --------------- | ---------------------------------------------------------------- |
-| **software-architect**           | System design, architecture analysis, technical planning           | Yes (0.7)     | `.memories/`    | mermaid-expert, architecture-devils-advocate, memory-keeper      |
-| **architecture-devils-advocate** | Critical evaluation of architectural designs                       | No            | N/A             | software-architect                                               |
-| **mermaid-expert**               | Create and debug Mermaid diagrams for documentation                | Yes (0.7)     | `.memories/`    | visual-design-critic, software-architect, obsidian-vault-manager |
-| **visual-design-critic**         | Critique diagrams and visualizations for clarity and effectiveness | Yes (0.7)     | `.memories/`    | mermaid-expert, memory-keeper                                    |
+| Agent                            | Purpose                                                            | Learning Mode | Stores Patterns | Key Integrations                                                                        |
+| -------------------------------- | ------------------------------------------------------------------ | ------------- | --------------- | --------------------------------------------------------------------------------------- |
+| **software-architect**           | System design, architecture analysis, technical planning           | Yes (0.7)     | `.memories/`    | mermaid-expert, architecture-devils-advocate, memory-keeper                             |
+| **architecture-devils-advocate** | Critical evaluation of architectural designs                       | No            | N/A             | software-architect                                                                      |
+| **mermaid-expert**               | Visual documentation specialist using mermaid-diagrams skill       | Yes (0.7)     | `.memories/`    | mermaid-diagrams skill, visual-design-critic, software-architect, obsidian-vault-manager, memory-keeper |
+| **visual-design-critic**         | Critique diagrams and visualizations for clarity and effectiveness | Yes (0.7)     | `.memories/`    | mermaid-expert, memory-keeper                                                           |
+
+**Note:** The mermaid-expert agent demonstrates the **agent-as-skill-wrapper pattern** - it uses the `mermaid-diagrams` skill for technical execution while focusing on collaboration, feedback loops, and strategic diagram design. See `claude/agents/diagrams/mermaid-expert-interactions.svg` for visual documentation.
 
 ## Knowledge & Memory Agents
 
@@ -33,12 +35,14 @@ This document provides an overview of all agents in the ecosystem, their capabil
 
 ## External Consultants
 
-| Agent                          | Purpose                                    | Learning Mode | Stores Patterns                        | Key Integrations                                                          |
-| ------------------------------ | ------------------------------------------ | ------------- | -------------------------------------- | ------------------------------------------------------------------------- |
-| **gemini-consultant**          | Google Gemini integration with 24h caching | No            | `.memories/external-llm-cache/gemini/` | multi-perspective-reviewer, memory-keeper                                 |
-| **gpt5-consultant**            | GPT-5 via Cursor with 24h caching          | No            | `.memories/external-llm-cache/gpt5/`   | multi-perspective-reviewer, memory-keeper                                 |
-| **codex-consultant**           | Codex CLI integration with 24h caching     | No            | `.memories/external-llm-cache/codex/`  | multi-perspective-reviewer, memory-keeper                                 |
-| **multi-perspective-reviewer** | Synthesize multiple reviewer perspectives  | Yes (0.7)     | `.memories/reviews/`                   | All consultant agents, python-code-reviewer, architecture-devils-advocate |
+| Agent                          | Purpose                                    | Voice Persona | Learning Mode | Stores Patterns                        | Key Integrations                                                          |
+| ------------------------------ | ------------------------------------------ | ------------- | ------------- | -------------------------------------- | ------------------------------------------------------------------------- |
+| **gemini-consultant**          | Google Gemini integration with 24h caching | `af_sarah` (American female - friendly)    | No            | `.memories/external-llm-cache/gemini/` | multi-perspective-reviewer, memory-keeper                                 |
+| **gpt5-consultant**            | GPT-5 via Cursor with 24h caching          | `bm_fable` (British male - distinguished)   | No            | `.memories/external-llm-cache/gpt5/`   | multi-perspective-reviewer, memory-keeper                                 |
+| **codex-consultant**           | Codex CLI integration with 24h caching     | `af_river` (American female - pragmatic)    | No            | `.memories/external-llm-cache/codex/`  | multi-perspective-reviewer, memory-keeper                                 |
+| **multi-perspective-reviewer** | Synthesize multiple reviewer perspectives  | N/A           | Yes (0.7)     | `.memories/reviews/`                   | All consultant agents, python-code-reviewer, architecture-devils-advocate |
+
+**Audio Notifications:** All consultant agents provide audio summaries of their findings using the tts-notifier skill with distinct voice personas, making it easy to differentiate between consultants when they report back.
 
 ## Code Analysis & Documentation Agents
 
@@ -107,6 +111,50 @@ codex-consultant ──┘                    ↓
                               memory-keeper
 ```
 
+## Design Patterns
+
+### Agent-as-Skill-Wrapper Pattern
+
+Some agents act as wrappers around skills, combining technical capabilities with collaboration and strategic decision-making.
+
+**Pattern Structure:**
+- **Skill:** Provides technical execution, domain knowledge, and reusable resources
+- **Agent:** Provides persona, collaboration with other agents, and strategic workflow
+
+**Examples:**
+
+**mermaid-expert + mermaid-diagrams**
+- **mermaid-diagrams skill:** Syntax rules, validation, templates, rendering scripts
+- **mermaid-expert agent:** Requirements analysis, agent collaboration, iterative feedback loops with visual-design-critic
+
+**graphviz-architect + graphviz-diagrams**
+- **graphviz-diagrams skill:** DOT syntax, layout engines, protocol templates, validation scripts
+- **graphviz-architect agent:** Protocol contract design, approval workflow, binding specifications for implementations
+
+**When to Use This Pattern:**
+
+Use **skill only** when:
+- Technical execution is self-contained
+- No agent collaboration needed
+- Users can invoke directly (e.g., document format conversion)
+
+Use **agent only** when:
+- Capability requires context and decision-making
+- No reusable technical resources needed
+- Collaboration is the primary value
+
+Use **agent + skill** when:
+- Technical complexity benefits from bundled resources (scripts, references)
+- Agent collaboration adds strategic value
+- Iterative feedback loops improve outcomes
+- Same technical capability used across multiple contexts
+
+**Benefits:**
+- **Reduced context:** Technical details in skill, loaded only when needed
+- **Reusability:** Skills can be used by multiple agents or directly by users
+- **Separation of concerns:** Technical execution vs. strategic collaboration
+- **Maintainability:** Update technical details in skill without changing agent workflows
+
 ## Learning Mode
 
 Agents with learning mode active (confidence threshold in parentheses):
@@ -172,5 +220,10 @@ Skills are reusable capabilities that can be invoked by agents or users. Unlike 
 | Skill | Purpose | Key Resources |
 |-------|---------|---------------|
 | **tts-notifier** | Audio notifications for completed tasks using TTS | `scripts/tts-notify` - Kokoro ONNX-based speech synthesis |
+| **mermaid-diagrams** | Create, debug, and optimize Mermaid diagrams for visual documentation | `scripts/validate_diagram.py` - Syntax validation and rendering script<br/>`references/syntax_guide.md` - Comprehensive syntax rules<br/>`references/diagram_templates.md` - Reusable diagram templates |
+| **graphviz-diagrams** | Create architecture diagrams, protocol contracts, and system visualizations using Graphviz DOT | `scripts/validate_diagram.py` - DOT validation and multi-engine rendering<br/>`references/syntax_guide.md` - Shape conventions and DOT syntax<br/>`references/layout_engines.md` - Layout engine selection guide<br/>`references/protocol_templates.md` - Protocol contract templates |
 
-**Note:** The `tts-status-notifier` agent has been deprecated in favor of the `tts-notifier` skill, which can be used by any agent or user.
+**Migration Notes:**
+- `tts-status-notifier` agent → `tts-notifier` skill
+- `mermaid-expert` agent → `mermaid-diagrams` skill (agent uses skill for technical execution)
+- `graphviz-architect` agent → `graphviz-diagrams` skill (agent uses skill for technical execution)
