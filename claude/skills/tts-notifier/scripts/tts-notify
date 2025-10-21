@@ -41,6 +41,8 @@ from pathlib import Path
 from urllib.request import urlretrieve
 from multiprocessing import Process
 from queue import Queue as ThreadQueue, Empty
+from typing import Tuple, Optional, List
+from contextlib import contextmanager
 
 import soundfile as sf
 from kokoro_onnx import Kokoro
@@ -71,20 +73,20 @@ DEFAULT_LANG = "en-us"
 # Global verbose flag
 VERBOSE = False
 
-def log(msg):
+def log(msg: str) -> None:
     """Log message if verbose mode is enabled"""
     if VERBOSE:
         timestamp = time.strftime("%H:%M:%S")
         print(f"[{timestamp}] {msg}", file=sys.stderr)
 
 
-def download_file(url, dest, desc):
+def download_file(url: str, dest: Path, desc: str) -> None:
     """Download a file with progress indication"""
     print(f"Downloading {desc}...", file=sys.stderr)
     print(f"  From: {url}", file=sys.stderr)
     print(f"  To: {dest}", file=sys.stderr)
 
-    def report_progress(block_num, block_size, total_size):
+    def report_progress(block_num: int, block_size: int, total_size: int) -> None:
         downloaded = block_num * block_size
         if total_size > 0:
             percent = min(100, downloaded * 100 / total_size)
@@ -94,7 +96,7 @@ def download_file(url, dest, desc):
                   end='', file=sys.stderr)
 
     try:
-        urlretrieve(url, dest, reporthook=report_progress)
+        urlretrieve(url, str(dest), reporthook=report_progress)
         print(file=sys.stderr)  # New line after progress
         print(f"✓ Downloaded {desc}", file=sys.stderr)
     except Exception as e:
@@ -102,7 +104,7 @@ def download_file(url, dest, desc):
         raise
 
 
-def ensure_models():
+def ensure_models() -> Tuple[str, str]:
     """Ensure models are downloaded, download if necessary"""
     if MODEL_FILE.exists() and VOICES_FILE.exists():
         return str(MODEL_FILE), str(VOICES_FILE)
@@ -127,7 +129,8 @@ def ensure_models():
     return str(MODEL_FILE), str(VOICES_FILE)
 
 
-def generate_audio(text, voice, speed, lang, model_path, voices_path):
+def generate_audio(text: str, voice: str, speed: float, lang: str,
+                   model_path: str, voices_path: str) -> bytes:
     """Generate audio and return as WAV bytes"""
     kokoro = Kokoro(model_path, voices_path)
     samples, sample_rate = kokoro.create(text, voice=voice, speed=speed, lang=lang)
@@ -138,14 +141,15 @@ def generate_audio(text, voice, speed, lang, model_path, voices_path):
     return buffer.read()
 
 
-def speak(text, voice, speed, lang, model_path, voices_path):
+def speak(text: str, voice: str, speed: float, lang: str,
+         model_path: str, voices_path: str) -> None:
     """Generate and play speech immediately"""
     # Use generate_audio to avoid duplication
     audio_bytes = generate_audio(text, voice, speed, lang, model_path, voices_path)
     play_audio(audio_bytes)
 
 
-def play_audio(audio_bytes, chunk_info=""):
+def play_audio(audio_bytes: bytes, chunk_info: str = "") -> None:
     """Play audio bytes via ffplay"""
     log(f"Playing audio {chunk_info}")
     start_time = time.time()
