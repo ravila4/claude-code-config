@@ -226,6 +226,7 @@ Skills are reusable capabilities that can be invoked by agents or users. Unlike 
 | Skill | Purpose | Key Resources |
 |-------|---------|---------------|
 | **test-driven-development** | Enforce strict TDD workflow: write test first, watch it fail, write minimal code to pass | None - Pure workflow discipline |
+| **testing-anti-patterns** | Avoid common testing mistakes: never test mock behavior, never add test-only methods to production, never mock without understanding | None - Pure workflow discipline |
 | **git-worktrees** | Create isolated git worktrees with smart directory selection and safety verification | None - Pure workflow discipline |
 | **receiving-code-review** | Handle code review feedback with technical rigor, verification before implementation, and appropriate pushback | None - Pure workflow discipline |
 | **tts-notifier** | Audio notifications for completed tasks using TTS | `scripts/tts-notify` - Kokoro ONNX-based speech synthesis |
