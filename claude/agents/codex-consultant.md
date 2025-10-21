@@ -132,6 +132,9 @@ Provide concise summary with:
 - Cache location for full details
 - Mention if using cached response
 
+### Step 8: Audio Notification
+Use the tts-notifier skill with voice `af_river` to provide a brief audio summary of your findings.
+
 ## Codex CLI Usage
 
 Based on Codex CLI capabilities:

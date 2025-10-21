@@ -123,6 +123,9 @@ Provide concise summary with:
 - Cache location for full details
 - Mention if using cached response
 
+### Step 8: Audio Notification
+Use the tts-notifier skill with voice `bm_fable` to provide a brief audio summary of your findings.
+
 ## Cache Strategy
 
 **Cache key generation:**
