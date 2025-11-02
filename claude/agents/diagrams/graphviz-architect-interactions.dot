@@ -1,0 +1,102 @@
+digraph GraphvizArchitectInteractions {
+  rankdir = TB;
+  compound = true;
+
+  // Graph styling
+  graph [fontname="Helvetica", fontsize=12];
+  node [fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=10];
+
+  // Legend
+  subgraph cluster_legend {
+    label = "Legend";
+    style = filled;
+    fillcolor = white;
+
+    node [shape=box, style="rounded,filled"];
+    LegendAgent [label="Agent", fillcolor=lightblue];
+    LegendSkill [label="Skill", shape=box, fillcolor=lightgray];
+    LegendStorage [label="Storage", shape=cylinder, fillcolor=lightyellow];
+  }
+
+  // User node
+  User [shape=box, style="rounded,filled", fillcolor=wheat, label="User\n(initiates request)"];
+
+  // Agents subgraph
+  subgraph cluster_agents {
+    label = "Agent Ecosystem";
+    style = filled;
+    fillcolor = aliceblue;
+
+    node [shape=box, style="rounded,filled"];
+
+    SoftwareArchitect [label="software-architect\n(architecture proposals)", fillcolor=lightblue];
+    GraphvizArchitect [label="graphviz-architect\n(protocol contract specialist)", fillcolor=lightcoral];
+    MermaidExpert [label="mermaid-expert\n(sequence/state diagrams)", fillcolor=lightgreen];
+    MemoryKeeper [label="memory-keeper\n(pattern storage)", fillcolor=plum];
+  }
+
+  // Skills subgraph
+  subgraph cluster_skills {
+    label = "Skills (Technical Capabilities)";
+    style = filled;
+    fillcolor = honeydew;
+
+    node [shape=box, style=filled];
+
+    GraphvizSkill [label="graphviz-diagrams\n(DOT syntax, layouts, validation)", fillcolor=lightgray];
+  }
+
+  // Storage subgraph
+  subgraph cluster_storage {
+    label = "Persistent Storage";
+    style = filled;
+    fillcolor = lightyellow;
+
+    node [shape=cylinder, style=filled];
+
+    Protocols [label=".claude/protocols/\n(approved contracts)", fillcolor=gold];
+    Memories [label=".memories/\n(patterns, templates)", fillcolor=khaki];
+  }
+
+  // Main workflow edges
+  User -> SoftwareArchitect [label="1. Request\narchitecture", style=bold, color=blue];
+  SoftwareArchitect -> GraphvizArchitect [label="2. Request\nprotocol diagram", style=bold, color=blue];
+  GraphvizArchitect -> GraphvizSkill [label="3. USES\n(technical DOT creation)", style=bold, color=darkgreen];
+  GraphvizSkill -> GraphvizArchitect [label="4. Returns\nvalidated DOT", style=dashed, color=darkgreen];
+  GraphvizArchitect -> Protocols [label="6. STORES\napproved protocols", style=bold, color=orange];
+
+  // Collaboration edges
+  GraphvizArchitect -> MermaidExpert [label="COLLABORATES\n(complementary diagrams)", style=dashed, color=purple, dir=both];
+
+  // Memory pattern edges
+  MemoryKeeper -> GraphvizArchitect [label="Provides\npatterns/templates", style=dotted, color=brown];
+  GraphvizArchitect -> MemoryKeeper [label="Stores\nsuccessful patterns", style=dotted, color=brown];
+  MemoryKeeper -> Memories [label="Persists", style=dotted, color=brown];
+
+  // Review and approval flow
+  GraphvizArchitect -> SoftwareArchitect [label="5. Returns for\nreview/approval", style=dashed, color=blue];
+
+  // Key decision point
+  ApprovalDecision [shape=diamond, style=filled, fillcolor=yellow, label="Protocol\napproved?"];
+  SoftwareArchitect -> ApprovalDecision [style=bold, color=blue];
+  ApprovalDecision -> GraphvizArchitect [label="no\n(iterate)", color=red];
+  ApprovalDecision -> Protocols [label="yes\n(store as contract)", color=green, style=bold];
+
+  // Notes
+  ProtocolNote [shape=note, style=filled, fillcolor=lightyellow,
+                label="MUST:\n- All decision paths labeled\n- Commands executable\n- Warnings visually distinct\n- Entry/exit marked"];
+  ProtocolNote -> Protocols [style=dotted, color=gray];
+
+  SkillNote [shape=note, style=filled, fillcolor=lightgray,
+             label="Skill handles:\n- DOT syntax\n- Layout engines\n- Validation\n- Rendering"];
+  SkillNote -> GraphvizSkill [style=dotted, color=gray];
+
+  // Ranking for clarity
+  { rank=same; User; }
+  { rank=same; SoftwareArchitect; }
+  { rank=same; GraphvizArchitect; MermaidExpert; MemoryKeeper; }
+  { rank=same; GraphvizSkill; }
+  { rank=same; ApprovalDecision; }
+  { rank=same; Protocols; Memories; }
+}

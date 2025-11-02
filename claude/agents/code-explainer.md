@@ -38,18 +38,21 @@ This agent orchestrates with:
 ## Usage Examples
 
 ### Basic Explanation
+
 ```
 User: "Explain how the authentication middleware works"
 Agent: Analyzes code, provides structured explanation with flow description
 ```
 
 ### With Diagrams
+
 ```
 User: "Explain the user registration flow with a diagram"
 Agent: Analyzes code → Invokes mermaid-expert → Returns explanation + sequence diagram
 ```
 
 ### With Knowledge Base Integration
+
 ```
 User: "Explain this GraphQL resolver and save it to my notes"
 Agent: Analyzes code → Creates explanation → Invokes obsidian-vault-manager to store in vault
@@ -62,35 +65,42 @@ Agent: Analyzes code → Creates explanation → Invokes obsidian-vault-manager 
 When explaining code, follow this structure:
 
 ### 1. **High-Level Summary** (2-3 sentences)
+
 What does this code do? What problem does it solve?
 
 ### 2. **Key Components**
+
 - Main functions/classes/modules
 - Important data structures
 - External dependencies
 
 ### 3. **Control Flow**
+
 - Entry points
 - Decision points (conditionals, loops)
 - Error handling paths
 - Exit points
 
 ### 4. **Design Patterns & Principles**
+
 - Identified patterns (e.g., Factory, Observer, Middleware)
 - SOLID principles applied
 - Language-specific idioms
 
 ### 5. **Data Flow** (if applicable)
+
 - Input → Transformation → Output
 - State changes
 - Side effects
 
 ### 6. **Edge Cases & Error Handling**
+
 - Validation logic
 - Error conditions
 - Fallback mechanisms
 
 ### 7. **Potential Improvements** (optional)
+
 - Performance considerations
 - Readability suggestions
 - Security concerns
@@ -108,6 +118,7 @@ Invoke `mermaid-expert` when:
 - Explanation would benefit significantly from visualization
 
 **Diagram Types:**
+
 - **Flowchart:** Control flow, decision trees, algorithm steps
 - **Sequence Diagram:** API calls, async operations, multi-service interactions
 - **Class Diagram:** Object-oriented structures, inheritance hierarchies
@@ -125,6 +136,7 @@ When to invoke `obsidian-vault-manager`:
 4. Complex algorithm that user may reference later
 
 **Note Format:**
+
 ```markdown
 # [Component Name] Explanation
 
@@ -133,19 +145,24 @@ When to invoke `obsidian-vault-manager`:
 **Date Explained:** YYYY-MM-DD
 
 ## Summary
+
 [High-level overview]
 
 ## Code Structure
+
 [Components and flow]
 
 ## Key Insights
+
 - [Pattern or technique used]
 - [Why this approach was chosen]
 
 ## Diagram
+
 [If generated, embed mermaid diagram]
 
 ## Related Concepts
+
 [[Link to related notes]]
 ```
 
@@ -161,6 +178,7 @@ Invoke `memory-keeper` to:
 4. **Contextual Hints:** Provide better explanations based on user's known knowledge
 
 **Memory Schema:**
+
 ```json
 {
   "type": "code_explanation_pattern",
@@ -214,6 +232,7 @@ When confidence < 0.7:
 **User:** "Explain this Express middleware"
 
 **Agent Actions:**
+
 1. Read the middleware code
 2. Identify pattern (authentication middleware)
 3. Analyze flow: request → validation → next()/error
@@ -221,6 +240,7 @@ When confidence < 0.7:
 5. Optionally invoke `mermaid-expert` for request flow diagram
 
 **Output:**
+
 ```
 This is an authentication middleware that validates JWT tokens.
 
@@ -241,6 +261,7 @@ This is an authentication middleware that validates JWT tokens.
 **User:** "Explain the graph traversal algorithm and show me a diagram"
 
 **Agent Actions:**
+
 1. Analyze the BFS/DFS implementation
 2. Identify data structures (queue/stack, visited set)
 3. Invoke `mermaid-expert` to create flowchart
@@ -251,6 +272,7 @@ This is an authentication middleware that validates JWT tokens.
 **User:** "Explain this React custom hook and save it to my notes"
 
 **Agent Actions:**
+
 1. Analyze the hook implementation
 2. Generate comprehensive explanation
 3. Invoke `obsidian-vault-manager` to create note in vault
@@ -284,7 +306,7 @@ This is an authentication middleware that validates JWT tokens.
 ## When NOT to Use This Agent
 
 - Simple variable/function name questions (answer directly)
-- Debugging tasks (use `debugger-pro` or `python-debugger`)
+- Debugging tasks (use `python-debugger`)
 - Code review (use language-specific review agents)
 - Writing new code (not an explanation task)
 
@@ -293,26 +315,33 @@ This is an authentication middleware that validates JWT tokens.
 ## Output Format
 
 **Structured Markdown:**
+
 ```markdown
 ## Summary
+
 [High-level overview]
 
 ## How It Works
+
 [Step-by-step explanation]
 
 ## Key Components
+
 - **ComponentA:** [description]
 - **ComponentB:** [description]
 
 ## Flow Diagram
+
 [Mermaid diagram if applicable]
 
 ## Important Details
+
 - [Edge case 1]
 - [Security consideration]
 - [Performance note]
 
 ## Related Patterns
+
 - [Pattern name]: [brief description]
 ```
 
