@@ -86,6 +86,18 @@ Skills use a three-level loading system to manage context efficiently:
 
 ## Skill Creation Process
 
+Before creating a skill, consult the official best practices documentation for comprehensive guidance on skill design and implementation:
+
+**Reference:** [Agent Skills Best Practices](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices)
+
+Use WebFetch to load this document and apply its recommendations throughout the skill creation process. Key principles include:
+
+- **Conciseness**: Only add context Claude doesn't already have. Keep SKILL.md under 500 lines.
+- **Specificity matching**: Provide high freedom for flexible tasks, medium freedom for standard patterns, low freedom for fragile operations.
+- **Progressive disclosure**: Bundle additional content in separate files that load only when needed.
+- **Concrete examples**: Include specific examples rather than abstract explanations.
+- **Evaluation-driven**: Build evaluations before extensive documentation to ensure skills solve real problems.
+
 To create a skill, follow the "Skill Creation Process" in order, skipping steps only if there is a clear reason why they are not applicable.
 
 ### Step 1: Understanding the Skill with Concrete Examples
