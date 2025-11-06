@@ -84,7 +84,7 @@ fi
 
 # Link CLAUDE.md if it exists
 if [ -f "$REPO_DIR/CLAUDE.md" ]; then
-    create_symlink "$REPO_DIR/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md" "CLAUDE.md"
+    create_symlink "$REPO_DIR/claude/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md" "CLAUDE.md"
 fi
 
 # Link settings.json if it exists
