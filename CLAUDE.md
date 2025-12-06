@@ -1,0 +1,1 @@
+- Use the `bd` commandline tool to store tasks, bugs, issues and project memory. bd, or "beads" is a lightweight issue tracker. Use it in place of READMEs to store info about bugs you run into and features that we are working on.
