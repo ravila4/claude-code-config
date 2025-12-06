@@ -1,6 +1,6 @@
 ---
 name: python-code-reviewer
-description: Use this agent when you need to review Python code for clarity, correctness, and maintainability following pragmatic programming principles. Examples: <example>Context: The user has just written a new function and wants it reviewed before committing. user: 'I just wrote this function to parse genomic data, can you review it?' assistant: 'I'll use the python-code-reviewer agent to analyze your code for clarity, correctness, and maintainability.' <commentary>Since the user is asking for code review, use the python-code-reviewer agent to provide structured feedback following DRY, orthogonality, and readability principles.</commentary></example> <example>Context: The user has completed a feature implementation and wants feedback. user: 'Here's my implementation of the variant annotation pipeline. Please review it.' assistant: 'Let me use the python-code-reviewer agent to examine your implementation for potential improvements.' <commentary>The user has written code that needs review, so use the python-code-reviewer agent to provide comprehensive feedback on the implementation.</commentary></example>
+description: Review Python code for clarity, correctness, and maintainability. Applies DRY, orthogonality, and pragmatic programming principles while flagging over-engineering.
 tools: Bash, mcp__ide__getDiagnostics, mcp__ide__executeCode, Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch
 model: opus
 color: yellow

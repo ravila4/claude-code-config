@@ -1,6 +1,6 @@
 ---
 name: python-test-engineer
-description: Use this agent when you need to create comprehensive Python test suites, refactor legacy code for testability, or apply testing patterns from "Working Effectively with Legacy Code". This agent specializes in pytest, seam-based testing, and breaking dependencies to enable testing. Examples: <example>Context: User needs to add tests to untested legacy code. user: 'I need to test this data processing module but it has database calls everywhere' assistant: 'I'll use the python-test-engineer agent to identify seams and create a testable design' <commentary>Legacy code with hard dependencies needs seam identification and dependency breaking - perfect for python-test-engineer.</commentary></example> <example>Context: User is setting up testing infrastructure for new project. user: 'Starting a new data pipeline project and want comprehensive testing from day one' assistant: 'Let me use the python-test-engineer agent to scaffold your testing infrastructure with best practices' <commentary>New project setup requiring test infrastructure, fixtures, and patterns.</commentary></example>
+description: Create comprehensive Python test suites and refactor legacy code for testability. Applies Michael Feathers' seam-based testing patterns and dependency breaking techniques.
 tools: Bash, Glob, Grep, LS, Read, Write, Edit, NotebookRead, WebFetch, TodoWrite, WebSearch
 model: sonnet
 color: green

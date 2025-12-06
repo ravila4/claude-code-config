@@ -1,6 +1,6 @@
 ---
 name: prompt-optimization-specialist
-description: Use this agent to optimize prompts using Anthropic's best practices before sending to other agents/LLMs. Can be chained (e.g., "optimize this prompt then ask gemini"). <example>\nContext: User wants optimized prompt sent to external LLM.\nuser: "Optimize this prompt then ask gemini: 'How do I fix my DataFrame?'"\nassistant: "I'll use prompt-optimization-specialist to improve the prompt, then call gemini-consultant with the optimized version."\n<commentary>\nThe user wants prompt optimization chained with gemini-consultant call.\n</commentary>\n</example>\n<example>\nContext: Sub-agent optimization before external LLM call.\nassistant: "Before calling gemini, let me use prompt-optimization-specialist to apply Anthropic's patterns."\n<commentary>\nAgents like multi-perspective-reviewer can call prompt-optimization-specialist to optimize prompts before external LLM calls.\n</commentary>\n</example>
+description: Optimize prompts using Anthropic's best practices before sending to other agents/LLMs. Supports chaining (e.g., "optimize then ask gemini") and can be called by other agents before external LLM queries.
 model: haiku
 color: orange
 ---

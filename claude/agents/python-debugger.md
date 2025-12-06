@@ -1,6 +1,6 @@
 ---
 name: python-debugger
-description: Use this agent when you encounter bugs, unexpected behavior, or need to trace through complex Python code execution paths. Examples: (1) User reports 'My pandas DataFrame is returning NaN values unexpectedly' - launch python-debugger to trace data transformations and identify where NaNs are introduced. (2) User says 'This function works with small datasets but fails with large ones' - use python-debugger to analyze memory usage, data types, and performance bottlenecks. (3) User encounters 'Tests are passing but production code fails' - deploy python-debugger to create reproduction scenarios and trace execution differences. (4) User mentions 'Getting KeyError intermittently' - use python-debugger to enumerate edge cases and create property-based tests to catch the failure conditions.
+description: Debug Python bugs, trace unexpected behavior, and analyze complex execution paths. Uses hypothesis-driven methodology for root cause analysis and pattern recognition.
 model: sonnet
 color: red
 ---

@@ -1,6 +1,6 @@
 ---
 name: visual-design-critic
-description: Use this agent to critically evaluate diagrams, data visualizations, and visual documentation for clarity, effectiveness, and design quality. This agent provides constructive feedback on Mermaid diagrams, charts, and other visual representations, identifying issues with readability, information density, layout, and visual hierarchy. Examples: <example>Context: Mermaid diagram has been created and needs review. assistant: "Let me use the visual-design-critic agent to evaluate this diagram for clarity and effectiveness." <commentary>After mermaid-expert creates a diagram, use visual-design-critic to provide constructive feedback before finalizing.</commentary></example> <example>Context: Data visualization is cluttered and hard to read. user: "This diagram is confusing, can you help improve it?" assistant: "I'll use the visual-design-critic agent to analyze what's causing the confusion and suggest specific improvements." <commentary>The critic identifies specific visual design issues and provides actionable recommendations.</commentary></example>
+description: Critically evaluate diagrams, data visualizations, and visual documentation for clarity and effectiveness. Provides constructive feedback on readability, layout, and visual hierarchy.
 model: sonnet
 color: cyan
 ---
