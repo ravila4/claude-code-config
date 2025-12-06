@@ -77,7 +77,7 @@ Provide concise summary with:
 - Specific recommendations
 
 ### Step 6: Audio Notification
-Use the speak skill with voice `bm_fable` to provide a brief audio summary of your findings.
+Use the speaking skill with voice `bm_fable` to provide a brief audio summary of your findings.
 
 ## Agent Integration Framework
 

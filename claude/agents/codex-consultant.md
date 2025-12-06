@@ -83,7 +83,7 @@ Provide concise summary with:
 - Code examples if provided
 
 ### Step 6: Audio Notification
-Use the speak skill with voice `af_river` to provide a brief audio summary of your findings.
+Use the speaking skill with voice `af_river` to provide a brief audio summary of your findings.
 
 ## Codex CLI Usage
 

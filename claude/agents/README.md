@@ -45,7 +45,7 @@ This document provides an overview of all agents in the ecosystem, their capabil
 | **codex-consultant**           | Codex CLI integration                      | `af_river` (American female - pragmatic)  | multi-perspective-reviewer |
 | **multi-perspective-reviewer** | Synthesize multiple reviewer perspectives  | N/A                                       | All consultant agents, python-code-reviewer, architecture-devils-advocate |
 
-**Audio Notifications:** All consultant agents provide audio summaries of their findings using the speak skill with distinct voice personas, making it easy to differentiate between consultants when they report back.
+**Audio Notifications:** All consultant agents provide audio summaries of their findings using the speaking skill with distinct voice personas, making it easy to differentiate between consultants when they report back.
 
 ## Code Analysis & Documentation Agents
 
@@ -183,7 +183,7 @@ Skills are reusable capabilities that can be invoked by agents or users. Unlike 
 | **git-worktrees** | Create isolated git worktrees with smart directory selection and safety verification | None - Pure workflow discipline |
 | **receiving-code-review** | Handle code review feedback with technical rigor, verification before implementation, and appropriate pushback | None - Pure workflow discipline |
 | **docker-optimization** | Optimize Docker images for size, security, and performance with multi-stage builds and framework-specific patterns | None - Pure best practices knowledge |
-| **speak** | Audio notifications for completed tasks using TTS | `scripts/tts-notify` - Kokoro ONNX-based speech synthesis |
+| **speaking** | Audio notifications for completed tasks using TTS | `scripts/tts-notify` - Kokoro ONNX-based speech synthesis |
 | **mermaid-diagrams** | Create, debug, and optimize Mermaid diagrams for visual documentation | `scripts/validate_diagram.py` - Syntax validation and rendering script<br/>`references/syntax_guide.md` - Comprehensive syntax rules<br/>`references/diagram_templates.md` - Reusable diagram templates |
 | **graphviz-diagrams** | Create architecture diagrams, protocol contracts, and system visualizations using Graphviz DOT | `scripts/validate_diagram.py` - DOT validation and multi-engine rendering<br/>`references/syntax_guide.md` - Shape conventions and DOT syntax<br/>`references/layout_engines.md` - Layout engine selection guide<br/>`references/protocol_templates.md` - Protocol contract templates |
 | **obsidian-vault** | Manage Obsidian vault operations for Ricardo's vault (formatting, structure, linking) | `references/vault_structure.md` - Folder hierarchy, naming conventions, attachment rules<br/>`references/markdown_formatting.md` - YAML frontmatter, markdown standards, tag system |

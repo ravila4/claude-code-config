@@ -24,9 +24,3 @@ The agent will synthesize all perspectives and identify:
 - **Prioritized actions** (ordered by impact)
 
 {Launching multi-perspective-reviewer agent via Task tool}
-
----
-
-Detailed reviews will be cached in:
-- `.memories/reviews/YYYY-MM-DD-multi-perspective-{topic}.json`
-- `.memories/external-llm-cache/{gemini,gpt5,codex}/...`

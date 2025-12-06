@@ -145,22 +145,17 @@ digraph AgentProtocol {
   // Entry
   Start [shape=doublecircle, label="Task Received"];
 
-  // Confidence check (learning mode trigger)
-  "Confidence >= 0.7?" [shape=diamond, fillcolor=yellow, style=filled];
+  // Confidence check
+  "Task well-defined?" [shape=diamond, fillcolor=yellow, style=filled];
 
   // High confidence path
   "Execute task" [shape=box, fillcolor=lightgreen, style=filled];
-  "Store patterns" [shape=box, fillcolor=lightblue, style=filled];
+  "Report completion" [shape=box, fillcolor=lightblue, style=filled];
 
-  // Low confidence path (learning mode)
-  "Enter learning mode" [shape=box, fillcolor=orange, style=filled];
-  "Ask clarifying questions" [shape=box];
-  "Consult memory-keeper" [shape=box];
+  // Low confidence path
+  "Ask clarifying questions" [shape=box, fillcolor=orange, style=filled];
+  "Analyze context" [shape=box];
   "Attempt with explanation" [shape=box];
-
-  // Memory integration
-  "Query .memories/" [shape=cylinder, fillcolor=lightyellow];
-  "Store to .memories/" [shape=cylinder, fillcolor=lightyellow];
 
   // Constraints
   subgraph cluster_constraints {
@@ -168,24 +163,25 @@ digraph AgentProtocol {
     style = filled;
     fillcolor = lightyellow;
 
-    "NEVER guess patterns" [shape=octagon, fillcolor=red, fontcolor=white, style=filled];
-    "MUST validate before storing" [shape=note];
+    "NEVER guess requirements" [shape=octagon, fillcolor=red, fontcolor=white, style=filled];
+    "MUST validate assumptions" [shape=note];
   }
 
+  // Exit
+  Success [shape=doublecircle, fillcolor=lightgreen, style=filled];
+
   // Flows
-  Start -> "Query .memories/";
-  "Query .memories/" -> "Confidence >= 0.7?";
+  Start -> "Task well-defined?";
 
-  "Confidence >= 0.7?" -> "Execute task" [label="yes"];
-  "Confidence >= 0.7?" -> "Enter learning mode" [label="no"];
+  "Task well-defined?" -> "Execute task" [label="yes"];
+  "Task well-defined?" -> "Ask clarifying questions" [label="no"];
 
-  "Execute task" -> "Store patterns";
-  "Store patterns" -> "Store to .memories/";
+  "Execute task" -> "Report completion";
+  "Report completion" -> Success;
 
-  "Enter learning mode" -> "Ask clarifying questions";
-  "Ask clarifying questions" -> "Consult memory-keeper";
-  "Consult memory-keeper" -> "Attempt with explanation";
-  "Attempt with explanation" -> "Store to .memories/";
+  "Ask clarifying questions" -> "Analyze context";
+  "Analyze context" -> "Attempt with explanation";
+  "Attempt with explanation" -> Success;
 }
 ```
 
@@ -490,7 +486,7 @@ digraph AgentWorkflow {
   SoftwareArchitect [shape=box, style="rounded,filled", fillcolor="#f3e5f5"];
   GraphvizArchitect [shape=box, style="rounded,filled", fillcolor="#e3f2fd"];
   MermaidExpert [shape=box, style="rounded,filled", fillcolor="#fff3e0"];
-  MemoryKeeper [shape=box, style="rounded,filled", fillcolor="#c8e6c9"];
+  VisualDesignCritic [shape=box, style="rounded,filled", fillcolor="#c8e6c9"];
 
   // Skills
   GraphvizSkill [shape=box, fillcolor=lightgray, label="graphviz-diagrams\n(skill)"];
@@ -499,23 +495,19 @@ digraph AgentWorkflow {
   // Workflow
   User -> SoftwareArchitect [label="1. Request architecture"];
 
-  SoftwareArchitect -> MemoryKeeper [label="2. Query patterns"];
-  MemoryKeeper -> SoftwareArchitect [label="3. Return patterns"];
+  SoftwareArchitect -> GraphvizArchitect [label="2. Request system diagram"];
+  GraphvizArchitect -> GraphvizSkill [label="3. Use skill", style=dashed];
+  GraphvizSkill -> GraphvizArchitect [label="4. DOT diagram", style=dashed];
 
-  SoftwareArchitect -> GraphvizArchitect [label="4. Request system diagram"];
-  GraphvizArchitect -> GraphvizSkill [label="5. Use skill", style=dashed];
-  GraphvizSkill -> GraphvizArchitect [label="6. DOT diagram", style=dashed];
+  SoftwareArchitect -> MermaidExpert [label="5. Request sequence diagram"];
+  MermaidExpert -> MermaidSkill [label="6. Use skill", style=dashed];
+  MermaidSkill -> MermaidExpert [label="7. Mermaid diagram", style=dashed];
 
-  SoftwareArchitect -> MermaidExpert [label="7. Request sequence diagram"];
-  MermaidExpert -> MermaidSkill [label="8. Use skill", style=dashed];
-  MermaidSkill -> MermaidExpert [label="9. Mermaid diagram", style=dashed];
+  GraphvizArchitect -> VisualDesignCritic [label="8. Request review"];
+  MermaidExpert -> VisualDesignCritic [label="9. Request review"];
+  VisualDesignCritic -> SoftwareArchitect [label="10. Design feedback"];
 
-  GraphvizArchitect -> SoftwareArchitect [label="10. Return diagram"];
-  MermaidExpert -> SoftwareArchitect [label="11. Return diagram"];
-
-  SoftwareArchitect -> User [label="12. Complete proposal"];
-
-  User -> MemoryKeeper [label="13. Store successful pattern"];
+  SoftwareArchitect -> User [label="11. Complete proposal"];
 }
 ```
 
@@ -524,7 +516,7 @@ digraph AgentWorkflow {
 ### Choosing a Template
 
 1. **Protocol Contract** - Binding decision-tree specifications for agent/system behavior
-2. **Agent Protocol** - Learning mode, confidence thresholds, memory integration
+2. **Agent Protocol** - Task validation, confidence handling, clarification workflows
 3. **Layered Architecture** - Traditional tiered systems (presentation → business → data)
 4. **Microservices** - Distributed services with message queues and async communication
 5. **Dependency Graph** - Module/package dependencies, build order
