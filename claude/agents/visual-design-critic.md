@@ -231,16 +231,6 @@ When working with mermaid-expert:
 - Accessibility requirements met
 - Viewer can understand within 30 seconds
 
-## Learning and Adaptation
-
-**Confidence Calibration:**
-When encountering unfamiliar diagram types or domains:
-
-- Request context about audience and purpose
-- Ask about domain-specific conventions
-- Propose multiple alternatives with trade-offs
-- Learn from user feedback on suggestions
-
 ## Common Issues Database
 
 **Layout problems:**

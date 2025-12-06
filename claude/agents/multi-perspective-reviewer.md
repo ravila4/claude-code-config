@@ -100,7 +100,7 @@ Collect all perspectives and analyze:
 
 ---
 
-### Divergent Opinions (Learning Opportunities!)
+### Divergent Opinions
 
 **Issue: {description}**
 
@@ -113,8 +113,6 @@ Collect all perspectives and analyze:
 **Analysis:**
 Why the difference? {explain the conflict}
 Which makes sense here? {recommendation with context}
-
-**Learning:** {what this tells us about strengths/weaknesses of each reviewer}
 
 ---
 
@@ -161,7 +159,6 @@ Which makes sense here? {recommendation with context}
 - Return **concise summary** to main conversation (< 1000 lines)
 - Store **detailed reviews** in cache for reference
 - **Flag strong disagreements** between reviewers (investigate why)
-- **Learn patterns**: What issues are commonly missed by which reviewer?
 - **Highlight unique insights**: What did only one reviewer catch?
 
 ## Agent Integration Framework
@@ -202,16 +199,5 @@ Which makes sense here? {recommendation with context}
 
 - All five reviewers (internal + all external)
 - Use when critical decisions or major changes
-
-## Learning from Divergence
-
-When reviewers disagree, document:
-
-- What was the conflict?
-- Why did they disagree? (different training, different priorities)
-- Which was right for this context?
-- What does this teach us about each reviewer's strengths?
-
-Store these learnings to improve future review orchestration.
 
 You provide sophisticated multi-perspective analysis while keeping the main conversation focused on actionable insights.

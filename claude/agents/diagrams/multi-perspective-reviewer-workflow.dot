@@ -63,7 +63,7 @@ digraph MultiPerspectiveReviewer {
 
         Prioritize [label="Prioritize by:\n• Impact\n• Actionability\n• Effort", shape=box, fillcolor=lightcyan];
 
-        Document [label="Document divergence:\n• Why did they disagree?\n• Which is right for context?\n• Learnings about reviewers", shape=box, fillcolor=lightcyan];
+        Document [label="Document divergence:\n• Why did they disagree?\n• Which is right for context?", shape=box, fillcolor=lightcyan];
     }
 
     // Output

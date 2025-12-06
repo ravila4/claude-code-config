@@ -23,8 +23,8 @@
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_synthesis</title>
-<polygon fill="#f0e6ff" stroke="black" points="294.87,-275.56 294.87,-473.07 520.33,-473.07 520.33,-275.56 294.87,-275.56"/>
-<text xml:space="preserve" text-anchor="middle" x="407.6" y="-457.67" font-family="Arial Bold" font-size="12.00">Step 3: Synthesize Results</text>
+<polygon fill="#f0e6ff" stroke="black" points="294.87,-275.56 294.87,-466.32 518.83,-466.32 518.83,-275.56 294.87,-275.56"/>
+<text xml:space="preserve" text-anchor="middle" x="406.85" y="-450.92" font-family="Arial Bold" font-size="12.00">Step 3: Synthesize Results</text>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_output</title>
@@ -207,17 +207,16 @@
 <!-- Document -->
 <g id="node12" class="node">
 <title>Document</title>
-<path fill="lightcyan" stroke="black" d="M508.33,-473.07C508.33,-473.07 382.83,-473.07 382.83,-473.07 376.83,-473.07 370.83,-467.07 370.83,-461.07 370.83,-461.07 370.83,-423.07 370.83,-423.07 370.83,-417.07 376.83,-411.07 382.83,-411.07 382.83,-411.07 508.33,-411.07 508.33,-411.07 514.33,-411.07 520.33,-417.07 520.33,-423.07 520.33,-423.07 520.33,-461.07 520.33,-461.07 520.33,-467.07 514.33,-473.07 508.33,-473.07"/>
-<text xml:space="preserve" text-anchor="middle" x="445.58" y="-458.62" font-family="Arial" font-size="11.00">Document divergence:</text>
-<text xml:space="preserve" text-anchor="middle" x="445.58" y="-445.12" font-family="Arial" font-size="11.00">• Why did they disagree?</text>
-<text xml:space="preserve" text-anchor="middle" x="445.58" y="-431.62" font-family="Arial" font-size="11.00">• Which is right for context?</text>
-<text xml:space="preserve" text-anchor="middle" x="445.58" y="-418.12" font-family="Arial" font-size="11.00">• Learnings about reviewers</text>
+<path fill="lightcyan" stroke="black" d="M506.83,-466.32C506.83,-466.32 384.33,-466.32 384.33,-466.32 378.33,-466.32 372.33,-460.32 372.33,-454.32 372.33,-454.32 372.33,-429.82 372.33,-429.82 372.33,-423.82 378.33,-417.82 384.33,-417.82 384.33,-417.82 506.83,-417.82 506.83,-417.82 512.83,-417.82 518.83,-423.82 518.83,-429.82 518.83,-429.82 518.83,-454.32 518.83,-454.32 518.83,-460.32 512.83,-466.32 506.83,-466.32"/>
+<text xml:space="preserve" text-anchor="middle" x="445.58" y="-451.87" font-family="Arial" font-size="11.00">Document divergence:</text>
+<text xml:space="preserve" text-anchor="middle" x="445.58" y="-438.37" font-family="Arial" font-size="11.00">• Why did they disagree?</text>
+<text xml:space="preserve" text-anchor="middle" x="445.58" y="-424.87" font-family="Arial" font-size="11.00">• Which is right for context?</text>
 </g>
 <!-- Prioritize&#45;&gt;Document -->
 <g id="edge15" class="edge">
 <title>Prioritize&#45;&gt;Document</title>
-<path fill="none" stroke="black" d="M428.39,-406.91C428.43,-406.99 428.47,-407.07 428.51,-407.16"/>
-<polygon fill="black" stroke="black" points="422.17,-402.14 429.7,-409.59 428.46,-399.07 422.17,-402.14"/>
+<path fill="none" stroke="black" d="M428.39,-406.91C428.44,-407.02 428.5,-407.12 428.55,-407.23"/>
+<polygon fill="black" stroke="black" points="425.29,-408.53 432.82,-415.98 431.58,-405.46 425.29,-408.53"/>
 </g>
 <!-- GenerateReport -->
 <g id="node13" class="node">
@@ -233,8 +232,8 @@
 <!-- Document&#45;&gt;GenerateReport -->
 <g id="edge16" class="edge">
 <title>Document&#45;&gt;GenerateReport</title>
-<path fill="none" stroke="black" d="M465.27,-473.48C465.31,-473.54 465.35,-473.6 465.38,-473.66"/>
-<polygon fill="black" stroke="black" points="456.41,-465.95 464.69,-472.56 462.34,-462.23 456.41,-465.95"/>
+<path fill="none" stroke="black" d="M460.96,-466.61C461.01,-466.68 461.05,-466.75 461.09,-466.82"/>
+<polygon fill="black" stroke="black" points="452.14,-459.13 460.42,-465.74 458.07,-455.41 452.14,-459.13"/>
 </g>
 <!-- FinalReport -->
 <g id="node14" class="node">
