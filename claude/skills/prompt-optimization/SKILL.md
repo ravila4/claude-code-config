@@ -1,221 +1,197 @@
 ---
 name: prompt-optimization
-description: Transform rough prompts into polished, effective prompts using Anthropic's prompt engineering best practices. Use when refining prompts for clarity, adding structure with XML tags, implementing few-shot examples, or applying advanced techniques like chain-of-thought reasoning. Ideal for improving prompts before sending to other agents or LLMs.
+description: Use when crafting prompts for external LLMs (Gemini, Codex), sub-agents, MCP tools (like deepwiki), or when user requests help optimizing a prompt. Emphasizes matching complexity to task - simple requests stay simple.
 ---
 
 # Prompt Optimization
 
 ## Overview
 
-This skill provides comprehensive knowledge of Anthropic's prompt engineering best practices and research-backed advanced techniques. Use it to transform informal requests into well-structured, effective prompts that produce better results from LLMs.
+Transform rough prompts into effective prompts. The core principle: **match complexity to the task**. Simple requests should produce simple prompts. Only add structure when it genuinely improves output.
 
-## Core Mission
+## Workflow
 
-**Transform human ramblings into polished, effective prompts** using Anthropic's prompt engineering patterns. Take rough, informal requests and distill them into well-structured prompts that get better results.
+See `references/workflow.gv` for the visual decision flow.
 
-## When to Use This Skill
+**Quick summary:**
+1. Is the intent clear? If not, extract the core intent first
+2. Is this a simple request? If yes, minor cleanup only
+3. Would structure help? Only add it if there's clear benefit
+4. Does it need multi-step reasoning? Consider chain-of-thought
+5. Is it high-stakes? Consider advanced techniques
 
-- Refining user requests before sending to external LLMs (Gemini, GPT-5, Codex)
-- Converting informal requirements into structured prompts
-- Adding examples to improve task-specific behavior
-- Structuring complex prompts with proper XML organization
-- Applying advanced reasoning techniques for complex tasks
-- Chaining prompts with target agents (e.g., "optimize then ask gemini")
+## Core Principle: Simplicity First
 
-## Workflow Decision Tree
+**Not every prompt needs structure.** Before adding XML tags, JSON formatting, or advanced techniques, ask:
 
-```
-User provides rough prompt
-    ↓
-Is this a simple factual query?
-    → YES: Apply foundational patterns only (role, XML tags, output format)
-    → NO: Continue to complexity assessment
-        ↓
-    Does it require multi-step reasoning?
-        → YES: Consider chain-of-thought (cost-aware)
-        → NO: Skip CoT
-            ↓
-    Would examples improve output?
-        → YES: Add few-shot examples (most effective pattern)
-        → NO: Continue
-            ↓
-    Are there edge cases or ambiguity?
-        → YES: Add escape hatches, clarify constraints
-        → NO: Continue
-            ↓
-    Is this a critical/high-stakes decision?
-        → YES: Consider self-consistency or multi-agent debate
-        → NO: Stick with foundational patterns
-            ↓
-    Apply final structure:
-        1. Role assignment
-        2. Task context (early)
-        3. XML-tagged data/instructions
-        4. Examples (middle)
-        5. Input data
-        6. Output format (near end)
-```
+> "Does this complexity genuinely improve the output, or am I adding noise?"
+
+### Keep It Simple When
+
+- **Factual queries**: "What's the capital of France?" → Leave as-is
+- **Single-purpose requests**: "Explain this error message" → Add context, not structure
+- **Conversational prompts**: Natural language flows fine
+- **Clear intent**: The request is already unambiguous
+
+### Add Structure When
+
+- **Separating user data from instructions**: Prevents prompt injection, clarifies boundaries
+- **Multi-part output needed**: Analysis + code + explanation benefits from sections
+- **Few-shot examples**: Multiple input/output pairs need clear delineation
+- **Ambiguous boundaries**: Where does the user's content end and instructions begin?
 
 ## Foundational Patterns
-
-These patterns should be considered for **every** prompt optimization.
 
 ### 1. Clear and Direct Communication
 
 - State intentions explicitly
-- Avoid relying on implicit understanding
 - Be specific about requirements
+- Remove ambiguity
 
 ### 2. Role Assignment
 
-Assign Claude a specific role or persona when appropriate.
+Assign a specific role when expertise matters:
 
-**Example:**
 ```
-You are a senior Python developer with expertise in data processing...
+You are a senior Python developer with expertise in pandas...
 ```
 
-### 3. XML Tag Structure
+### 3. Structuring Techniques (Use Sparingly)
 
-Use XML tags to separate data from instructions. This keeps structure clear and prevents confusion.
+Structure helps when you need clear boundaries. Choose the format that fits:
 
-**Common tags:**
-- `<example>` - For few-shot examples
-- `<question>` - User queries
-- `<context>` - Background information
-- `<document>` - Source material
-- `<task>` - Task description
-- `<code>` - Code samples
-
-**Example:**
+**XML tags** - Good for separating sections in prompts:
 ```
 <context>
-A pandas DataFrame is producing unexpected NaN values.
+Background information here.
 </context>
 
 <task>
-Identify why NaN values appear and provide corrected code.
+What to do with it.
 </task>
-
-<code>
-df = df[df['column'] > 0]
-</code>
 ```
 
-### 4. Few-Shot Prompting ⭐ Most Effective
-
-Add examples enclosed in `<example></example>` tags. This is **"probably the single most effective tool"** for desired behavior.
-
-**Best practices:**
-- More examples = better results
-- Include edge cases
-- Show desired output format
-- Cover common variations
-
-**Example:**
+**JSON** - Good for structured data or when output will be parsed:
 ```
-<example>
-Input: "uh so I need to filter this list"
-Optimized: "Filter the following list to include only items matching the condition: [specific condition]"
-</example>
+Respond in JSON format:
+{
+  "analysis": "your analysis",
+  "recommendation": "your recommendation",
+  "confidence": "high/medium/low"
+}
+```
 
-<example>
+**Markdown** - Good for human-readable structure:
+```
+## Context
+Background information here.
+
+## Task
+What to do with it.
+```
+
+**When to skip structure entirely:**
+- The prompt is short and clear
+- Natural language conveys the same information
+- Adding tags would just be noise
+
+### 4. Few-Shot Prompting
+
+Examples are highly effective for showing desired behavior. Structure helps here because you're delineating multiple input/output pairs:
+
+```
+Example 1:
 Input: "make it faster"
-Optimized: "Optimize the following code for performance. Focus on reducing time complexity and minimizing memory allocation."
-</example>
+Output: "Optimize this code for performance, focusing on time complexity and memory usage."
+
+Example 2:
+Input: "it's broken"
+Output: "Debug this code. Describe the error, identify the root cause, and provide a fix."
 ```
 
 ### 5. Output Formatting
 
-Specify exact response structure using XML tags or clear instructions.
+Specify response structure when you need consistent output:
 
-**Example:**
 ```
-Please provide:
-1. Root cause analysis in <analysis> tags
-2. Corrected code in <solution> tags
-3. Brief explanation in <explanation> tags
+Provide:
+1. Root cause analysis
+2. Corrected code
+3. Brief explanation
+```
+
+Or for structured data:
+```
+Respond as JSON with keys: "cause", "fix", "explanation"
 ```
 
 ### 6. Escape Hatches
 
-Include instructions for when Claude is unsure or encounters edge cases.
+Include fallback instructions for edge cases:
 
-**Example:**
 ```
-If the question is unclear, ask for clarification rather than making assumptions.
-If the context doesn't contain the answer, say so explicitly.
+If the question is unclear, ask for clarification.
+If you can't determine the answer, say so explicitly.
 ```
-
-### 7. Complex Prompt Structure (Optimal Ordering)
-
-For complex prompts, apply elements in this order:
-
-1. **Task context** (early) - Background information
-2. **Tone context** (if needed) - Desired style/formality
-3. **Detailed task description and rules** - Core requirements
-4. **Examples** (middle) - Few-shot examples
-5. **Input data** - User's actual query/data with XML tags
-6. **Immediate task description** (near end) - Restate the task
-7. **Precognition instructions** (near end) - "Think step-by-step first"
-8. **Output formatting** (near end) - Structure for response
-
-**Critical principle:** Place the user's query close to the bottom of long prompts.
 
 ## Advanced Techniques
 
-These patterns are **optional** and should only be applied when specifically beneficial. See `references/advanced_techniques.md` for detailed guidance.
+These are **optional** and cost tokens. Only apply when specifically beneficial. See `references/advanced_techniques.md` for detailed guidance.
 
-### Quick Reference
+| Technique | When to Use | Cost Impact |
+|-----------|-------------|-------------|
+| **Chain-of-Thought** | Multi-step reasoning, logic puzzles | +20-80% tokens |
+| **Persona-as-Cognition** | Need specific thinking style | Minimal |
+| **Self-Consistency** | High-stakes decisions, math | 3-5x tokens |
+| **Multi-Agent Debate** | Complex decisions, catching bias | 2-3x tokens |
 
-| Technique | When to Use | Cost Impact | Key Benefit |
-|-----------|-------------|-------------|-------------|
-| **Chain-of-Thought** | Multi-step reasoning, logic puzzles | +20-80% tokens | Improves accuracy on complex reasoning |
-| **Persona-as-Cognition** | Need specific thinking style | Minimal | Changes reasoning depth/approach |
-| **Self-Consistency** | High-stakes decisions, math | 3-5x tokens | Higher confidence answers |
-| **Multi-Agent Debate** | Complex decisions, catching bias | 2-3x tokens | Examines multiple perspectives |
-| **Context Engineering** | Factual accuracy, recent events | Minimal | Reduces hallucinations |
-
-**Rule of thumb:** Start with foundational patterns. Only add advanced techniques when the task genuinely requires them.
+**Rule of thumb:** Start simple. Only add advanced techniques when simpler approaches fail or stakes justify the cost.
 
 ## Example Transformations
 
-### Simple Query (Foundational Only)
+### Simple → Simple
 
 **Before:**
 ```
-uh so I have this DataFrame and it's got some weird NaN values
+what causes a KeyError in python
 ```
 
 **After:**
 ```
-You are a senior Python data engineer debugging pandas DataFrame issues.
-
-<context>
-A pandas DataFrame is producing unexpected NaN values after filtering operations.
-</context>
-
-<task>
-Analyze the following DataFrame code and identify why NaN values are appearing. Consider common causes like:
-- Chained indexing creating copies
-- Type coercion issues
-- Missing value propagation
-- Index misalignment
-</task>
-
-<code>
-[User's code would go here]
-</code>
-
-Please provide:
-1. Root cause of the NaN values
-2. Corrected code
-3. Explanation of the fix
-
-If the code is not provided, ask for specific details about the DataFrame operations.
+Explain what causes a KeyError in Python and how to prevent it. Include a brief code example.
 ```
 
-### Complex Query (With Advanced Techniques)
+*Why no structure?* The request is clear and single-purpose. Adding XML would be noise.
+
+---
+
+### Moderate Complexity
+
+**Before:**
+```
+my code is slow can you help
+```
+
+**After:**
+```
+You are a Python performance expert.
+
+I have code that's running slowly. Analyze it for:
+- Time complexity issues
+- Unnecessary operations
+- Memory allocation patterns
+- Caching opportunities
+
+Provide the optimized code with a brief explanation of what you changed and why.
+
+[Code will be provided]
+```
+
+*Why this structure?* Role assignment helps, bullet points organize the analysis criteria, but no XML needed.
+
+---
+
+### Complex Task (Structure Justified)
 
 **Before:**
 ```
@@ -227,49 +203,33 @@ help me decide if we should use microservices or monolith
 You are a senior software architect evaluating architecture decisions.
 
 <context>
-A team is deciding between microservices and monolith architecture for a new application.
+Team is deciding between microservices and monolith for a new application.
 </context>
 
 <task>
-Analyze this decision from multiple perspectives using a debate format.
+Analyze from multiple perspectives:
+
+1. **Microservices case**: Scalability, independent deployment, technology flexibility
+2. **Monolith case**: Simplicity, consistency, lower operational overhead
+3. **Hidden costs**: Risks of each that aren't immediately obvious
+4. **Recommendation**: Based on typical team constraints (size, experience, timeline)
 </task>
 
-<debate>
-<microservices_advocate>
-Present the strongest case for microservices, including scalability, independent deployment, and technology flexibility.
-</microservices_advocate>
-
-<monolith_advocate>
-Present the strongest case for a monolith, including simplicity, consistency, and lower operational overhead.
-</monolith_advocate>
-
-<skeptic>
-Challenge both positions. What are the hidden costs and risks of each approach?
-</skeptic>
-
-<synthesis>
-Provide a balanced recommendation based on:
-- Team size and experience
-- Expected scale and growth
-- Operational maturity
-- Time to market constraints
-</synthesis>
-</debate>
-
-Include specific trade-offs and conditions under which each choice makes sense.
+Include specific conditions under which each choice makes sense.
 ```
 
-## Resources
-
-This skill includes:
-
-### references/
-
-- `advanced_techniques.md` - Detailed guidance on chain-of-thought, persona-as-cognition, self-consistency, multi-agent debate, and context engineering
-- `examples.md` - Additional example transformations covering common scenarios
-
-See the [references directory](references/) for comprehensive documentation.
+*Why structure here?* The task has multiple distinct parts. XML separates context from task.
 
 ---
 
-**Note:** This skill focuses on **prompt structure and technique**. For LLM-specific integration and caching, see the consultant agents (gemini-consultant, gpt5-consultant, codex-consultant).
+See `references/examples.md` for additional transformations.
+
+## Resources
+
+- `references/workflow.gv` - Visual decision flow (Graphviz)
+- `references/advanced_techniques.md` - Chain-of-thought, persona-as-cognition, self-consistency, multi-agent debate
+- `references/examples.md` - Additional example transformations
+
+---
+
+**Remember:** The goal is effective prompts, not elaborate prompts. Simple and clear beats complex and thorough when the task is straightforward.

@@ -1,0 +1,63 @@
+// Prompt Optimization Workflow
+// Decision tree for when and how to optimize prompts
+
+digraph PromptOptimization {
+  label = "Prompt Optimization Decision Flow";
+  rankdir = TB;
+
+  // Styling
+  node [fontname="Arial", fontsize=10];
+  edge [fontname="Arial", fontsize=9];
+
+  // Entry point
+  Start [shape=doublecircle, fillcolor="#b3e5fc", style=filled, label="Prompt\nReceived"];
+
+  // Decision nodes (diamonds)
+  "Intent clear?" [shape=diamond, fillcolor="#fff9c4", style=filled];
+  "Simple request?" [shape=diamond, fillcolor="#fff9c4", style=filled];
+  "Structure helps?" [shape=diamond, fillcolor="#fff9c4", style=filled];
+  "Multi-step reasoning?" [shape=diamond, fillcolor="#fff9c4", style=filled];
+  "High stakes?" [shape=diamond, fillcolor="#fff9c4", style=filled];
+
+  // Action nodes (boxes)
+  "Extract core intent" [shape=box, fillcolor="#e3f2fd", style="rounded,filled"];
+  "Minor cleanup only" [shape=box, fillcolor="#c8e6c9", style="rounded,filled"];
+  "Add role + clear task" [shape=box, fillcolor="#c8e6c9", style="rounded,filled"];
+  "Add minimal structure\n(XML/JSON/Markdown)" [shape=box, fillcolor="#c8e6c9", style="rounded,filled"];
+  "Consider chain-of-thought" [shape=box, fillcolor="#ffe0b2", style="rounded,filled"];
+  "Consider advanced techniques\n(self-consistency, debate)" [shape=box, fillcolor="#ffe0b2", style="rounded,filled"];
+
+  // Exit point
+  Done [shape=doublecircle, fillcolor="#a5d6a7", style=filled, label="Optimized\nPrompt"];
+
+  // Constraint (octagon)
+  "NEVER add structure\nwithout clear benefit" [shape=octagon, fillcolor="#ef5350", fontcolor=white, style=filled];
+
+  // Flow
+  Start -> "Intent clear?";
+
+  "Intent clear?" -> "Simple request?" [label="yes"];
+  "Intent clear?" -> "Extract core intent" [label="no"];
+  "Extract core intent" -> "Simple request?";
+
+  "Simple request?" -> "Minor cleanup only" [label="yes"];
+  "Simple request?" -> "Structure helps?" [label="no"];
+
+  "Minor cleanup only" -> Done;
+
+  "Structure helps?" -> "Add minimal structure\n(XML/JSON/Markdown)" [label="yes"];
+  "Structure helps?" -> "Add role + clear task" [label="no"];
+
+  "Add role + clear task" -> "Multi-step reasoning?";
+  "Add minimal structure\n(XML/JSON/Markdown)" -> "Multi-step reasoning?";
+
+  "Multi-step reasoning?" -> "Consider chain-of-thought" [label="yes"];
+  "Multi-step reasoning?" -> "High stakes?" [label="no"];
+
+  "Consider chain-of-thought" -> "High stakes?";
+
+  "High stakes?" -> "Consider advanced techniques\n(self-consistency, debate)" [label="yes"];
+  "High stakes?" -> Done [label="no"];
+
+  "Consider advanced techniques\n(self-consistency, debate)" -> Done;
+}
