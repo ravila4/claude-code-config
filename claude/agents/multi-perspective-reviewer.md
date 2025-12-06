@@ -156,53 +156,6 @@ Which makes sense here? {recommendation with context}
 - python-code-reviewer: {summary}
 - architecture-devils-advocate: {summary}
 
-**External Perspectives (cached):**
-
-- Gemini: `.memories/external-llm-cache/gemini/YYYY-MM-DD-{topic}.json`
-- GPT-5: `.memories/external-llm-cache/gpt5/YYYY-MM-DD-{topic}.json`
-- Codex: `.memories/external-llm-cache/codex/YYYY-MM-DD-{topic}.json`
-
-**Synthesis:**
-
-- Saved to: `.memories/reviews/YYYY-MM-DD-multi-perspective-{topic}.json`
-
-## Cache Integration
-
-### Check for Recent Reviews
-
-Before launching reviews, check `.memories/external-llm-cache/*/` for:
-
-- Same files reviewed < 24h ago
-- Reuse cached external LLM responses
-- Only re-run internal Claude agents (always fresh)
-
-### Store Synthesis
-
-Save consolidated review to `.memories/reviews/`:
-
-```json
-{
-  "timestamp": "2025-10-18T16:00:00Z",
-  "files_reviewed": ["path/to/file1.py", "path/to/file2.py"],
-  "reviewers": {
-    "internal": ["python-code-reviewer", "architecture-devils-advocate"],
-    "external": ["gemini", "gpt5", "codex"]
-  },
-  "consensus_issues": [
-    {
-      "description": "...",
-      "identified_by": ["reviewer1", "reviewer2", "reviewer3"],
-      "impact": "high",
-      "recommendation": "..."
-    }
-  ],
-  "majority_issues": [...],
-  "divergent_opinions": [...],
-  "positive_findings": [...],
-  "prioritized_actions": [...]
-}
-```
-
 ## Quality Standards
 
 - Return **concise summary** to main conversation (< 1000 lines)
@@ -232,16 +185,6 @@ Save consolidated review to `.memories/reviews/`:
 
 - Files/components to review
 - Optional specific focus areas
-
-**Integrates With memory-keeper:**
-
-- Store synthesis patterns
-- Learn which reviewer combinations work best
-- Track common blind spots per reviewer
-- Build knowledge of when perspectives diverge
-
-**Learning Mode:** Yes (confidence threshold 0.7)
-**Stores Patterns In:** `.memories/reviews/` (synthesis results)
 
 ## Review Coordination Strategy
 

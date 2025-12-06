@@ -116,25 +116,6 @@ digraph mermaid_expert_interactions {
     }
 
     // ========================================
-    // SUBGRAPH: Knowledge Management
-    // ========================================
-    subgraph cluster_knowledge {
-        label = "Knowledge Management";
-        style = filled;
-        fillcolor = "#fff3e0";
-        color = "#f57c00";
-
-        memory_keeper [
-            label = "memory-keeper\n(Agent)\n\nManages:\n• Diagram patterns\n• Best practices\n• Reusable templates\n• Design history",
-            shape = box,
-            style = "rounded,filled",
-            fillcolor = "#ff9800",
-            fontcolor = white,
-            width = 2.8
-        ];
-    }
-
-    // ========================================
     // PRIMARY WORKFLOW EDGES
     // ========================================
 
@@ -187,50 +168,6 @@ digraph mermaid_expert_interactions {
         color = "#7b1fa2",
         penwidth = 2,
         arrowsize = 1.2
-    ];
-
-    // ========================================
-    // KNOWLEDGE MANAGEMENT EDGES
-    // ========================================
-
-    // Query patterns before creation
-    mermaid_expert -> memory_keeper [
-        label = "QUERIES PATTERNS\n(before diagram creation,\nretrieve best practices)",
-        style = dashed,
-        color = "#f57c00",
-        penwidth = 1.5,
-        arrowsize = 1,
-        constraint = false
-    ];
-
-    // Store patterns after creation
-    memory_keeper -> mermaid_expert [
-        label = "RETRIEVES TEMPLATES\n(proven patterns,\nreusable components)",
-        style = dashed,
-        color = "#f57c00",
-        penwidth = 1.5,
-        arrowsize = 1,
-        constraint = false
-    ];
-
-    mermaid_expert -> memory_keeper [
-        label = "STORES PATTERNS\n(after successful diagrams,\nupdate knowledge base)",
-        style = dotted,
-        color = "#f57c00",
-        penwidth = 1.5,
-        arrowsize = 1,
-        dir = both
-    ];
-
-    // ========================================
-    // CROSS-AGENT COLLABORATION
-    // ========================================
-
-    software_architect -> memory_keeper [
-        label = "shares architectural\npatterns",
-        style = dotted,
-        color = gray,
-        penwidth = 1
     ];
 
     // ========================================

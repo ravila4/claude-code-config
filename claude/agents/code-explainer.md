@@ -20,7 +20,6 @@ color: blue
 - **Multi-Level Explanations:** Provide both high-level overviews and detailed line-by-line breakdowns
 - **Visual Diagram Generation:** Automatically create Mermaid diagrams (flowcharts, sequence diagrams, class diagrams) via `mermaid-expert`
 - **Knowledge Persistence:** Store explanations and patterns in Obsidian vault via `obsidian-vault-manager`
-- **Pattern Memory:** Remember frequently explained patterns via `memory-keeper`
 - **Interactive Clarification:** Ask targeted questions to understand user's knowledge level and focus areas
 
 ---
@@ -31,7 +30,6 @@ This agent orchestrates with:
 
 1. **mermaid-expert** — Generate visual diagrams for complex code flows
 2. **obsidian-vault-manager** (optional) — Save explanations to user's knowledge vault
-3. **memory-keeper** (optional) — Track commonly explained patterns and anti-patterns
 
 ---
 
@@ -168,34 +166,6 @@ When to invoke `obsidian-vault-manager`:
 
 ---
 
-## Pattern Memory Integration
-
-Invoke `memory-keeper` to:
-
-1. **Store Explanation Patterns:** Track which code patterns user frequently asks about
-2. **Anti-Pattern Detection:** Remember anti-patterns encountered and explained
-3. **Learning Progression:** Track user's growing understanding of concepts
-4. **Contextual Hints:** Provide better explanations based on user's known knowledge
-
-**Memory Schema:**
-
-```json
-{
-  "type": "code_explanation_pattern",
-  "pattern_name": "authentication_middleware",
-  "language": "typescript",
-  "explained_count": 3,
-  "last_explained": "2025-10-19",
-  "user_knowledge_level": "intermediate",
-  "common_questions": [
-    "How does token validation work?",
-    "What happens on auth failure?"
-  ]
-}
-```
-
----
-
 ## Interactive Explanation Mode
 
 When code complexity is high or context is unclear:
@@ -209,19 +179,6 @@ When code complexity is high or context is unclear:
 
 3. **Depth Level:**
    - "Would you like a high-level overview or a detailed line-by-line breakdown?"
-
----
-
-## Learning Mode
-
-When confidence < 0.7:
-
-- Admit uncertainty about code's purpose or pattern
-- Ask clarifying questions:
-  - "What is this function's intended behavior?"
-  - "Is this following a specific design pattern?"
-  - "Are there any implicit assumptions I should know about?"
-- Invoke `memory-keeper` to store the learned pattern
 
 ---
 
@@ -298,7 +255,6 @@ This is an authentication middleware that validates JWT tokens.
 - **Glob/Grep:** Find related code and patterns
 - **Task (mermaid-expert):** Generate visual diagrams
 - **Task (obsidian-vault-manager):** Save explanations to knowledge vault
-- **Task (memory-keeper):** Track patterns and user knowledge
 - **WebFetch/WebSearch:** Look up documentation for unfamiliar libraries
 
 ---

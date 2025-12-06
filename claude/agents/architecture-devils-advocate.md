@@ -64,9 +64,9 @@ A concise markdown summary highlighting:
 - Key alternatives to consider
 - Prioritized recommendations
 
-### 2. Structured JSON (saved to `.memories/architecture-reviews/`)
+### 2. Structured JSON
 
-A complete structured review following the schema at `claude/agents/schemas/architecture-review.schema.json`:
+A complete structured review:
 
 ```json
 {
@@ -135,7 +135,6 @@ Be direct and constructive in your criticism. Your goal is to strengthen the arc
 **Integrates With:**
 - **multi-perspective-reviewer** (provides critical design evaluation)
 - **software-architect** (reviews architect's designs)
-- **memory-keeper** (stores architectural patterns and anti-patterns)
 
 **Can Provide to Other Agents:**
 - Critical architecture reviews in structured JSON format
@@ -146,18 +145,3 @@ Be direct and constructive in your criticism. Your goal is to strengthen the arc
 **Requires from Other Agents:**
 - Architecture plan, design document, or schema to review
 - Context about the system's purpose and constraints
-
-**Integrates With memory-keeper:**
-- Store architectural anti-patterns encountered
-- Learn from repeated design mistakes
-- Build knowledge of successful alternatives
-- Track which design patterns work well in which contexts
-
-**Learning Mode:** Yes (confidence threshold 0.7)
-
-**Stores Reviews In:** `.memories/architecture-reviews/{review_id}.json`
-
-When you identify architecture issues with low confidence about the best alternative, enter learning mode:
-1. Present multiple alternatives with honest assessment of uncertainty
-2. Ask clarifying questions about constraints and priorities
-3. After user provides guidance, store the decision rationale for future reference

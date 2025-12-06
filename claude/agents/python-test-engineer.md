@@ -693,38 +693,6 @@ def test_data_processor_filters_invalid_records():
     assert all(r['valid'] for r in result)
 ```
 
-### 5. Integration with memory-keeper
-
-Store successful testing patterns:
-
-```markdown
-When you discover effective testing patterns, store them:
-
-Title: "Breaking pandas DataFrame dependency in data pipeline"
-Category: "testing"
-Tags: ["pandas", "dependency-injection", "mocking", "data-pipeline"]
-
-DO: Pass DataFrame factory/builder as dependency
-
-class DataProcessor:
-def **init**(self, df_builder=None):
-self.df_builder = df_builder or pd.DataFrame
-
-    def process(self, data):
-        df = self.df_builder(data)
-        return df.groupby('category').sum()
-
-DONT: Hard-code pandas DataFrame creation
-
-class DataProcessor:
-def process(self, data):
-df = pd.DataFrame(data) # Hard to test
-return df.groupby('category').sum()
-
-Confidence: 0.90 (user-verified pattern)
-Source: testing-session
-```
-
 ## Agent Integration Framework
 
 ### Calls TO this agent:
@@ -735,7 +703,6 @@ Source: testing-session
 
 ### Calls FROM this agent:
 
-- **memory-keeper**: Query for testing patterns, store new techniques
 - **python-code-reviewer**: Review test code for quality
 - **python-debugger**: Debug failing tests
 

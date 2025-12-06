@@ -33,7 +33,6 @@ digraph GraphvizArchitectInteractions {
     SoftwareArchitect [label="software-architect\n(architecture proposals)", fillcolor=lightblue];
     GraphvizArchitect [label="graphviz-architect\n(protocol contract specialist)", fillcolor=lightcoral];
     MermaidExpert [label="mermaid-expert\n(sequence/state diagrams)", fillcolor=lightgreen];
-    MemoryKeeper [label="memory-keeper\n(pattern storage)", fillcolor=plum];
   }
 
   // Skills subgraph
@@ -56,7 +55,6 @@ digraph GraphvizArchitectInteractions {
     node [shape=cylinder, style=filled];
 
     Protocols [label=".claude/protocols/\n(approved contracts)", fillcolor=gold];
-    Memories [label=".memories/\n(patterns, templates)", fillcolor=khaki];
   }
 
   // Main workflow edges
@@ -68,11 +66,6 @@ digraph GraphvizArchitectInteractions {
 
   // Collaboration edges
   GraphvizArchitect -> MermaidExpert [label="COLLABORATES\n(complementary diagrams)", style=dashed, color=purple, dir=both];
-
-  // Memory pattern edges
-  MemoryKeeper -> GraphvizArchitect [label="Provides\npatterns/templates", style=dotted, color=brown];
-  GraphvizArchitect -> MemoryKeeper [label="Stores\nsuccessful patterns", style=dotted, color=brown];
-  MemoryKeeper -> Memories [label="Persists", style=dotted, color=brown];
 
   // Review and approval flow
   GraphvizArchitect -> SoftwareArchitect [label="5. Returns for\nreview/approval", style=dashed, color=blue];
@@ -95,8 +88,8 @@ digraph GraphvizArchitectInteractions {
   // Ranking for clarity
   { rank=same; User; }
   { rank=same; SoftwareArchitect; }
-  { rank=same; GraphvizArchitect; MermaidExpert; MemoryKeeper; }
+  { rank=same; GraphvizArchitect; MermaidExpert; }
   { rank=same; GraphvizSkill; }
   { rank=same; ApprovalDecision; }
-  { rank=same; Protocols; Memories; }
+  { rank=same; Protocols; }
 }
