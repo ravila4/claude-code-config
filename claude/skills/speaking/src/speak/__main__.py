@@ -1,24 +1,15 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.12"
-# dependencies = [
-#   "kokoro-onnx",
-#   "soundfile",
-# ]
-# ///
-
 """
-tts-notify - TTS utility using Kokoro ONNX with queue support
+speak - Text-to-speech utility using Kokoro ONNX with queue support
 
 Usage:
     # Direct mode (immediate playback)
-    tts-notify "Hello world"
-    tts-notify "Hello world" --voice af_sarah
-    echo "Hello world" | tts-notify
+    speak "Hello world"
+    speak "Hello world" --voice af_sarah
+    echo "Hello world" | speak
 
     # Multi-chunk queue mode (zero-lag playback)
     # Each line is treated as a separate chunk
-    cat <<'EOF' | scripts/tts-notify --queue
+    cat <<'EOF' | speak --queue
     The test suite finished. Twenty three tests passed.
     Two tests failed in the authentication module.
     Both failures are timeout related.
@@ -41,8 +32,7 @@ from pathlib import Path
 from urllib.request import urlretrieve
 from multiprocessing import Process
 from queue import Queue as ThreadQueue, Empty
-from typing import Tuple, Optional, List
-from contextlib import contextmanager
+from typing import Tuple
 
 import soundfile as sf
 from kokoro_onnx import Kokoro
@@ -54,7 +44,7 @@ MODEL_FILE = MODEL_DIR / "kokoro-v1.0.onnx"
 VOICES_FILE = MODEL_DIR / "voices-v1.0.bin"
 
 # Queue directory
-QUEUE_DIR = Path.home() / ".local/share/tts-notify"
+QUEUE_DIR = Path.home() / ".local/share/speak"
 PID_FILE = QUEUE_DIR / "worker.pid"
 SOCKET_FILE = QUEUE_DIR / "worker.sock"
 LOCK_FILE = QUEUE_DIR / "worker.lock"
@@ -141,10 +131,9 @@ def generate_audio(text: str, voice: str, speed: float, lang: str,
     return buffer.read()
 
 
-def speak(text: str, voice: str, speed: float, lang: str,
+def speak_text(text: str, voice: str, speed: float, lang: str,
          model_path: str, voices_path: str) -> None:
     """Generate and play speech immediately"""
-    # Use generate_audio to avoid duplication
     audio_bytes = generate_audio(text, voice, speed, lang, model_path, voices_path)
     play_audio(audio_bytes)
 
@@ -475,10 +464,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  kokoro-speak "Hello world"
-  kokoro-speak "Hello world" --voice am_adam
-  kokoro-speak "Hello world" -v af_nova --speed 1.2
-  echo "This is a test" | kokoro-speak
+  speak "Hello world"
+  speak "Hello world" --voice am_adam
+  speak "Hello world" -v af_nova --speed 1.2
+  echo "This is a test" | speak
 
 Popular voices:
   American female: af_sarah, af_river, af_bella
@@ -577,7 +566,7 @@ Popular voices:
     else:
         if sys.stdin.isatty():
             print("Error: No text provided. Use as argument or pipe from stdin.", file=sys.stderr)
-            print("Try: tts-notify --help", file=sys.stderr)
+            print("Try: speak --help", file=sys.stderr)
             sys.exit(1)
         # In queue mode, treat each line as a separate chunk
         # In direct mode, treat all input as one chunk
@@ -605,7 +594,7 @@ Popular voices:
             log(f"Successfully queued {len(texts)} chunk(s)")
         else:
             # Direct mode - immediate playback (only first text)
-            speak(texts[0], args.voice, args.speed, args.lang, model_path, voices_path)
+            speak_text(texts[0], args.voice, args.speed, args.lang, model_path, voices_path)
     except KeyboardInterrupt:
         print("\nInterrupted.", file=sys.stderr)
         sys.exit(130)

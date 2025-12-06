@@ -1,0 +1,23 @@
+#!/bin/bash
+# Wrapper script for speak command that auto-installs if needed
+
+SKILL_DIR="$HOME/.claude/skills/speak"
+
+# Check if speak command is available globally
+if command -v speak &> /dev/null; then
+    # Use the globally installed speak command
+    exec speak "$@"
+fi
+
+# speak not found - auto-install
+echo "speak command not found. Installing..." >&2
+echo "Running: uv tool install --editable $SKILL_DIR" >&2
+
+if uv tool install --editable "$SKILL_DIR"; then
+    echo "✓ speak installed successfully" >&2
+    # Now execute the freshly installed command
+    exec speak "$@"
+else
+    echo "✗ Failed to install speak" >&2
+    exit 1
+fi

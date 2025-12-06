@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "speak"
+version = "0.1.0"
+description = "Text-to-speech notification tool using Kokoro ONNX"
+requires-python = ">=3.12"
+dependencies = [
+    "kokoro-onnx",
+    "soundfile",
+]
+
+[project.scripts]
+speak = "speak.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/speak"]
