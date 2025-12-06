@@ -56,7 +56,7 @@ bd close <id> --reason="Fixed by adding null check"  # With explanation
 ### Session End
 
 ```bash
-bd sync    # Push changes to git
+bd sync --flush-only    # Export changes to JSONL (git hooks handle the rest)
 ```
 
 ## Creating Issues
@@ -135,6 +135,8 @@ bd update beads-def --status=in_progress
 
 ## Integration with Git
 
-bd auto-syncs to `.beads/issues.jsonl`. Run `bd sync` at session end to ensure changes are pushed.
+bd auto-syncs to `.beads/issues.jsonl`. At session end:
+1. `bd sync --flush-only` - export pending changes to JSONL
+2. `git add .beads/` and commit with your other changes
 
 For health checks: `bd doctor`
