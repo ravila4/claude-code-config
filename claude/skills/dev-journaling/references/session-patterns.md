@@ -2,6 +2,17 @@
 
 Three common patterns that reveal different session types. Recognizing patterns helps quickly categorize sessions and extract relevant information.
 
+## Contents
+
+- [Pattern 1: Active Working Session](#pattern-1-active-working-session)
+- [Pattern 2: Permission-Blocked Session](#pattern-2-permission-blocked-session)
+- [Pattern 3: Minimal/Testing Session](#pattern-3-minimaltesting-session)
+- [How to Identify Patterns Quickly](#how-to-identify-patterns-quickly)
+- [Advanced: Workflow Patterns](#advanced-workflow-patterns)
+- [Using Patterns for Journal Generation](#using-patterns-for-journal-generation)
+- [Correlation with JSONL](#correlation-with-jsonl)
+- [Common Combinations](#common-combinations)
+
 ## Pattern 1: Active Working Session
 
 ### Indicators

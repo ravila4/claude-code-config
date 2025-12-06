@@ -2,6 +2,16 @@
 
 Patterns are ranked by signal-to-noise ratio for generating development journals.
 
+## Contents
+
+- [⭐⭐⭐ Highest Signal: User Message Extraction](#-highest-signal-user-message-extraction)
+- [⭐⭐⭐ Highest Signal: Thinking Blocks + Tool Usage](#-highest-signal-thinking-blocks-tool-usage)
+- [⭐⭐ High Signal: Conversation Flow with Keyword Tagging](#-high-signal-conversation-flow-with-keyword-tagging)
+- [⭐⭐ High Signal: File Tracking (Debug Logs)](#-high-signal-file-tracking-debug-logs)
+- [⭐ Medium Signal: Permission Flows](#-medium-signal-permission-flows)
+- [Additional Useful Patterns](#additional-useful-patterns)
+- [Correlation Strategy](#correlation-strategy)
+
 ## ⭐⭐⭐ Highest Signal: User Message Extraction
 
 **Purpose**: Understand what the user actually asked for (the "journey")

@@ -2,6 +2,18 @@
 
 Critical warnings about what logs can and cannot tell you. Understanding limitations prevents false conclusions.
 
+## Contents
+
+- [Critical Limitation: Privacy Protection](#critical-limitation-privacy-protection)
+- [Log Format Limitations](#log-format-limitations)
+- [Inference Limitations](#inference-limitations)
+- [Common Pitfalls](#common-pitfalls)
+- [Correlation Challenges](#correlation-challenges)
+- [Best Practices for Accurate Analysis](#best-practices-for-accurate-analysis)
+- [The "What We Know vs Don't Know" Framework](#the-what-we-know-vs-dont-know-framework)
+- [When to Skip Analysis](#when-to-skip-analysis)
+- [Final Warning: Logs Are Not Mind Reading](#final-warning-logs-are-not-mind-reading)
+
 ## Critical Limitation: Privacy Protection
 
 ### Debug Logs Contain NO Conversation Content

@@ -1,0 +1,259 @@
+---
+name: dev-journaling
+description: Use when user requests daily journal generation, work review, standup preparation, or asks "what did I work on today/this week?" Generates structured Obsidian journal entries from ~/.claude logs with session summaries, git activity, and analysis commands.
+---
+
+# Dev Journaling
+
+## Overview
+
+Generate comprehensive daily journal entries from Claude Code conversation logs. Analyzes debug logs and JSONL conversation files to create structured markdown summaries showing what was accomplished, which sessions were active, and what git changes were made.
+
+## When to Use This Skill
+
+Use this skill when:
+
+- **End of day reflection**: Generate journal entry summarizing the day's work
+- **Before standups**: Quick summary of yesterday's accomplishments
+- **Weekly reviews**: Batch generate entries for the past week
+- **Documentation**: Create records of development sessions for future reference
+- **User asks**: "What did I work on today?" or "Generate my daily journal"
+
+## Quick Start
+
+Generate today's journal:
+
+```bash
+cd /path/to/skills/dev-journaling
+uv run scripts/generate_daily_log.py
+```
+
+Generate for specific date:
+
+```bash
+uv run scripts/generate_daily_log.py --date 2025-11-12
+```
+
+Save to file:
+
+```bash
+uv run scripts/generate_daily_log.py --output ~/journal-2025-11-12.md
+```
+
+## Batch Mode Workflow (Traditional)
+
+For comprehensive session analysis:
+
+**Step 1:** Run `generate_daily_log.py` - Gets session summary with classification (ACTIVE/BLOCKED/MINIMAL)
+
+**Step 2:** For ACTIVE sessions, run analysis scripts:
+
+- `extract_user_journey.py` - What was requested
+- `extract_thinking.py` - Internal reasoning and tools
+- `conversation_flow.py` - Tagged narrative
+
+**Step 3:** Compile findings into journal entry manually
+
+## Scripts
+
+### `generate_daily_log.py`
+
+**Purpose:** Main orchestration script for daily journal generation.
+
+**Parameters:**
+
+- `--date YYYY-MM-DD` - Date to analyze (default: today)
+- `--output FILE` - Save report to file (default: stdout)
+- `--repo PATH` - Git repository path for commit extraction (default: current directory)
+
+**What it does:**
+
+- Finds debug and JSONL logs for specified date
+- Classifies sessions by activity level (ACTIVE, BLOCKED, MINIMAL)
+- Extracts git commits from repository
+- Generates initial markdown report with session counts and git activity
+- Provides commands for deep analysis of ACTIVE sessions
+
+**Output:** Markdown report with:
+
+- Session summary (counts by type)
+- Git activity (commits with stats)
+- Commands for running detailed analysis scripts on ACTIVE sessions
+
+### `extract_user_journey.py`
+
+**Purpose:** Extract user requests and goals from a conversation.
+
+**Parameters:**
+
+- `conversation_file` - Path to JSONL file (required, positional)
+
+**What it does:**
+
+- Finds all user messages in chronological order
+- Extracts request text from each message
+- Shows what was asked for and when
+- Useful for understanding session objectives
+
+**Output:** Chronological list of user requests with timestamps
+
+### `extract_thinking.py`
+
+**Purpose:** Extract Claude's thinking blocks and tool usage.
+
+**Parameters:**
+
+- `conversation_file` - Path to JSONL file (required, positional)
+
+**What it does:**
+
+- Extracts thinking blocks showing internal reasoning
+- Lists tools used (Read, Edit, Write, Bash, Task, etc.)
+- Shows tool frequency and patterns
+- Reveals problem-solving approach
+
+**Output:**
+
+- Thinking blocks with context
+- Tool usage summary (ranked by frequency)
+- Timeline of reasoning steps
+
+### `conversation_flow.py`
+
+**Purpose:** Create tagged narrative of conversation with action labels.
+
+**Parameters:**
+
+- `conversation_file` - Path to JSONL file (required, positional)
+
+**What it does:**
+
+- Generates flow with action tags (PLANNING, EXECUTING, DEBUGGING, REFLECTING, etc.)
+- Analyzes conversation rhythm and pace
+- Highlights key decision points
+- Tags messages by activity type
+
+**Output:**
+
+- Tagged conversation narrative
+- Flow metrics (time per phase, transitions)
+- Key decision points highlighted
+
+### `draft_journal_entry.py`
+
+**Purpose:** Generate draft journal entry from today's activity with flexible sections.
+
+**Parameters:**
+
+- `--date YYYY-MM-DD` - Date to analyze (default: today)
+- `--mode {full|quick|auto}` - Journal mode (default: auto)
+  - **full**: All sections including placeholders for reflection
+  - **quick**: Minimal sections (goals, commits, files)
+  - **auto**: Adaptive - only sections with content
+- `--project PATH` - Git repository path (default: current directory)
+- `--output FILE` - Save draft to file (default: stdout)
+
+**What it does:**
+
+- Extracts todos from TodoWrite tool uses
+- Captures context from initial user messages
+- Lists bash commands run (filtered for significance)
+- Shows files modified (Edit/Write operations)
+- Identifies open questions and uncertainties
+- Extracts git commits for the day
+- Detects project focus and generates tags
+- Populates only relevant sections (auto mode)
+
+**Output:** Complete markdown journal entry ready for review with:
+
+- YAML frontmatter (date, tags)
+- Project wikilink (if detected)
+- Goals/Todo checkboxes
+- Context section (if substantial)
+- Technical Work (git commits, files modified)
+- Commands Used (significant bash commands)
+- Open Questions (uncertainties)
+- Placeholder sections for reflection (full mode only)
+
+**Use when:** User requests journal draft, at end of conversation, or when organizing raw content.
+
+## Journal Modes
+
+Three approaches to journaling:
+
+- **Batch Mode** - End-of-day comprehensive review using log analysis scripts
+- **Draft Mode** - Quick journal generation with `draft_journal_entry.py`
+- **Incremental Mode** - Build journal progressively throughout the day
+
+See `references/modes_and_workflows.md` for detailed workflows and integration with Obsidian vault manager.
+
+## Log Locations
+
+Claude Code stores logs in two locations:
+
+- **Debug logs**: `~/.claude/debug/*.txt` - System-level logs with tool execution
+- **JSONL logs**: `~/.claude/projects/*/*.jsonl` - Full conversation history with messages, thinking, and tool use
+
+Both are searched by date using `find` with `-newermt` flags.
+
+## Output Format
+
+Journal entries use markdown with:
+
+- H1 for date
+- H2 for major sections (Session Summary, Git Activity, Next Steps)
+- H3 for individual sessions
+- Code blocks for git output and analysis commands
+- Bullet lists for metrics and summaries
+
+Designed for Obsidian vault storage with cross-references and tags.
+
+## Section Population
+
+When generating journal drafts, populate sections based on available content:
+
+- **Always include:** Date, YAML frontmatter, Goals/Todos
+- **Conditionally include:** Project wikilink, Context, Technical Work, Commands, Open Questions, Reflection, Next Steps
+
+See `references/section_guide.md` for complete population logic and decision criteria for auto/full/quick modes.
+
+## References
+
+See `references/` for detailed information:
+
+- **log-formats.md** - JSONL structure and message types
+- **session-patterns.md** - Common conversation patterns
+- **high-signal-patterns.md** - What indicates important sessions
+- **limitations-caveats.md** - Known issues and workarounds
+- **modes_and_workflows.md** - Detailed workflow explanations and Obsidian integration
+- **section_guide.md** - Complete section population logic for journal drafts
+- **workflow_examples.md** - Step-by-step scenario walkthroughs
+
+## Example Workflows
+
+See `references/workflow_examples.md` for detailed scenarios:
+
+- Scenario 1: End of deep work day with draft generation
+- Scenario 2: Organizing raw commands into structured journal
+- Scenario 3: Incremental journaling throughout the day
+
+## Tips
+
+**For better journals:**
+
+- Use `/journal draft` at end of day for quick generation
+- Use `--mode full` for deep work days needing reflection
+- Use `--mode auto` (default) for adaptive structure
+- Let Claude organize raw content - don't force manual structure
+
+**For different work styles:**
+
+- **Batch mode**: End of day, run draft script, review, write
+- **Incremental mode**: Use `/journal append` throughout day
+- **Hybrid mode**: Dump raw content, organize at end with `/journal organize`
+
+**For retrospective analysis:**
+
+- Use retrospecting skill to find past journal entries by topic
+- Generate multiple days: `for d in 11 12 13; do draft_journal_entry.py --date 2025-11-$d; done`
+- Compare structured vs raw days to refine your workflow

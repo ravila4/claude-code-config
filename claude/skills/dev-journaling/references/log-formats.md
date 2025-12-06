@@ -2,6 +2,16 @@
 
 Understanding the three types of logs and how to correlate them.
 
+## Contents
+
+- [Debug Logs (.txt files)](#debug-logs-txt-files)
+- [JSONL Session Logs](#jsonl-session-logs)
+- [Git History](#git-history)
+- [Correlation Strategy](#correlation-strategy)
+- [Finding Logs by Time](#finding-logs-by-time)
+- [.claude.json Correlation](#claudejson-correlation)
+- [Limitations](#limitations)
+
 ## Debug Logs (.txt files)
 
 **Location**: `~/.claude/debug/*.txt`
