@@ -4,6 +4,18 @@ This reference provides comprehensive patterns for breaking dependencies in lega
 
 ---
 
+## Contents
+
+- [1. Parameterize Constructor](#1-parameterize-constructor)
+- [2. Extract Interface (Protocol)](#2-extract-interface-protocol)
+- [3. Subclass and Override (Extract and Override)](#3-subclass-and-override-extract-and-override)
+- [4. Sprout Method](#4-sprout-method)
+- [5. Sprout Class](#5-sprout-class)
+- [6. Wrap Method](#6-wrap-method)
+- [Decision Matrix](#decision-matrix)
+- [Common Mistakes](#common-mistakes)
+- [Examples by Python Framework](#examples-by-python-framework)
+
 ## 1. Parameterize Constructor
 
 **When to use:** You can modify the constructor and want to inject test doubles.

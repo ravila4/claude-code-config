@@ -2,6 +2,46 @@
 
 This document defines the markdown formatting standards, YAML frontmatter structure, and content patterns for notes in Ricardo's Obsidian vault.
 
+## Contents
+
+- [YAML Frontmatter](#yaml-frontmatter)
+- [Note Title Rules](#note-title-rules)
+- [Basic Syntax](#basic-syntax)
+- [Header Hierarchy](#header-hierarchy)
+- [Main Section 1](#main-section-1)
+- [Main Section 2](#main-section-2)
+- [Internal Linking](#internal-linking)
+- [Related Concepts](#related-concepts)
+- [Code Blocks](#code-blocks)
+- [Lists](#lists)
+- [Callouts/Admonitions](#calloutsadmonitions)
+- [Tables](#tables)
+- [Embedding Images](#embedding-images)
+- [Emphasis and Formatting](#emphasis-and-formatting)
+- [Blockquotes](#blockquotes)
+- [Horizontal Rules](#horizontal-rules)
+- [Content Organization Patterns](#content-organization-patterns)
+- [Background](#background)
+- [Key Concepts](#key-concepts)
+- [Examples](#examples)
+- [Related Notes](#related-notes)
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+- [Advanced Features](#advanced-features)
+- [Troubleshooting](#troubleshooting)
+- [Related Notes](#related-notes)
+- [Discussion Points](#discussion-points)
+- [Action Items](#action-items)
+- [Decisions](#decisions)
+- [Follow-up](#follow-up)
+- [Quick Reference](#quick-reference)
+- [Parameters/Options](#parametersoptions)
+- [Examples](#examples)
+- [See Also](#see-also)
+- [Content Quality Guidelines](#content-quality-guidelines)
+- [Search-Friendly Writing](#search-friendly-writing)
+- [Maintenance Patterns](#maintenance-patterns)
+
 ## YAML Frontmatter
 
 Every note must include YAML frontmatter at the top of the file.

@@ -4,6 +4,17 @@ Characterization tests document **what code currently does**, not what it **shou
 
 ---
 
+## Contents
+
+- [Purpose](#purpose)
+- [When to Use](#when-to-use)
+- [The Process](#the-process)
+- [Patterns and Techniques](#patterns-and-techniques)
+- [Best Practices](#best-practices)
+- [Common Pitfalls](#common-pitfalls)
+- [Example: Full Characterization Workflow](#example-full-characterization-workflow)
+- [Quick Reference](#quick-reference)
+
 ## Purpose
 
 Characterization tests serve as a safety net during refactoring by:

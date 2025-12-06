@@ -80,6 +80,10 @@ tags:
 
 **Internal linking:**
 - Use `[[Note Title]]` for wiki-links
+- **READ target notes before linking** - verify relevance from actual content, not just titles
+- Only link when there's genuine topical overlap with specific content justification
+- Never guess link relevance from note titles alone
+- Remove links that seem related by title but aren't after reading content
 - Create connections between related notes
 - Link to related concepts
 
@@ -222,12 +226,13 @@ These sections are automatically managed by the plugin.
 2. **Follow hierarchy** - Use established folder structure
 3. **Be consistent** - Apply formatting standards uniformly
 4. **Link generously** - Create knowledge connections
-5. **Tag appropriately** - Use existing taxonomy
-6. **Keep focused** - One main topic per note
-7. **Include examples** - Make notes practical
-8. **Organize attachments** - Folder-specific storage
-9. **No redundant H1** - Filename is the title
-10. **Respect Waypoint** - Don't modify auto-generated sections
+5. **Verify links by reading** - Never add links based on note titles alone; always read target notes first
+6. **Tag appropriately** - Use existing taxonomy
+7. **Keep focused** - One main topic per note
+8. **Include examples** - Make notes practical
+9. **Organize attachments** - Folder-specific storage
+10. **No redundant H1** - Filename is the title
+11. **Respect Waypoint** - Don't modify auto-generated sections
 
 ## Validation Checklist
 
@@ -239,6 +244,7 @@ Before finalizing any note:
 - [ ] No H1 header (filename is title)
 - [ ] Used H2 for main sections
 - [ ] Added internal links to related notes
+- [ ] Verified each link's relevance by reading target note content (never guess from titles)
 - [ ] Stored attachments in folder's `attachments/`
 - [ ] Included practical examples for technical content
 - [ ] Checked for quality and focus

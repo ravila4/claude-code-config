@@ -2,6 +2,21 @@
 
 This document provides reusable templates for common diagram patterns. Copy and adapt these templates for standard use cases.
 
+## Contents
+
+- [System Architecture Template](#system-architecture-template)
+- [API Sequence Diagram Template](#api-sequence-diagram-template)
+- [Data Flow Pipeline Template](#data-flow-pipeline-template)
+- [State Machine Template](#state-machine-template)
+- [Decision Tree Template](#decision-tree-template)
+- [Microservices Architecture Template](#microservices-architecture-template)
+- [CI/CD Pipeline Template](#cicd-pipeline-template)
+- [Class Diagram Template](#class-diagram-template)
+- [Entity Relationship Template](#entity-relationship-template)
+- [Gantt Chart Template](#gantt-chart-template)
+- [User Journey Template](#user-journey-template)
+- [Template Usage Guidelines](#template-usage-guidelines)
+
 ## System Architecture Template
 
 ```mermaid

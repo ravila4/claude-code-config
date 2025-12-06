@@ -4,6 +4,23 @@ This document provides concrete before/after examples covering common scenarios.
 
 ---
 
+## Contents
+
+- [Example 1: Vague Technical Request](#example-1-vague-technical-request)
+- [Example 2: Ambiguous Feature Request](#example-2-ambiguous-feature-request)
+- [Example 3: Research Request with Examples](#example-3-research-request-with-examples)
+- [Example 4: Code Review Request with Few-Shot](#example-4-code-review-request-with-few-shot)
+- [Example 5: Decision Request with Multi-Agent Debate](#example-5-decision-request-with-multi-agent-debate)
+- [Example 6: Data Analysis with Context Engineering](#example-6-data-analysis-with-context-engineering)
+- [Data Quality Assessment](#data-quality-assessment)
+- [Key Statistics](#key-statistics)
+- [Visualizations](#visualizations)
+- [Insights](#insights)
+- [Next Steps](#next-steps)
+- [Example 7: Chaining with Target Agent](#example-7-chaining-with-target-agent)
+- [Pattern Summary](#pattern-summary)
+- [Quick Transformation Checklist](#quick-transformation-checklist)
+
 ## Example 1: Vague Technical Request
 
 ### Before

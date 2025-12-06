@@ -2,6 +2,14 @@
 
 This guide provides evidence-based color selection principles for graph visualizations, drawing from Munzner (2014), Ware (2021), and Bertini & Di Battista (2008).
 
+## Contents
+
+- [Core Principles](#core-principles)
+- [Palette Selection](#palette-selection)
+- [Case Study: Ricardo's Pastel Pipeline Pattern](#case-study-ricardos-pastel-pipeline-pattern)
+- [Accessibility](#accessibility)
+- [References](#references)
+
 ## Core Principles
 
 ### 1. Use Hue for Category, Luminance for Importance

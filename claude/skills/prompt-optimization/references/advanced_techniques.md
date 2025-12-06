@@ -4,6 +4,17 @@ This document provides detailed guidance on research-backed advanced techniques 
 
 ---
 
+## Contents
+
+- [Selective Chain-of-Thought (Cost-Aware Reasoning)](#selective-chain-of-thought-cost-aware-reasoning)
+- [Persona-as-Cognition](#persona-as-cognition)
+- [Self-Consistency (Ensemble Reasoning)](#self-consistency-ensemble-reasoning)
+- [Multi-Agent Debate](#multi-agent-debate)
+- [Context Engineering (RAG Integration)](#context-engineering-rag-integration)
+- [When NOT to Use Advanced Techniques](#when-not-to-use-advanced-techniques)
+- [Combining Techniques](#combining-techniques)
+- [Summary Decision Matrix](#summary-decision-matrix)
+
 ## Selective Chain-of-Thought (Cost-Aware Reasoning)
 
 ### When to Use

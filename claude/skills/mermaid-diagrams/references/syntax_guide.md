@@ -2,6 +2,16 @@
 
 This reference document contains comprehensive syntax rules, debugging patterns, and common pitfalls for Mermaid diagrams.
 
+## Contents
+
+- [Critical Syntax Patterns](#critical-syntax-patterns)
+- [Common Parse Errors and Fixes](#common-parse-errors-and-fixes)
+- [Pre-Delivery Validation Checklist](#pre-delivery-validation-checklist)
+- [Standard Color Palette](#standard-color-palette)
+- [Advanced Syntax Patterns](#advanced-syntax-patterns)
+- [Testing and Validation](#testing-and-validation)
+- [Performance Optimization](#performance-optimization)
+
 ## Critical Syntax Patterns
 
 Based on extensive experience with Mermaid parsing issues, follow these patterns to ensure diagrams render correctly.

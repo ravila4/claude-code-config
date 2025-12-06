@@ -2,6 +2,21 @@
 
 Graphviz provides multiple layout engines, each optimized for different graph structures. Choosing the right engine dramatically improves diagram clarity and effectiveness.
 
+## Contents
+
+- [Engine Comparison](#engine-comparison)
+- [dot - Hierarchical Layout](#dot---hierarchical-layout)
+- [neato - Spring Model Layout](#neato---spring-model-layout)
+- [fdp - Force-Directed Placement](#fdp---force-directed-placement)
+- [circo - Circular Layout](#circo---circular-layout)
+- [twopi - Radial Layout](#twopi---radial-layout)
+- [Choosing the Right Layout Engine](#choosing-the-right-layout-engine)
+- [Testing Multiple Layouts](#testing-multiple-layouts)
+- [Performance Considerations](#performance-considerations)
+- [Advanced Layout Control](#advanced-layout-control)
+- [Common Issues and Solutions](#common-issues-and-solutions)
+- [Best Practices](#best-practices)
+
 ## Engine Comparison
 
 | Engine | Best For | Algorithm | Typical Use Cases |

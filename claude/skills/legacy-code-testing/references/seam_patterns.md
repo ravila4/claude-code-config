@@ -4,6 +4,17 @@ A **seam** is a place where you can alter behavior for testing without editing t
 
 ---
 
+## Contents
+
+- [What is a Seam?](#what-is-a-seam)
+- [Types of Seams in Python](#types-of-seams-in-python)
+- [Finding Seams](#finding-seams)
+- [Creating Seams](#creating-seams)
+- [Seam Quality Checklist](#seam-quality-checklist)
+- [Common Seam Mistakes](#common-seam-mistakes)
+- [Seam Selection Guide](#seam-selection-guide)
+- [Quick Reference: Creating Object Seams](#quick-reference-creating-object-seams)
+
 ## What is a Seam?
 
 Every seam has two parts:

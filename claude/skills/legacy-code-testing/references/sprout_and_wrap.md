@@ -4,6 +4,17 @@ When you need to add new functionality to legacy code but can't test the existin
 
 ---
 
+## Contents
+
+- [Sprout Method](#sprout-method)
+- [Sprout Class](#sprout-class)
+- [Wrap Method](#wrap-method)
+- [Choosing Between Sprout and Wrap](#choosing-between-sprout-and-wrap)
+- [Advanced Patterns](#advanced-patterns)
+- [Common Mistakes](#common-mistakes)
+- [Integration with Other Techniques](#integration-with-other-techniques)
+- [Quick Reference](#quick-reference)
+
 ## Sprout Method
 
 **When to use:** Adding small new functionality to a legacy method.

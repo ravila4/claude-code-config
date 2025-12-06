@@ -2,6 +2,22 @@
 
 This reference document contains comprehensive DOT syntax rules, shape conventions, naming patterns, and validation guidelines for creating effective Graphviz diagrams.
 
+## Contents
+
+- [Shape Conventions](#shape-conventions)
+- [Naming Conventions](#naming-conventions)
+- [Edge Labels and Styles](#edge-labels-and-styles)
+- [Color Coding](#color-coding)
+- [Clustering with Subgraphs](#clustering-with-subgraphs)
+- [Graph Attributes](#graph-attributes)
+- [Edge Annotations](#edge-annotations)
+- [Common Patterns](#common-patterns)
+- [Pre-Delivery Validation Checklist](#pre-delivery-validation-checklist)
+- [Validation Commands](#validation-commands)
+- [Common Syntax Errors](#common-syntax-errors)
+- [Performance Optimization](#performance-optimization)
+- [Best Practices Summary](#best-practices-summary)
+
 ## Shape Conventions
 
 Use consistent shapes to convey meaning. Following these conventions makes diagrams self-documenting and easier to understand.
