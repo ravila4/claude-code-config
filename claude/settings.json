@@ -7,5 +7,22 @@
   "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754080082264
+  },
+  "permissions": {
+    "allow": [
+      "Skill(skill-creator)",
+      "Skill(beads-issue-tracking)",
+      "Skill(speaking)",
+      "Skill(graphviz-diagrams)",
+      "Skill(mermaid-diagrams)",
+      "Skill(obsidian-vault)",
+      "Skill(prompt-optimization)",
+      "Skill(dev-journaling)",
+      "Skill(test-driven-development)",
+      "Bash(speak:*)",
+      "Bash(git status:*)"
+    ],
+    "deny": [],
+    "ask": []
   }
 }
