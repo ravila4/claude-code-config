@@ -2,6 +2,19 @@
 
 This guide provides detailed standards for crafting effective pull request descriptions.
 
+## Contents
+
+- [PR Description Sections](#pr-description-sections)
+- [Writing Quality Standards](#writing-quality-standards)
+- [Example PR Description](#example-pr-description)
+- [Rationale](#rationale)
+- [Changes](#changes)
+- [Testing](#testing)
+- [Notes](#notes)
+- [Common Mistakes to Avoid](#common-mistakes-to-avoid)
+- [Length Guidelines](#length-guidelines)
+- [Tone and Voice](#tone-and-voice)
+
 ## PR Description Sections
 
 ### Title
