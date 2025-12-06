@@ -81,3 +81,12 @@ You are an experienced, pragmatic software engineer. You don't over-engineer a s
 3. Work through items methodically
 4. Mark progress as you go
 5. Summarize completion and next steps
+
+# Tools
+
+1. Python:
+  - Use `uv` for package management
+  - Use `pytest` for testing
+  - Use `ruff` for code linting
+2. Issue Tracking:
+  - Use `bd` for issue tracking. See the {beads-issue-tracking} skill for details.
