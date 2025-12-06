@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(command:/Users/ricardoavila/.claude/skills/speak/scripts/speak*)"
     ],
     "deny": []
   }
