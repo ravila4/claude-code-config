@@ -1,13 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "statusLine": {
-    "type": "command",
-    "command": "/Users/ricardoavila/.claude/statusline.sh"
-  },
-  "alwaysThinkingEnabled": false,
-  "feedbackSurveyState": {
-    "lastShownTime": 1754080082264
-  },
   "permissions": {
     "allow": [
       "Skill(skill-creator)",
@@ -24,5 +16,16 @@
     ],
     "deny": [],
     "ask": []
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/ricardoavila/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754080082264
   }
 }
