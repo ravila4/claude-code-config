@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "plugins": {
+    "query@contextify": [
+      {
+        "scope": "user",
+        "installPath": "/Users/ricardoavila/.claude/plugins/cache/contextify/query/1.0.7",
+        "version": "1.0.7",
+        "installedAt": "2026-01-09T02:15:10Z",
+        "lastUpdated": "2026-01-09T02:15:10Z"
+      }
+    ],
+    "pyright-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/ricardoavila/.claude/plugins/cache/claude-plugins-official/pyright-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-01-09T02:27:46.138Z",
+        "lastUpdated": "2026-01-09T02:27:46.138Z",
+        "gitCommitSha": "f1be96f0fb58d5aaf2840ca7d7036d5c0923742c"
+      }
+    ]
+  }
+}
