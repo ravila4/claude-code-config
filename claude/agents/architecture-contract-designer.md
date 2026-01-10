@@ -146,7 +146,7 @@ sequenceDiagram
 
 ## Protocol Contract (if applicable)
 
-**Saved to**: `.claude/protocols/[feature-name].dot`
+**Saved to**: `docs/diagrams/[feature-name].dot`
 
 This Graphviz diagram serves as a BINDING CONTRACT for implementing agents. It defines:
 - Decision trees that must be followed
@@ -202,20 +202,20 @@ This Graphviz diagram serves as a BINDING CONTRACT for implementing agents. It d
 **When user approves**:
 
 1. **Mark proposal as APPROVED** in document header
-2. **Save protocol diagrams** to `.claude/protocols/[feature-name].dot`
+2. **Save protocol diagrams** to `docs/diagrams/[feature-name].dot`
 3. **Create implementation reference** for other agents:
 
 ```markdown
 # Implementation Contract: [Feature Name]
 
 **Approved**: YYYY-MM-DD
-**Protocol**: `.claude/protocols/[feature-name].dot`
+**Protocol**: `docs/diagrams/[feature-name].dot`
 
 ## Binding Requirements
 
 BEFORE writing code for this feature, implementing agents MUST:
 
-1. Review the protocol diagram: `.claude/protocols/[feature-name].dot`
+1. Review the protocol diagram: `docs/diagrams/[feature-name].dot`
 2. Follow every decision path shown in the diagram
 3. Handle all diamond (decision) nodes explicitly
 4. Implement all error paths (400, 503, timeout, retry logic)
@@ -235,7 +235,7 @@ BEFORE writing code for this feature, implementing agents MUST:
 4. **Notify user** that architecture is approved and ready for implementation
 5. **Provide implementation guidance** to coding agents
 
-## Protocol Contract Pattern (Jesse Vincent's Approach)
+## Protocol Contract Pattern
 
 When creating architecture proposals, you often need to define **executable protocol contracts** that implementing agents must follow. These are decision-tree diagrams created by graphviz-architect that serve as binding implementation rules.
 
@@ -271,7 +271,7 @@ digraph ProtocolName {
 }
 ```
 
-**Protocol enforcement**: Once approved, this diagram is saved to `.claude/protocols/` and implementing agents reference it before writing code. The diagram becomes the source of truth for implementation logic.
+**Protocol enforcement**: Once approved, this diagram is saved to `docs/diagrams/` and implementing agents reference it before writing code. The diagram becomes the source of truth for implementation logic.
 
 ## Integration with Implementing Agents
 
@@ -285,7 +285,7 @@ digraph ProtocolName {
 ```markdown
 When implementing [feature], follow this architecture:
 
-1. REVIEW protocol contract: `.claude/protocols/[feature].dot`
+1. REVIEW protocol contract: `docs/diagrams/[feature].dot`
 2. IMPLEMENT Phase 1 (tracer bullet) first
 3. VALIDATE with tests before proceeding to Phase 2
 4. FOLLOW the decision tree exactly as shown in protocol
@@ -341,6 +341,44 @@ Before delivering an architecture proposal:
 - [ ] Risks, assumptions, and open questions documented
 - [ ] Protocol contract created if complex decision logic exists
 - [ ] Operational considerations addressed (monitoring, alerting, rollback)
+
+## Diagram Tracking with bd
+
+Every protocol contract diagram MUST have a corresponding `bd` issue for tracking.
+
+### Workflow
+
+1. **Create diagram** → Save to `docs/diagrams/[name].dot`
+2. **Create bd issue** → Track approval status and context
+3. **Link in issue** → Reference path or embed small diagrams inline
+
+### bd Issue Template
+
+```bash
+bd create \
+  --title="Protocol: [Feature] Architecture" \
+  --type=task \
+  --description="## Protocol Contract
+
+**Diagram**: \`docs/diagrams/[feature]-protocol.dot\`
+
+## Approval Status
+- [ ] Initial design
+- [ ] Stakeholder review
+- [ ] APPROVED
+
+## Context
+[Why this diagram was created, what decisions it captures]
+"
+```
+
+### Small Diagrams (Inline)
+
+For simple diagrams (<30 lines), embed directly in the bd issue description using a dot code block.
+
+### Large Diagrams (Referenced)
+
+For complex diagrams, store in `docs/diagrams/` and reference by path in the bd issue.
 
 ## Proactive Architecture Guidance
 

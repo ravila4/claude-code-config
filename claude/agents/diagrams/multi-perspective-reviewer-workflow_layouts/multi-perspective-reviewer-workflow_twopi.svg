@@ -96,24 +96,22 @@
 <!-- GeminiConsult -->
 <g id="node6" class="node">
 <title>GeminiConsult</title>
-<path fill="#ffd700" stroke="black" d="M239.3,-98.54C239.3,-98.54 155.05,-98.54 155.05,-98.54 149.05,-98.54 143.05,-92.54 143.05,-86.54 143.05,-86.54 143.05,-62.04 143.05,-62.04 143.05,-56.04 149.05,-50.04 155.05,-50.04 155.05,-50.04 239.3,-50.04 239.3,-50.04 245.3,-50.04 251.3,-56.04 251.3,-62.04 251.3,-62.04 251.3,-86.54 251.3,-86.54 251.3,-92.54 245.3,-98.54 239.3,-98.54"/>
-<text xml:space="preserve" text-anchor="middle" x="197.17" y="-84.09" font-family="Arial" font-size="11.00">gemini&#45;consultant</text>
-<text xml:space="preserve" text-anchor="middle" x="197.17" y="-70.59" font-family="Arial" font-size="11.00">Google perspective</text>
-<text xml:space="preserve" text-anchor="middle" x="197.17" y="-57.09" font-family="Arial" font-size="11.00">(24h cache)</text>
+<path fill="#ffd700" stroke="black" d="M239.3,-92.29C239.3,-92.29 155.05,-92.29 155.05,-92.29 149.05,-92.29 143.05,-86.29 143.05,-80.29 143.05,-80.29 143.05,-68.29 143.05,-68.29 143.05,-62.29 149.05,-56.29 155.05,-56.29 155.05,-56.29 239.3,-56.29 239.3,-56.29 245.3,-56.29 251.3,-62.29 251.3,-68.29 251.3,-68.29 251.3,-80.29 251.3,-80.29 251.3,-86.29 245.3,-92.29 239.3,-92.29"/>
+<text xml:space="preserve" text-anchor="middle" x="197.17" y="-77.34" font-family="Arial" font-size="11.00">gemini&#45;consultant</text>
+<text xml:space="preserve" text-anchor="middle" x="197.17" y="-63.84" font-family="Arial" font-size="11.00">Google perspective</text>
 </g>
 <!-- LaunchExternal&#45;&gt;GeminiConsult -->
 <g id="edge5" class="edge">
 <title>LaunchExternal&#45;&gt;GeminiConsult</title>
-<path fill="none" stroke="black" stroke-width="2" d="M166.98,-36.43C168.14,-37.89 169.33,-39.38 170.54,-40.9"/>
-<polygon fill="black" stroke="black" stroke-width="2" points="166.68,-41.68 175.66,-47.31 172.16,-37.31 166.68,-41.68"/>
+<path fill="none" stroke="black" stroke-width="2" d="M166.98,-36.43C169.72,-39.87 172.64,-43.53 175.53,-47.16"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="171.73,-48.01 180.71,-53.64 177.21,-43.64 171.73,-48.01"/>
 </g>
 <!-- GPT5Consult -->
 <g id="node7" class="node">
 <title>GPT5Consult</title>
-<path fill="#ffd700" stroke="black" d="M362.25,-70.74C362.25,-70.74 275.75,-70.74 275.75,-70.74 269.75,-70.74 263.75,-64.74 263.75,-58.74 263.75,-58.74 263.75,-34.24 263.75,-34.24 263.75,-28.24 269.75,-22.24 275.75,-22.24 275.75,-22.24 362.25,-22.24 362.25,-22.24 368.25,-22.24 374.25,-28.24 374.25,-34.24 374.25,-34.24 374.25,-58.74 374.25,-58.74 374.25,-64.74 368.25,-70.74 362.25,-70.74"/>
-<text xml:space="preserve" text-anchor="middle" x="319" y="-56.29" font-family="Arial" font-size="11.00">gpt5&#45;consultant</text>
-<text xml:space="preserve" text-anchor="middle" x="319" y="-42.79" font-family="Arial" font-size="11.00">OpenAI perspective</text>
-<text xml:space="preserve" text-anchor="middle" x="319" y="-29.29" font-family="Arial" font-size="11.00">(24h cache)</text>
+<path fill="#ffd700" stroke="black" d="M362.25,-64.49C362.25,-64.49 275.75,-64.49 275.75,-64.49 269.75,-64.49 263.75,-58.49 263.75,-52.49 263.75,-52.49 263.75,-40.49 263.75,-40.49 263.75,-34.49 269.75,-28.49 275.75,-28.49 275.75,-28.49 362.25,-28.49 362.25,-28.49 368.25,-28.49 374.25,-34.49 374.25,-40.49 374.25,-40.49 374.25,-52.49 374.25,-52.49 374.25,-58.49 368.25,-64.49 362.25,-64.49"/>
+<text xml:space="preserve" text-anchor="middle" x="319" y="-49.54" font-family="Arial" font-size="11.00">gpt5&#45;consultant</text>
+<text xml:space="preserve" text-anchor="middle" x="319" y="-36.04" font-family="Arial" font-size="11.00">OpenAI perspective</text>
 </g>
 <!-- LaunchExternal&#45;&gt;GPT5Consult -->
 <g id="edge6" class="edge">
@@ -124,28 +122,27 @@
 <!-- CodexConsult -->
 <g id="node8" class="node">
 <title>CodexConsult</title>
-<path fill="#ffd700" stroke="black" d="M455.82,-148.65C455.82,-148.65 377.57,-148.65 377.57,-148.65 371.57,-148.65 365.57,-142.65 365.57,-136.65 365.57,-136.65 365.57,-112.15 365.57,-112.15 365.57,-106.15 371.57,-100.15 377.57,-100.15 377.57,-100.15 455.82,-100.15 455.82,-100.15 461.82,-100.15 467.82,-106.15 467.82,-112.15 467.82,-112.15 467.82,-136.65 467.82,-136.65 467.82,-142.65 461.82,-148.65 455.82,-148.65"/>
-<text xml:space="preserve" text-anchor="middle" x="416.69" y="-134.2" font-family="Arial" font-size="11.00">codex&#45;consultant</text>
-<text xml:space="preserve" text-anchor="middle" x="416.69" y="-120.7" font-family="Arial" font-size="11.00">Code suggestions</text>
-<text xml:space="preserve" text-anchor="middle" x="416.69" y="-107.2" font-family="Arial" font-size="11.00">(24h cache)</text>
+<path fill="#ffd700" stroke="black" d="M455.82,-142.4C455.82,-142.4 377.57,-142.4 377.57,-142.4 371.57,-142.4 365.57,-136.4 365.57,-130.4 365.57,-130.4 365.57,-118.4 365.57,-118.4 365.57,-112.4 371.57,-106.4 377.57,-106.4 377.57,-106.4 455.82,-106.4 455.82,-106.4 461.82,-106.4 467.82,-112.4 467.82,-118.4 467.82,-118.4 467.82,-130.4 467.82,-130.4 467.82,-136.4 461.82,-142.4 455.82,-142.4"/>
+<text xml:space="preserve" text-anchor="middle" x="416.69" y="-127.45" font-family="Arial" font-size="11.00">codex&#45;consultant</text>
+<text xml:space="preserve" text-anchor="middle" x="416.69" y="-113.95" font-family="Arial" font-size="11.00">Code suggestions</text>
 </g>
 <!-- LaunchExternal&#45;&gt;CodexConsult -->
 <g id="edge7" class="edge">
 <title>LaunchExternal&#45;&gt;CodexConsult</title>
-<path fill="none" stroke="black" stroke-width="2" d="M198.04,-36.41C241.32,-53.83 306.63,-80.11 354.6,-99.41"/>
-<polygon fill="black" stroke="black" stroke-width="2" points="351.78,-102.05 362.36,-102.53 354.39,-95.55 351.78,-102.05"/>
+<path fill="none" stroke="black" stroke-width="2" d="M198.04,-36.41C243.11,-54.55 312.05,-82.29 360.45,-101.76"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="357.66,-104.42 368.25,-104.9 360.28,-97.92 357.66,-104.42"/>
 </g>
 <!-- GeminiConsult&#45;&gt;CollectResults -->
 <g id="edge10" class="edge">
 <title>GeminiConsult&#45;&gt;CollectResults</title>
-<path fill="none" stroke="black" d="M204.65,-98.7C207.31,-107.38 210.33,-117.26 213.1,-126.31"/>
-<polygon fill="black" stroke="black" points="209.72,-127.21 215.99,-135.75 216.41,-125.16 209.72,-127.21"/>
+<path fill="none" stroke="black" d="M202.82,-92.75C205.88,-102.73 209.73,-115.3 213.18,-126.56"/>
+<polygon fill="black" stroke="black" points="209.74,-127.27 216.01,-135.8 216.43,-125.22 209.74,-127.27"/>
 </g>
 <!-- GPT5Consult&#45;&gt;CollectResults -->
 <g id="edge11" class="edge">
 <title>GPT5Consult&#45;&gt;CollectResults</title>
-<path fill="none" stroke="black" d="M297.25,-70.98C281.9,-88.27 261.36,-111.4 245.62,-129.12"/>
-<polygon fill="black" stroke="black" points="243.36,-126.4 239.34,-136.2 248.59,-131.05 243.36,-126.4"/>
+<path fill="none" stroke="black" d="M302.99,-64.51C287.45,-82.02 263.65,-108.82 245.88,-128.84"/>
+<polygon fill="black" stroke="black" points="243.46,-126.29 239.44,-136.09 248.7,-130.93 243.46,-126.29"/>
 </g>
 <!-- CodexConsult&#45;&gt;CollectResults -->
 <g id="edge12" class="edge">

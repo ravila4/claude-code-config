@@ -41,11 +41,11 @@ digraph MultiPerspectiveReviewer {
 
         LaunchExternal [label="Consult external LLMs\n(with file references)", shape=box, fillcolor=lightblue];
 
-        GeminiConsult [label="gemini-consultant\nGoogle perspective\n(24h cache)", shape=box, fillcolor="#FFD700"];
+        GeminiConsult [label="gemini-consultant\nGoogle perspective", shape=box, fillcolor="#FFD700"];
 
-        GPT5Consult [label="gpt5-consultant\nOpenAI perspective\n(24h cache)", shape=box, fillcolor="#FFD700"];
+        GPT5Consult [label="gpt5-consultant\nOpenAI perspective", shape=box, fillcolor="#FFD700"];
 
-        CodexConsult [label="codex-consultant\nCode suggestions\n(24h cache)", shape=box, fillcolor="#FFD700"];
+        CodexConsult [label="codex-consultant\nCode suggestions", shape=box, fillcolor="#FFD700"];
     }
 
     // Collect results

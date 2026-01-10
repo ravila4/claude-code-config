@@ -67,7 +67,7 @@ After creating diagrams:
 
 For binding protocol contracts:
 - Add approval date to diagram label: "Protocol Name - APPROVED YYYY-MM-DD"
-- Save to `.claude/protocols/[name].dot` for reference
+- Save to `docs/diagrams/[name].dot` for reference
 - Document that implementing agents must follow this contract
 
 ## Agent Integration Framework
@@ -124,7 +124,7 @@ Every diagram must:
 - Warnings visually distinct (octagon/red)
 - Entry/exit points clearly marked
 - Approved diagrams include approval date
-- Stored in `.claude/protocols/` for reference
+- Stored in `docs/diagrams/` for reference
 
 ## Protocol Contract Pattern
 
@@ -141,12 +141,12 @@ When creating binding protocol contracts:
 1. **Design phase**: software-architect requests protocol diagram
 2. **Creation phase**: You create using graphviz-diagrams skill
 3. **Review phase**: Stakeholders review and request changes
-4. **Approval phase**: Add approval date, save to `.claude/protocols/`
+4. **Approval phase**: Add approval date, save to `docs/diagrams/`
 5. **Implementation phase**: Implementing agents reference before coding
 
 **Implementation contract message:**
 ```
-BEFORE writing code, review: .claude/protocols/protocol-name.dot
+BEFORE writing code, review: docs/diagrams/protocol-name.dot
 
 This diagram is the APPROVED architecture contract. Your implementation MUST:
 ✓ Follow every decision path shown
@@ -157,6 +157,44 @@ This diagram is the APPROVED architecture contract. Your implementation MUST:
 
 Any deviation requires architecture review and approval.
 ```
+
+## Diagram Tracking with bd
+
+Every protocol contract diagram MUST have a corresponding `bd` issue for tracking.
+
+### Workflow
+
+1. **Create diagram** → Save to `docs/diagrams/[name].dot`
+2. **Create bd issue** → Track approval status and context
+3. **Link in issue** → Reference path or embed small diagrams inline
+
+### bd Issue Template
+
+```bash
+bd create \
+  --title="Protocol: [Feature] Architecture" \
+  --type=task \
+  --description="## Protocol Contract
+
+**Diagram**: \`docs/diagrams/[feature]-protocol.dot\`
+
+## Approval Status
+- [ ] Initial design
+- [ ] Stakeholder review
+- [ ] APPROVED
+
+## Context
+[Why this diagram was created, what decisions it captures]
+"
+```
+
+### Small Diagrams (Inline)
+
+For simple diagrams (<30 lines), embed directly in the bd issue description using a dot code block.
+
+### Large Diagrams (Referenced)
+
+For complex diagrams, store in `docs/diagrams/` and reference by path in the bd issue.
 
 ## Communication Style
 

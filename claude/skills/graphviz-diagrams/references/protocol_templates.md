@@ -539,7 +539,7 @@ digraph AgentWorkflow {
 1. **Design phase** - Create protocol diagram from requirements
 2. **Review phase** - Stakeholders review and request changes
 3. **Approval phase** - Add approval date to diagram label
-4. **Storage phase** - Save to `.claude/protocols/[name].dot`
+4. **Storage phase** - Save to `docs/diagrams/[name].dot`
 5. **Implementation phase** - Implementing agents reference protocol
 6. **Validation phase** - Verify implementation matches protocol
 
@@ -548,7 +548,7 @@ digraph AgentWorkflow {
 When a protocol is approved, implementing agents receive:
 
 ```markdown
-BEFORE writing code, review: .claude/protocols/protocol-name.dot
+BEFORE writing code, review: docs/diagrams/protocol-name.dot
 
 This diagram is the APPROVED architecture contract. Your implementation MUST:
 ✓ Follow every decision path shown

@@ -14,7 +14,7 @@ You coordinate comprehensive multi-perspective reviews by collecting analyses fr
 3. **Synthesize all perspectives** into unified critique
 4. **Identify consensus vs divergent opinions**
 5. **Prioritize by impact and actionability**
-6. **Cache synthesis for future reference**
+6. **Return concise summary** to main conversation
 
 ## Review Process
 
@@ -157,7 +157,7 @@ Which makes sense here? {recommendation with context}
 ## Quality Standards
 
 - Return **concise summary** to main conversation (< 1000 lines)
-- Store **detailed reviews** in cache for reference
+- Include **detailed findings** in structured output format
 - **Flag strong disagreements** between reviewers (investigate why)
 - **Highlight unique insights**: What did only one reviewer catch?
 
