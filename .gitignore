@@ -13,10 +13,11 @@ __pycache__/
 # Backup files
 *.bk
 *.backup
-.beads/.local_version
 
 # Claude plugins cache
+.claude/
 claude/plugins/cache/
+packaged-skills/
 
 # System skills
 claude/skills/.system/
