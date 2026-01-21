@@ -1,9 +1,6 @@
 # claude-code-agents
 
-**Agent definitions, skills, and conventions for a multi-agent Claude Code workflow.**
-
-This repo contains agent specs (markdown), reusable skills, and operational conventions that extend Claude Code's capabilities. Agents are specialized sub-agents that can be spawned via the Task tool, while skills provide reusable workflows and resources that can be invoked directly.
-
+**Agent definitions, skills, and conventions for my Claude Code workflow.**
 
 ## Quick start
 
