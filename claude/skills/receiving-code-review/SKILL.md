@@ -1,6 +1,6 @@
 ---
 name: receiving-code-review
-description: Guidance for handling code review feedback with technical rigor before implementation, especially when suggestions lack clarity or seem technically questionable
+description: Guidance for handling code review feedback with technical rigor before implementation, especially when suggestions lack clarity or seem technically questionable. Use when receiving feedback from the user or other agents like architecture-devils-advocate, python-code-reviewer, or external consultants.
 ---
 
 # Receiving Code Review
@@ -210,14 +210,3 @@ rg "api/users" --type js --type ts
 - "Best practices" that don't apply to your specific stack
 - Premature optimization without performance data
 - Complexity added without concrete benefit
-
-## Integration with Other Skills
-
-**Works with:**
-- test-driven-development (write tests before implementing feedback)
-- git-worktrees (review changes in isolated workspace)
-
-**Complements:**
-- Code review workflows
-- Incremental refactoring
-- Technical decision-making
