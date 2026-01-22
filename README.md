@@ -21,11 +21,9 @@
 │   │   ├── graphviz-diagrams/     # architecture diagram skill
 │   │   ├── obsidian-vault/        # knowledge management skill
 │   │   └── ...
-│   ├── commands/                  # slash commands
 │   ├── hooks/                     # Claude Code hooks
 │   └── settings.json              # Claude global settings
-├── docs/                          # additional documentation
-└── CLAUDE.md                      # core principles and usage guide
+└── docs/                          # additional documentation
 ```
 
 ## License
