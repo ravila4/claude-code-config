@@ -86,9 +86,7 @@ Skills use a three-level loading system to manage context efficiently:
 
 ## Skill Creation Process
 
-Before creating a skill, consult the official best practices documentation for comprehensive guidance on skill design and implementation:
-
-**Reference:** [Agent Skills Best Practices](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices)
+IMPORTANT: Before creating a skill, consult the official best practices documentation for comprehensive guidance on skill design and implementation: [Agent Skills Best Practices](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices)
 
 Use WebFetch to load this document and apply its recommendations throughout the skill creation process. Key principles include:
 
