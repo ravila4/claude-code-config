@@ -19,7 +19,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "/Users/ricardoavila/.claude/statusline.sh"
+    "command": "${HOME}/.claude/statusline.sh"
   },
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true
