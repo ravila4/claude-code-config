@@ -14,13 +14,10 @@ __pycache__/
 *.bk
 *.backup
 
-# Claude plugins cache
+# Claude plugins (auto-generated, machine-specific)
 .claude/
-claude/plugins/cache/
+claude/plugins/
 packaged-skills/
 
 # System skills
 claude/skills/.system/
-
-# Claude plugins marketplace (symlinked to ~/.claude, auto-updates)
-claude/plugins/marketplaces/claude-plugins-official/
