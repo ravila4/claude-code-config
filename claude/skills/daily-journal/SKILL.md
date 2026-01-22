@@ -7,6 +7,33 @@ userInvocable: true
 
 # Daily Journal
 
+## Table of Contents
+
+- [User Invocation](#user-invocation)
+- [Subcommands](#subcommands)
+  - [draft](#daily-journal-draft)
+  - [organize](#daily-journal-organize)
+  - [append](#daily-journal-append-section)
+  - [review](#daily-journal-review)
+- [Integration](#integration)
+- [Overview](#overview)
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Quick Start](#quick-start)
+- [Batch Mode Workflow](#batch-mode-workflow-traditional)
+- [Scripts](#scripts)
+  - [generate_daily_log.py](#generate_daily_logpy)
+  - [extract_user_journey.py](#extract_user_journeypy)
+  - [extract_thinking.py](#extract_thinkingpy)
+  - [conversation_flow.py](#conversation_flowpy)
+  - [draft_journal_entry.py](#draft_journal_entrypy)
+- [Journal Modes](#journal-modes)
+- [Log Locations](#log-locations)
+- [Output Format](#output-format)
+- [Section Population](#section-population)
+- [References](#references)
+- [Example Workflows](#example-workflows)
+- [Tips](#tips)
+
 ## User Invocation
 
 When invoked via `/daily-journal`, route based on arguments:
