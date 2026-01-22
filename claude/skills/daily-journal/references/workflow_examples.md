@@ -119,14 +119,14 @@ cat manifest.csv
 ## Scenario 3: Incremental Journaling Throughout Day
 
 **Mid-afternoon:**
-User: "/journal append context"
+User: "/daily-journal append context"
 
 Claude: "Based on our conversation, I'll add this context:
 _Working on fixing GCS severity field bug in plink_merger logging..._
 Should I append to today's journal?"
 
 **Before ending:**
-User: "/journal review"
+User: "/daily-journal review"
 
 Claude: "Today's journal is missing Reflection section. Based on our work, here's what you learned:
 - GCS requires top-level `severity` field, not nested in jsonPayload

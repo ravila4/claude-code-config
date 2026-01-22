@@ -9,7 +9,7 @@ userInvocable: true
 
 ## User Invocation
 
-When invoked via `/journal`, route based on arguments:
+When invoked via `/daily-journal`, route based on arguments:
 
 **If no subcommand specified:**
 Use AskUserQuestion to ask what the user needs:
@@ -27,7 +27,7 @@ Ask clarifying questions:
 
 ## Subcommands
 
-### `/journal draft`
+### `/daily-journal draft`
 
 Generate complete journal entry from today's activity.
 
@@ -38,7 +38,7 @@ Generate complete journal entry from today's activity.
 
 **Best for:** End of day journal generation
 
-### `/journal organize`
+### `/daily-journal organize`
 
 Organize raw/unstructured content in today's journal.
 
@@ -52,7 +52,7 @@ Organize raw/unstructured content in today's journal.
 
 **Best for:** When raw commands/notes need structure
 
-### `/journal append [section]`
+### `/daily-journal append [section]`
 
 Add content to a specific section of today's journal.
 
@@ -66,7 +66,7 @@ Add content to a specific section of today's journal.
 
 **Best for:** Incremental journaling throughout the day
 
-### `/journal review`
+### `/daily-journal review`
 
 Show current state of today's journal with improvement suggestions.
 
@@ -322,7 +322,7 @@ See `references/workflow_examples.md` for detailed scenarios:
 
 **For better journals:**
 
-- Use `/journal draft` at end of day for quick generation
+- Use `/daily-journal draft` at end of day for quick generation
 - Use `--mode full` for deep work days needing reflection
 - Use `--mode auto` (default) for adaptive structure
 - Let Claude organize raw content - don't force manual structure
@@ -330,11 +330,11 @@ See `references/workflow_examples.md` for detailed scenarios:
 **For different work styles:**
 
 - **Batch mode**: End of day, run draft script, review, write
-- **Incremental mode**: Use `/journal append` throughout day
-- **Hybrid mode**: Dump raw content, organize at end with `/journal organize`
+- **Incremental mode**: Use `/daily-journal append` throughout day
+- **Hybrid mode**: Dump raw content, organize at end with `/daily-journal organize`
 
 **For retrospective analysis:**
 
-- Use retrospecting skill to find past journal entries by topic
+- Use total-recall to search past Claude conversation logs by topic
 - Generate multiple days: `for d in 11 12 13; do draft_journal_entry.py --date 2025-11-$d; done`
 - Compare structured vs raw days to refine your workflow

@@ -33,8 +33,8 @@ Generate complete journal draft for review:
 
 Build journal entry progressively during work (requires slash command):
 
-1. Use `/journal append` to add sections during work
-2. Use `/journal organize` when content is raw
+1. Use `/daily-journal append` to add sections during work
+2. Use `/daily-journal organize` when content is raw
 3. Review and finalize at end of day
 
 **Best for:** Active work days where you want real-time journaling
