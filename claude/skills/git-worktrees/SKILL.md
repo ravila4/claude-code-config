@@ -29,9 +29,12 @@ Follow this hierarchy to determine worktree storage location:
 1. **Check for `.worktrees/`** (preferred hidden location)
 2. **Check for `worktrees/`** (alternative visible location)
 3. **Consult CLAUDE.md** for user preferences
-4. **Ask user** to choose between:
-   - Project-local: `<project-root>/.worktrees/` or `<project-root>/worktrees/`
-   - Global: `~/.config/superpowers/worktrees/<project-name>/`
+4. **Ask user** with this prompt:
+   > No worktree directory found. Where should I create worktrees?
+   > 1. `.worktrees/` (project-local, hidden)
+   > 2. `~/.config/agents/worktrees/<project-name>/` (global location)
+   >
+   > Which would you prefer?
 
 **Never assume** directory location without checking existing setup and CLAUDE.md first.
 
@@ -45,7 +48,7 @@ Follow this hierarchy to determine worktree storage location:
    - Commit immediately: `git add .gitignore && git commit -m "Add worktrees directory to .gitignore"`
 3. Only proceed after verification
 
-**For global directories** (`~/.config/superpowers/worktrees`):
+**For global directories** (`~/.config/agents/worktrees`):
 - Skip .gitignore check (directory is outside project)
 
 **Never skip** .gitignore verification for project-local worktrees to prevent accidental repository pollution.
@@ -118,7 +121,7 @@ my-project/
 
 **Global:**
 ```
-~/.config/superpowers/worktrees/
+~/.config/agents/worktrees/
 ├── my-project/
 │   ├── feature-auth/
 │   └── bugfix-login/
@@ -158,10 +161,3 @@ After creating worktree:
 **Works with:**
 - TDD workflow (separate worktree for test development)
 - Code review (review PR in isolated worktree)
-- CI/CD (test builds without disrupting development)
-- Pair programming (each developer uses separate worktree)
-
-**Complements:**
-- Feature branch workflows
-- Git stash (worktrees eliminate need for stashing)
-- Pull request reviews
