@@ -21,3 +21,6 @@ packaged-skills/
 
 # System skills
 claude/skills/.system/
+
+# Claude plugins marketplace (symlinked to ~/.claude, auto-updates)
+claude/plugins/marketplaces/claude-plugins-official/
