@@ -139,8 +139,6 @@ Synthesize all sources into a comprehensive document:
 ## Visualizations
 ![Description](path/to/frame.jpg)
 
----
-*Generated from screen recording YYYY-MM-DD*
 ```
 
 **Include:**
@@ -152,7 +150,7 @@ Synthesize all sources into a comprehensive document:
 
 ## Step 6: Obsidian Integration (Optional)
 
-To save to Obsidian vault at `/Users/ricardoavila/Documents/Obsidian-Notes`:
+To save to Obsidian vault at ${HOME}/Documents/Obsidian-Notes:
 
 **YAML Frontmatter:**
 ```yaml

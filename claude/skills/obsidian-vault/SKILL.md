@@ -1,6 +1,6 @@
 ---
 name: obsidian-vault
-description: Manage Obsidian vault operations for Ricardo's vault at /Users/ricardoavila/Documents/Obsidian-Notes. Handles markdown formatting, YAML frontmatter, folder organization, internal linking, and vault-specific conventions. Use when creating, updating, or organizing Obsidian notes.
+description: Manage Obsidian vault operations for Ricardo's vault at ${HOME}/Documents/Obsidian-Notes. Handles markdown formatting, YAML frontmatter, folder organization, internal linking, and vault-specific conventions. Use when creating, updating, or organizing Obsidian notes.
 ---
 
 # Obsidian Vault

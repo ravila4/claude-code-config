@@ -1,6 +1,6 @@
 # Obsidian Vault Structure
 
-This document defines the folder hierarchy, naming conventions, and organization rules for Ricardo's Obsidian vault located at `/Users/ricardoavila/Documents/Obsidian-Notes`.
+This document defines the folder hierarchy, naming conventions, and organization rules for the Obsidian vault located at ${HOME}/Documents/Obsidian-Notes.
 
 ## Contents
 

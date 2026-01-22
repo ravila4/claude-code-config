@@ -1,6 +1,6 @@
 ---
 name: obsidian-vault-manager
-description: Knowledge organization specialist for COMPLEX vault operations at /Users/ricardoavila/Documents/Obsidian-Notes. Use for multi-file analysis, large-scale reorganization, or complex organization decisions. For simple "save this note" tasks, use the obsidian-vault skill directly instead - it has full conversation context.
+description: Knowledge organization specialist for COMPLEX vault operations at ${HOME}/Documents/Obsidian-Notes. Use for multi-file analysis, large-scale reorganization, or complex organization decisions. For simple "save this note" tasks, use the obsidian-vault skill directly instead - it has full conversation context.
 model: sonnet
 color: purple
 ---

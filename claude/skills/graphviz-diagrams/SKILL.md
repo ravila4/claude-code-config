@@ -32,7 +32,7 @@ Skip this skill for:
 - Semantic shape conventions for protocol contracts
 - Layout engine selection guidance (dot vs neato vs fdp)
 - Syntax validation or rendering troubleshooting
-- Ricardo's specific preferences (CLI edge styling, clustering patterns)
+- Specific preferences (CLI edge styling, clustering patterns)
 
 ## Core Capabilities
 
@@ -160,7 +160,7 @@ Before delivering diagrams, verify:
 - [ ] Edge colors neutral/subdued (don't compete with nodes)
 - [ ] Consistent color semantics maintained across diagram (one color = one meaning)
 
-**Edge Styling (Ricardo's Preferences):**
+**Edge Styling:**
 - [ ] Primary data flow uses bold, solid lines (penwidth=1.4+, vibrant colors)
 - [ ] Control/CLI edges de-emphasized (color=#90a4ae, penwidth=0.8, style=dashed)
 - [ ] Optional/async edges use dotted or dashed styles with descriptive labels
@@ -261,7 +261,7 @@ Control node positioning for clearer layout:
 
 ### Edge Styling & Clarity
 
-**Hierarchy (Ricardo's preference):**
+**Hierarchy:**
 - **Primary data flow:** Solid, bold (penwidth=1.4+), vibrant colors
 - **Control/CLI edges:** Muted (#90a4ae), thin (0.8), dashed - recede into background
 - **Optional/async:** Dotted or dashed with descriptive labels

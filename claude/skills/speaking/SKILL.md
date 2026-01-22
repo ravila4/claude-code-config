@@ -1,11 +1,11 @@
 ---
 name: speaking
-description: Provides audio communication using text-to-speech to get Ricardo's attention when he's working in other windows. Use for task completions, important findings, blockers, or any message that benefits from audio delivery. Supports both short alerts and longer explanations via multi-threaded queue mode.
+description: Provides audio communication using text-to-speech to get user's attention when they're working in other windows. Use for task completions, important findings, blockers, or any message that benefits from audio delivery. Supports both short alerts and longer explanations via multi-threaded queue mode.
 ---
 
 # Speaking
 
-Audio communication channel using text-to-speech. Gets Ricardo's attention across window contexts with natural-sounding speech.
+Audio communication channel using text-to-speech. Gets user's attention when they're working in other windows with natural-sounding speech.
 
 ## When to Use
 
@@ -14,7 +14,7 @@ Audio communication channel using text-to-speech. Gets Ricardo's attention acros
 - Important findings during research
 - Blockers requiring input
 - Long-running task results
-- Any message when Ricardo may be context-switched to other windows
+- Any message when user may be context-switched to other windows
 
 **Do NOT use for:**
 - Trivial updates where text is sufficient

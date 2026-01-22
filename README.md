@@ -5,7 +5,7 @@
 ## Quick start
 
 1. **Install / link configs**
-   - This repo is designed to be symlinked into `~/.claude/` (dotfiles style).
+   - This repo is designed to be symlinked into `{$HOME}/.claude/` (dotfiles style).
    - Use the `scripts/install.sh` script to create the symlinks.
 
 

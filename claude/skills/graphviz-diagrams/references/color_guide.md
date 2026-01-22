@@ -6,7 +6,7 @@ This guide provides evidence-based color selection principles for graph visualiz
 
 - [Core Principles](#core-principles)
 - [Palette Selection](#palette-selection)
-- [Case Study: Ricardo's Pastel Pipeline Pattern](#case-study-ricardos-pastel-pipeline-pattern)
+- [Case Study: Pastel Pipeline Pattern](#case-study-pastel-pipeline-pattern)
 - [Accessibility](#accessibility)
 - [References](#references)
 
@@ -53,7 +53,7 @@ Edges should **never compete with nodes** for attention. Exceptions: emphasizing
 - Control/configuration edges: `#90a4ae` (muted blue-gray), dashed, thin
 - Data flow edges: solid, but still neutral or single accent color
 
-**Ricardo's CLI edge pattern:**
+**CLI edge pattern:**
 ```dot
 // Control edges recede
 CLI -> Component [color="#90a4ae", penwidth=0.8, style=dashed];
@@ -152,9 +152,9 @@ Neutral [fillcolor=3];
 AboveTarget [fillcolor=5];
 ```
 
-## Case Study: Ricardo's Pastel Pipeline Pattern
+## Case Study: Pastel Pipeline Pattern
 
-Ricardo's PLINK merger diagrams use a consistent pastel palette for pipeline stages:
+These diagrams use a consistent pastel palette for pipeline stages:
 
 **Cluster backgrounds:**
 - **Data Sources:** `#ede7f6` (light purple)

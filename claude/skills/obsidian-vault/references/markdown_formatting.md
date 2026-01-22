@@ -1,6 +1,6 @@
 # Obsidian Markdown Formatting Guide
 
-This document defines the markdown formatting standards, YAML frontmatter structure, and content patterns for notes in Ricardo's Obsidian vault.
+This document defines the markdown formatting standards, YAML frontmatter structure, and content patterns for notes in the Obsidian vault.
 
 ## Contents
 
