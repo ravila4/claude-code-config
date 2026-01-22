@@ -1,6 +1,6 @@
 ---
 name: testing-anti-patterns
-description: Guidance for writing and modifying tests, implementing mocks, or adding methods to production code. Prevents testing mock behavior, polluting production code with test-only methods, and mocking without understanding dependencies.
+description: Use when writing tests, implementing mocks, reviewing test code, or debugging flaky/failing tests. Prevents testing mock behavior, polluting production code with test-only methods, and mocking without understanding dependencies.
 ---
 
 # Testing Anti-Patterns
@@ -334,11 +334,9 @@ Watch for these warning signs:
 
 ## Integration with Other Skills
 
-**Works with:**
-- test-driven-development (prevents anti-patterns through workflow)
-- receiving-code-review (evaluate test quality in reviews)
+**Testing skill ecosystem:**
+- **test-driven-development** - Prevents anti-patterns through test-first workflow
+- **legacy-code-testing** - Apply these principles when retrofitting tests (avoid over-mocking seams)
 
-**Complements:**
-- Test engineering (comprehensive suite design)
-- Legacy code refactoring (identifying test smells)
-- Code review processes
+**Works with:**
+- Code review processes (verify test quality in reviews)

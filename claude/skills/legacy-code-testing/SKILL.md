@@ -1,6 +1,6 @@
 ---
 name: legacy-code-testing
-description: Apply Michael Feathers' techniques from "Working Effectively with Legacy Code" to retrofit tests onto existing untested Python code. Use when dealing with hard-to-test legacy code that has tight coupling, hidden dependencies, or singletons. Provides seam identification, dependency breaking patterns, and characterization testing strategies.
+description: Use when dealing with hard-to-test legacy code that has tight coupling, hidden dependencies, or singletons. Provides seam identification, dependency breaking patterns, and characterization testing strategies.
 ---
 
 # Legacy Code Testing

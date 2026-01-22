@@ -116,12 +116,6 @@ Before considering work complete:
 
 ## Integration with Other Skills
 
-**Works with:**
-- Language-specific testing frameworks
-- Legacy code refactoring techniques
-- Continuous integration workflows
-
-**Complements:**
-- Test engineering (comprehensive suite design)
-- Code review (verification of test coverage)
-- Debugging (tests isolate failures)
+**Testing skill ecosystem:**
+- **testing-anti-patterns** - What to avoid when writing tests (mocking pitfalls, production pollution)
+- **legacy-code-testing** - When adding tests to existing untested code (seams, characterization tests)
