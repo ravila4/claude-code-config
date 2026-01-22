@@ -210,15 +210,9 @@ These sections are automatically managed by the plugin.
 
 ## Integration with Other Skills
 
-**With mermaid-diagrams:**
-- Embed Mermaid diagrams in notes using code blocks
-- Store rendered diagrams in `attachments/` if needed
-- Create visual documentation for complex concepts
-
-**With graphviz-diagrams:**
-- Embed DOT diagrams for architecture documentation
-- Reference protocol contracts in notes
-- Link to protocol specifications
+**Diagram creation skills (mermaid-diagrams, graphviz-diagrams, tikz-diagrams):**
+- Store rendered diagrams in `_images/`
+- Embed diagrams in notes using image links
 
 ## Best Practices
 
