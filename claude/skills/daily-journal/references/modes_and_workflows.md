@@ -4,7 +4,7 @@
 - [Journal Modes](#journal-modes)
 - [Draft-Review-Write Workflow](#draft-review-write-workflow)
 - [Handling Raw Content](#handling-raw-content)
-- [Integration with Obsidian Vault Manager](#integration-with-obsidian-vault-manager)
+- [Integration with Obsidian Vault Skill](#integration-with-obsidian-vault-skill)
 
 ## Journal Modes
 
@@ -67,7 +67,7 @@ Option B - With Claude's help (hybrid):
 User: "Draft today's journal"
 Claude: [Generates and shows draft]
 User: "Looks good, write it to my vault"
-Claude: [Uses obsidian-vault-manager to write file]
+Claude: [Uses obsidian-vault skill to write file]
 ```
 
 ## Handling Raw Content
@@ -94,34 +94,14 @@ If today's journal exists but is unstructured (just commands/notes):
 
 - Leave as-is (raw dumps are legitimate)
 
-## Integration with Obsidian Vault Manager
+## Integration with Obsidian Vault Skill
 
 When user approves writing journal to Obsidian:
-
-```python
-# Example integration (conceptual)
-from obsidian_vault_manager import write_note, update_note
-
-# For new journal
-write_note(
-    vault_path="~/Documents/Obsidian-Notes",
-    note_path="Daily Log/2025-11-12.md",
-    content=journal_draft
-)
-
-# For updating existing journal
-update_note(
-    vault_path="~/Documents/Obsidian-Notes",
-    note_path="Daily Log/2025-11-12.md",
-    section="Reflection",
-    content="Today I learned about GCS severity fields..."
-)
-```
 
 **Workflow:**
 
 1. Claude generates draft using daily-journal skill
 2. Shows draft to user for review
 3. User approves ("write it" or "looks good")
-4. Claude invokes obsidian-vault-manager to write file
-5. Confirms: "✅ Journal written to Daily Log/2025-11-12.md"
+4. Claude uses obsidian-vault skill to write file with proper formatting
+5. Confirms: "Journal written to Daily Log/2025-11-12.md"

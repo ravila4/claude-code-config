@@ -66,7 +66,7 @@ _What did I learn today?_
 
 **User:** "Looks good, write it to my vault"
 
-**Claude:** Uses obsidian-vault-manager to write to `~/Documents/Obsidian-Notes/Daily Log/2025-11-12.md`
+**Claude:** Uses obsidian-vault skill to write to `~/Documents/Obsidian-Notes/Daily Log/2025-11-12.md`
 
 ## Scenario 2: Operational Day with Raw Commands
 
