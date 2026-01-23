@@ -15,6 +15,20 @@ specialized knowledge, workflows, and tools. Think of them as "onboarding guides
 domains or tasks—they transform Claude from a general-purpose agent into a specialized agent
 equipped with procedural knowledge that no model can fully possess.
 
+## Skill Creation Process
+
+IMPORTANT: Before creating a skill, consult the official best practices documentation for comprehensive guidance on skill design and implementation: [Agent Skills Best Practices](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices)
+
+Use WebFetch to load this document and apply its recommendations throughout the skill creation process. Key principles include:
+
+- **Conciseness**: Only add context Claude doesn't already have. Keep SKILL.md under 500 lines.
+- **Specificity matching**: Provide high freedom for flexible tasks, medium freedom for standard patterns, low freedom for fragile operations.
+- **Progressive disclosure**: Bundle additional content in separate files that load only when needed.
+- **Concrete examples**: Include specific examples rather than abstract explanations.
+- **Evaluation-driven**: Build evaluations before extensive documentation to ensure skills solve real problems.
+
+To create a skill, follow the "Skill Creation Process" in order, skipping steps only if there is a clear reason why they are not applicable.
+
 ### What Skills Provide
 
 1. Specialized workflows - Multi-step procedures for specific domains
@@ -54,6 +68,19 @@ Executable code (Python/Bash/etc.) for tasks that require deterministic reliabil
 - **Benefits**: Token efficient, deterministic, may be executed without loading into context
 - **Note**: Scripts may still need to be read by Claude for patching or environment-specific adjustments
 
+Add this header to any Python script:
+
+```python
+#!/usr/bin/env -S uv run --script
+#
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "httpx",
+#     "pydantic>=2.0",
+# ]
+# ///
+```
 ##### References (`references/`)
 
 Documentation and reference material intended to be loaded as needed into context to inform Claude's process and thinking.
@@ -83,20 +110,6 @@ Skills use a three-level loading system to manage context efficiently:
 3. **Bundled resources** - As needed by Claude (Unlimited*)
 
 *Unlimited because scripts can be executed without reading into context window.
-
-## Skill Creation Process
-
-IMPORTANT: Before creating a skill, consult the official best practices documentation for comprehensive guidance on skill design and implementation: [Agent Skills Best Practices](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices)
-
-Use WebFetch to load this document and apply its recommendations throughout the skill creation process. Key principles include:
-
-- **Conciseness**: Only add context Claude doesn't already have. Keep SKILL.md under 500 lines.
-- **Specificity matching**: Provide high freedom for flexible tasks, medium freedom for standard patterns, low freedom for fragile operations.
-- **Progressive disclosure**: Bundle additional content in separate files that load only when needed.
-- **Concrete examples**: Include specific examples rather than abstract explanations.
-- **Evaluation-driven**: Build evaluations before extensive documentation to ensure skills solve real problems.
-
-To create a skill, follow the "Skill Creation Process" in order, skipping steps only if there is a clear reason why they are not applicable.
 
 ### Step 1: Understanding the Skill with Concrete Examples
 
