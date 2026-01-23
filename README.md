@@ -1,6 +1,6 @@
-# claude-code-agents
+# claude-code-config
 
-**Agent definitions, skills, and conventions for my Claude Code workflow.**
+**Personal Claude Code configuration: agents, skills, hooks, and settings.**
 
 ## Quick start
 
@@ -14,16 +14,13 @@
 ```
 .
 ├── claude/
-│   ├── agents/                    # agent definitions (markdown)
-│   │   └── README.md              # capabilities matrix
-│   ├── skills/                    # reusable skills with resources
-│   │   ├── mermaid-diagrams/      # diagram creation skill
-│   │   ├── graphviz-diagrams/     # architecture diagram skill
-│   │   ├── obsidian-vault/        # knowledge management skill
-│   │   └── ...
-│   ├── hooks/                     # Claude Code hooks
-│   └── settings.json              # Claude global settings
-└── docs/                          # additional documentation
+│   ├── agents/        # agent definitions (markdown)
+│   ├── hooks/         # Claude Code hooks
+│   ├── skills/        # reusable skills
+│   ├── CLAUDE.md      # project instructions
+│   └── settings.json  # global settings
+├── scripts/           # install/uninstall helpers
+└── README.md
 ```
 
 ## License
