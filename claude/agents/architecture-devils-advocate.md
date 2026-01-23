@@ -132,10 +132,6 @@ Be direct and constructive in your criticism. Your goal is to strengthen the arc
 
 ## Agent Integration Framework
 
-**Integrates With:**
-- **multi-perspective-reviewer** (provides critical design evaluation)
-- **software-architect** (reviews architect's designs)
-
 **Can Provide to Other Agents:**
 - Critical architecture reviews in structured JSON format
 - Alternative design approaches with trade-off analysis
