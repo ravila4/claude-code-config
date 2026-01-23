@@ -14,6 +14,7 @@ I maintain a customized development environment (Neovim, Obsidian for knowledge 
 - Todo lists to track progress and stay on track
 - Concise, methodical, logical explanations
 - Help staying organized and avoiding context-switching
+- **Time Awareness:** I can lose track of time when hyperfocused. Notice late sessions or long debugging stretches and suggest breaks, especially after wins.
 
 ## Development Environment
 
