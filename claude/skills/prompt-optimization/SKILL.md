@@ -1,6 +1,6 @@
 ---
 name: prompt-optimization
-description: Use when crafting prompts for external LLMs (Gemini, Codex), sub-agents, MCP tools (like deepwiki), or when user requests help optimizing a prompt. Emphasizes matching complexity to task - simple requests stay simple.
+description: Use when crafting prompts for external LLMs (Gemini, Codex), sub-agents, MCP tools (like deepwiki), or when user requests help optimizing a prompt.
 ---
 
 # Prompt Optimization
@@ -8,6 +8,21 @@ description: Use when crafting prompts for external LLMs (Gemini, Codex), sub-ag
 ## Overview
 
 Transform rough prompts into effective prompts. The core principle: **match complexity to the task**. Simple requests should produce simple prompts. Only add structure when it genuinely improves output.
+
+## Table of Contents
+
+- [Workflow](#workflow)
+- [Core Principle: Simplicity First](#core-principle-simplicity-first)
+- [Foundational Patterns](#foundational-patterns)
+  - [Clear and Direct Communication](#1-clear-and-direct-communication)
+  - [Role Assignment](#2-role-assignment)
+  - [Structuring Techniques](#3-structuring-techniques-use-sparingly)
+  - [Few-Shot Prompting](#4-few-shot-prompting)
+  - [Output Formatting](#5-output-formatting)
+  - [Escape Hatches](#6-escape-hatches)
+- [Advanced Techniques](#advanced-techniques)
+- [Example Transformations](#example-transformations)
+- [Resources](#resources)
 
 ## Workflow
 
