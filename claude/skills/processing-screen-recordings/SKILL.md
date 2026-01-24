@@ -13,6 +13,12 @@ Transform screen recordings (MP4) into comprehensive, enriched meeting notes by 
 # Transcribe video to SRT (timestamped subtitles)
 ~/.claude/skills/processing-screen-recordings/scripts/transcribe.py recording.mp4
 
+# Apply high-frequency replacements (in-place)
+~/.claude/skills/processing-screen-recordings/scripts/apply_replacements.py recording.srt -i
+
+# Split SRT for parallel correction (outputs JSON with chunk info)
+~/.claude/skills/processing-screen-recordings/scripts/split_srt.py recording.srt --chunk-size 35
+
 # Extract frame at specific timestamp
 ffmpeg -ss 00:05:22 -i recording.mp4 -frames:v 1 -q:v 2 output.jpg -y
 ```
@@ -26,8 +32,8 @@ ffmpeg -ss 00:05:22 -i recording.mp4 -frames:v 1 -q:v 2 output.jpg -y
 └─────────────┘     └─────────────┘     └─────────────┘
        │                   │                   │
        ▼                   ▼                   ▼
-   Key Frames      Error Correction      Obsidian
-   (optional)      (with source doc)     Integration
+   Key Frames       Parallel LLM         Obsidian
+   (optional)       Correction           Integration
 ```
 
 ## Step 1: Transcribe Video
@@ -62,54 +68,64 @@ If yes, identify timestamps where visual context adds value:
 **Extract frames:**
 
 ```bash
-# Create output directory
 mkdir -p "<video_basename>/"
-
-# Extract frame at timestamp
 ffmpeg -ss HH:MM:SS -i <video.mp4> -frames:v 1 -q:v 2 "<video_basename>/MM-SS_description.jpg" -y
 ```
 
 **Naming convention:** `MM-SS_brief-description.jpg`
 
-## Step 3: Process Extracted Frames
+## Step 3: Evaluate and Process Extracted Frames
 
-For each extracted frame:
+**CRITICAL:** Most screen recording frames add NO value to meeting notes. Evaluate each frame critically before including it.
 
-1. **Read the image** to understand content
-2. **Classify content type:**
-   - `text_document` - Meeting notes, bullet points
-   - `code` - Code snippets, terminal output
-   - `annotated` - Hand-drawn diagrams/annotations
-   - `visualization` - Charts, plots, graphs
+For detailed evaluation criteria, classification types, and the decision matrix, read:
+`~/.claude/skills/processing-screen-recordings/references/frame-evaluation.md`
 
-3. **Extract key information:**
-   - For code: Extract verbatim, note language
-   - For text: Extract key points, preserve hierarchy
-   - For visualizations: Describe what it shows, consider cropping
+**Quick decision guide:**
+- DELETE: Redundant, noisy, or better as text
+- EXTRACT: Contains code/text not in transcript → extract then delete image
+- RE-CREATE: Hand-drawn concepts → create clean Graphviz/TikZ diagram
+- KEEP: Only if visual is truly essential to understanding
 
-4. **Deduplicate:** If frames are nearly identical, keep only the latest timestamp version.
+## Step 4: Correct Transcription Errors (Parallel Processing)
 
-## Step 4: Correct Transcription Errors
+Use parallel tasks with a fast, cost-effective model for transcript correction.
 
-If the user provides source notes or a reference document:
+### 4.1 Apply Programmatic Replacements
 
-1. **Read the source document** to understand correct terminology
-2. **Identify common transcription errors:**
-   - Tool/product names (e.g., "Emperor" → "Empiroar")
-   - Technical terms (e.g., "fee was" → "GWAS")
-   - Acronyms (e.g., "M A C" → "MAC")
-   - Proper nouns and names
+```bash
+~/.claude/skills/processing-screen-recordings/scripts/apply_replacements.py <file>.srt -i
+```
 
-3. **Create corrected transcript** with proper terminology
+Uses `~/.config/transcription/replacements.json` for common error corrections.
 
-**Common bioinformatics corrections:**
-| Misheard | Correct |
-|----------|---------|
-| Regini/Gini | Regenie |
-| fee was/gbaz | GWAS |
-| fee code | phecode |
-| Fish exact | Fisher's exact |
-| Plank | Plink |
+### 4.2 Load Domain Word List
+
+Read `~/.config/transcription/word_list.txt` for domain-specific correct terms.
+
+### 4.3 Split Transcript into Chunks
+
+```bash
+~/.claude/skills/processing-screen-recordings/scripts/split_srt.py <file>.srt --chunk-size 35
+```
+
+Smaller chunks (35-50 blocks) with more parallel agents is faster than larger chunks.
+
+### 4.4 Launch Parallel Correction Tasks
+
+Launch multiple Task tool calls **in a single message** for parallel execution.
+
+**Task parameters:**
+- `subagent_type`: "general-purpose"
+- `model`: Use a fast model (e.g., `haiku`, `gpt-4o-mini`, `gemini-flash`)
+- `prompt`: See template in `references/transcript-correction-prompt.md`
+
+For the full prompt template and merge instructions, read:
+`~/.claude/skills/processing-screen-recordings/references/transcript-correction-prompt.md`
+
+### 4.5 Update Word List (Optional)
+
+If the model suggests new terms, ask the user if they want to add them to `~/.config/transcription/word_list.txt`.
 
 ## Step 5: Create Enriched Notes
 
@@ -117,57 +133,60 @@ Synthesize all sources into a comprehensive document:
 
 **Structure:**
 ```markdown
-# [Meeting Title]
+---
+date: YYYY-MM-DD
+participants:
+  - Name1
+  - Name2
+tags:
+  - empirico/meeting
+  - [topic-tag]
+projects:
+  - [Project-Name]
+---
 
-**Date:** YYYY-MM-DD
-**Participants:** [names]
-**Duration:** ~XX minutes
+## Summary
 
-## Executive Summary
-[2-3 sentence overview]
+Brief overview of the meeting purpose and key outcomes (2-3 sentences).
 
-## Key Discussion Points
-[Main topics from transcript]
+## Topics
 
-## Technical Details
-[Code snippets, architecture decisions]
+### Topic Name
+
+Discussion content with [[internal links]] where appropriate.
+
+#### Subtopic (if needed)
+
+More detailed content, code snippets, architecture decisions.
+
+### Another Topic
+
+Continue organizing by main discussion themes.
 
 ## Action Items
-- [ ] Task 1
-- [ ] Task 2
 
-## Visualizations
-![Description](path/to/frame.jpg)
-
+- [ ] Task 1 with owner
+- [ ] Task 2 with owner
 ```
 
-**Include:**
-- Context from transcript
-- Corrected terminology
-- Embedded visualizations (if extracted)
-- Code snippets from frames
-- Action items and next steps
+**Guidelines:**
+- Use `## Summary` (not "Executive Summary")
+- Organize all discussion under `## Topics` with descriptive subsections
+- Consolidate ALL action items into single `## Action Items` section at end
+- Use checkbox format `- [ ]` for action items
+- Include `empirico/meeting` tag for Empirico meetings
+- Add `[[internal links]]` to related Obsidian notes
+- Embed visualizations inline within relevant topic sections: `![[diagram.svg]]`
 
 ## Step 6: Obsidian Integration (Optional)
 
 To save to Obsidian vault at ${HOME}/Documents/Obsidian-Notes:
 
-**YAML Frontmatter:**
-```yaml
----
-date: YYYY-MM-DD
-participants: [Name1, Name2]
-tags:
-  - meeting
-  - [topic-tag]
-projects:
-  - [Project-Name]
----
-```
-
 **Folder:** Place in appropriate location (e.g., `Empirico/Meetings/`)
 
-**Internal Links:** Add `[[Related Note]]` links to existing relevant notes.
+**Filename convention:** `YYYY-MM-DD - Meeting Title.md`
+
+**Internal Links:** Add `[[Related Note]]` links to existing relevant notes throughout the document.
 
 ## File Organization
 
@@ -175,16 +194,23 @@ After processing, the directory structure:
 
 ```
 recording_directory/
-├── 2026-01-12_15-47-09.mp4          # Original video
-├── 2026-01-12_15-47-09.srt          # Transcript
-├── 2026-01-12_15-47-09_corrected.srt # Corrected transcript (if applicable)
-└── 2026-01-12_15-47-09/             # Extracted frames folder
+├── 2026-01-12_15-47-09.mp4           # Original video
+├── 2026-01-12_15-47-09.srt           # Raw transcript
+├── 2026-01-12_15-47-09.corrected.srt # Corrected transcript
+├── 2026-01-12_15-47-09.corrections.json # Correction report
+└── 2026-01-12_15-47-09/              # Extracted frames folder
     ├── 05-22_editing-document.jpg
     ├── 17-25_code-review.jpg
-    └── notes_corrected.md           # Final enriched notes
+    └── meeting_notes.md              # Final enriched notes
 ```
 
 ## Dependencies
 
 - **ffmpeg** - Video/audio processing (`brew install ffmpeg`)
 - **parakeet-mlx** - Speech-to-text (installed automatically by script via uv)
+
+## Configuration
+
+User-specific files in `~/.config/transcription/`:
+- `word_list.txt` - Domain-specific correct terms for LLM context
+- `replacements.json` - High-frequency error mappings for programmatic replacement
