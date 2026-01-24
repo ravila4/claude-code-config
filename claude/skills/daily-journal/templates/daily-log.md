@@ -16,6 +16,7 @@ tags:
 ## Notes
 
 *What happened today. Use subsections for different topics/projects.*
+*Link to [[projects]] and [[concepts]] as you mention them.*
 
 ### Project/Task Name (if applicable)
 
