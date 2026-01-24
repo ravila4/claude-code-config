@@ -225,20 +225,25 @@ subgraph cluster_services {
 digraph MyDiagram {
   // Graph-level attributes
   label = "System Architecture";
-  fontname = "Arial";
+  fontname = "Helvetica";
   fontsize = 14;
   rankdir = TB;  // Top-to-bottom (or LR for left-to-right)
   bgcolor = "white";
 
   // Node defaults
-  node [fontname="Arial", fontsize=10, shape=box, style=rounded];
+  node [fontname="Helvetica", fontsize=10, shape=box, style=rounded];
 
   // Edge defaults
-  edge [fontname="Arial", fontsize=9, color=gray];
+  edge [fontname="Helvetica", fontsize=9, color=gray];
+
+  // IMPORTANT: Set graph fontname for cluster/subgraph labels
+  graph [fontname="Helvetica"];
 
   // Your diagram content here
 }
 ```
+
+**Note:** The `graph [fontname=...]` setting is required to apply fonts to subgraph/cluster labels. Without it, cluster labels may use the default serif font even when node/edge fonts are set.
 
 ### Rank Control
 

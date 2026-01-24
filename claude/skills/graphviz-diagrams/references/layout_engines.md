@@ -486,6 +486,22 @@ digraph Tuned {
 }
 ```
 
+### Orthogonal Splines and Edge Labels
+
+**Important:** When using `splines=ortho`, edge `label` attributes are not supported. Use `xlabel` instead:
+
+```dot
+digraph OrthoExample {
+  splines = ortho;
+
+  // WRONG - label won't render with ortho splines
+  A -> B [label="data"];
+
+  // CORRECT - use xlabel for orthogonal routing
+  A -> B [xlabel="data"];
+}
+```
+
 ## Common Issues and Solutions
 
 ### Overlapping Nodes

@@ -298,37 +298,139 @@ Use the `--maf` flag to filter by minor allele frequency.
 
 ## Callouts/Admonitions
 
-Obsidian supports various callout types for emphasis:
+Obsidian supports various callout types (also called admonitions) for emphasis. Each has a different color and icon.
 
-### Note
+### Informational Callouts
 
+**Note** - General notes and information
 ```markdown
 > [!note]
 > This is an important note to remember.
 ```
 
-### Tip
+**Info/Todo** - Information or action items
+```markdown
+> [!info]
+> The dataset contains 500K samples.
 
+> [!todo]
+> Need to validate these results with external data.
+```
+
+**Abstract/Summary/TLDR** - Summaries and overviews
+```markdown
+> [!summary]
+> Key takeaway: Use rare coding variants for better fine-mapping.
+```
+
+**Tip/Hint/Important** - Helpful tips and best practices
 ```markdown
 > [!tip]
 > Pro tip: Use keyboard shortcuts to speed up workflow.
+
+> [!important]
+> Always filter variants by quality metrics before analysis.
 ```
 
-### Warning
-
-```markdown
-> [!warning]
-> Be careful with this approach - it can cause issues.
-```
-
-### Example
-
+**Example** - Code examples and demonstrations
 ```markdown
 > [!example]
 > Here's how to use the groupby function:
 > ```python
 > df.groupby('category').sum()
 > ```
+```
+
+### Success/Completion Callouts
+
+**Success/Check/Done** - Successful completion
+```markdown
+> [!success]
+> Analysis completed successfully with λ = 1.02 (no inflation).
+```
+
+### Question Callouts
+
+**Question/Help/FAQ** - Questions or areas needing clarification
+```markdown
+> [!question]
+> Are carriers of these variants truly "healthy"?
+
+> [!faq]
+> **Q: What is linkage disequilibrium?**
+> A: Non-random association of alleles at different loci.
+```
+
+### Warning Callouts
+
+**Warning/Caution/Attention** - Warnings and cautions
+```markdown
+> [!warning]
+> Be careful with this approach - it can cause multicollinearity.
+
+> [!caution]
+> WES capture panels are 5-10 years old and not comprehensive.
+```
+
+### Error Callouts
+
+**Failure/Fail/Missing** - Failures or missing information
+```markdown
+> [!failure]
+> This method failed due to insufficient sample size.
+
+> [!missing]
+> Structural variant data is not available in this dataset.
+```
+
+**Danger/Error** - Critical errors
+```markdown
+> [!danger]
+> This will delete all filtered variants - cannot be undone.
+
+> [!error]
+> Pipeline failed: Invalid covariate matrix dimensions.
+```
+
+**Bug** - Known bugs or issues
+```markdown
+> [!bug]
+> Known issue: VEP 113 misannotates some splice variants.
+```
+
+### Quote Callouts
+
+**Quote/Cite** - Quotations and citations
+```markdown
+> [!quote]
+> "Fine-mapping of non-coding genetic variants is extremely difficult."
+> — Statistical Genetics, 2023
+```
+
+### Callout Features
+
+**Collapsible callouts** - Add a `+` or `-` to make them foldable:
+```markdown
+> [!note]- Click to expand
+> Hidden content here...
+
+> [!example]+ Expanded by default
+> This starts open but can be collapsed.
+```
+
+**Titles** - Customize the callout title:
+```markdown
+> [!tip] Performance Optimization
+> Use batching to process multiple phenotypes simultaneously.
+```
+
+**Nested callouts** - Callouts can contain other callouts:
+```markdown
+> [!info] Data Sources
+> We use multiple UK Biobank datasets:
+>
+> > [!example] WES Dataset
+> > 436K participants with exome sequencing
 ```
 
 ## Tables

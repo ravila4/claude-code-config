@@ -15,10 +15,8 @@ Usage:
 """
 import argparse
 import json
-import re
 import subprocess
 import sys
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
@@ -266,7 +264,15 @@ def generate_tags(project_focus, context_messages, has_unresolved):
 
 
 def draft_journal(date_str, project_path=".", mode="auto"):
-    """Generate journal draft."""
+    """Generate journal draft using Daily Log template structure.
+
+    Output structure:
+    - ## Summary - One-line main focus
+    - ## Goals - Top-level task list with checkboxes
+    - ## Notes - What happened (with project/task subsections)
+    - ## Reflection - Structured bullets (what worked/didn't/questions/tomorrow)
+    - ## Related - Linked project notes
+    """
     # Find conversations
     conversations = find_conversations(date_str)
 
@@ -294,16 +300,18 @@ def draft_journal(date_str, project_path=".", mode="auto"):
     output.append(f"tags: [{', '.join(tags)}]")
     output.append("---\n")
 
-    # Title
-    output.append(f"# {date_str}\n")
+    # Summary section - one-line focus from context
+    output.append("## Summary\n")
+    if context_messages:
+        # Extract first meaningful context message
+        summary = context_messages[0][:200] if len(context_messages[0]) > 200 else context_messages[0]
+        output.append(f"{summary}\n")
+    else:
+        output.append("*One-line: What was today's main focus?*\n")
 
-    # Project link (if detected)
-    if project_focus:
-        output.append(f"Working on [[{project_focus}]]\n")
-
-    # Goals/Todo section (always include if we have todos)
+    # Goals section (top-level)
+    output.append("## Goals\n")
     if todos:
-        output.append("## Goals\n")
         # Group by status
         pending = [t for t in todos if t['status'] == 'pending']
         in_progress = [t for t in todos if t['status'] == 'in_progress']
@@ -316,58 +324,74 @@ def draft_journal(date_str, project_path=".", mode="auto"):
         for todo in completed:
             output.append(f"- [x] {todo['content']}")
         output.append("")
+    else:
+        output.append("- [ ] Task 1")
+        output.append("- [ ] Task 2\n")
 
-    # Context section (if mode is full or context is substantial)
-    if mode == "full" or (mode == "auto" and context_messages):
-        output.append("## Context\n")
-        if context_messages:
-            output.append(f"{context_messages[0]}\n")
+    # Notes section - what happened with project/task subsections
+    output.append("## Notes\n")
+
+    # Create project subsection if we have content
+    if files_modified or git_commits or (commands and len(commands) > 2):
+        if project_focus:
+            output.append(f"### {project_focus}\n")
         else:
-            output.append("_Add context about today's focus_\n")
+            output.append("### Technical Work\n")
 
-    # Technical Work section (if files modified or commands run)
-    if files_modified or commands or git_commits:
-        output.append("## Technical Work\n")
-
+        # Add git commits
         if git_commits:
-            output.append("### Git Commits\n")
+            output.append("**Commits:**")
             for commit in git_commits:
                 output.append(f"- {commit}")
             output.append("")
 
+        # Add files modified
         if files_modified:
-            output.append("### Files Modified\n")
+            output.append("**Files modified:**")
             for file in files_modified[:10]:  # Limit to 10
                 output.append(f"- `{file}`")
             if len(files_modified) > 10:
                 output.append(f"- _(and {len(files_modified) - 10} more)_")
             output.append("")
 
-    # Commands Used section (if significant commands)
-    if commands and len(commands) > 2:
-        output.append("## Commands Used\n")
-        output.append("```bash")
-        for cmd_info in commands[:10]:  # Limit to 10
-            if cmd_info['description']:
-                output.append(f"# {cmd_info['description']}")
-            output.append(cmd_info['command'])
-            output.append("")
-        output.append("```\n")
+        # Add commands
+        if commands and len(commands) > 2:
+            output.append("**Commands:**")
+            output.append("```bash")
+            for cmd_info in commands[:10]:  # Limit to 10
+                if cmd_info['description']:
+                    output.append(f"# {cmd_info['description']}")
+                output.append(cmd_info['command'])
+                output.append("")
+            output.append("```\n")
+    else:
+        output.append("*What happened today. Use subsections for different topics/projects.*\n")
 
-    # Open Questions section (if any uncertainties)
-    if open_questions:
-        output.append("## Open Questions\n")
-        for q in open_questions:
-            output.append(f"- {q}")
-        output.append("")
+    # Reflection section - structured bullets
+    output.append("## Reflection\n")
 
-    # Placeholder sections for manual completion (full mode only)
+    output.append("- **What worked:**")
     if mode == "full":
-        output.append("## Reflection\n")
-        output.append("_What did I learn today?_\n")
+        output.append("- **What didn't:**")
 
-        output.append("## Next Steps\n")
-        output.append("_What should I focus on tomorrow?_\n")
+    # Include open questions
+    if open_questions:
+        output.append("- **Open questions:**")
+        for q in open_questions:
+            output.append(f"  - {q}")
+    elif mode == "full":
+        output.append("- **Open questions:**")
+
+    output.append("- **Tomorrow's focus:**")
+    output.append("")
+
+    # Related section - project links
+    output.append("## Related\n")
+    if project_focus:
+        output.append(f"- [[{project_focus}]]")
+    else:
+        output.append("_Add links to related project notes_")
+    output.append("")
 
     return '\n'.join(output)
 

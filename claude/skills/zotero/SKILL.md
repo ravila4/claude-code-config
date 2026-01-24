@@ -25,6 +25,26 @@ All write operations require the web API profile. Load the API key first:
 source ~/.zshrc  # loads ZOTERO_API_KEY
 ```
 
+### Add by DOI (Recommended)
+
+The fastest way to add papers - fetches metadata automatically from CrossRef:
+
+```bash
+# From DOI
+uv run scripts/add_by_doi.py 10.1038/s41586-023-06957-x
+
+# From URL (extracts DOI automatically)
+uv run scripts/add_by_doi.py https://www.nature.com/articles/s41586-023-06957-x
+
+# With tags and collection
+uv run scripts/add_by_doi.py 10.1038/s41586-023-06957-x -t "GWAS" -t "genomics" -c COLLECTION_KEY
+
+# Preview without creating (dry run)
+uv run scripts/add_by_doi.py --dry-run 10.1038/s41586-023-06957-x
+```
+
+Supported URL formats: doi.org, Nature, and most publisher URLs containing DOIs.
+
 ### Create Item from Metadata
 
 ```bash
@@ -130,5 +150,6 @@ zot --profile web collections delete COLLECTION_KEY
 
 | Script | Purpose |
 |--------|---------|
+| `add_by_doi.py` | Add paper by DOI or URL (fetches metadata from CrossRef) |
 | `setup.py` | One-time setup (install CLI, configure profiles, verify API key) |
 | `get_library_id.py` | Auto-discover library ID from running Zotero |

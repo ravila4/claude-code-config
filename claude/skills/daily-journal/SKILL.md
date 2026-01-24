@@ -275,13 +275,11 @@ For comprehensive session analysis:
 **Output:** Complete markdown journal entry ready for review with:
 
 - YAML frontmatter (date, tags)
-- Project wikilink (if detected)
-- Goals/Todo checkboxes
-- Context section (if substantial)
-- Technical Work (git commits, files modified)
-- Commands Used (significant bash commands)
-- Open Questions (uncertainties)
-- Placeholder sections for reflection (full mode only)
+- Summary (one-line focus)
+- Goals section with todo checkboxes
+- Notes with project/task subsections (commits, files, commands)
+- Reflection with structured bullets
+- Related section with project wikilinks
 
 **Use when:** User requests journal draft, at end of conversation, or when organizing raw content.
 
@@ -306,13 +304,36 @@ Both are searched by date using `find` with `-newermt` flags.
 
 ## Output Format
 
-Journal entries use markdown with:
+Journal entries use the Daily Log template structure:
 
-- H1 for date
-- H2 for major sections (Session Summary, Git Activity, Next Steps)
-- H3 for individual sessions
-- Code blocks for git output and analysis commands
-- Bullet lists for metrics and summaries
+```
+---
+date: YYYY-MM-DD
+tags: [daily-log, ...]
+---
+
+## Summary
+*One-line: What was today's main focus?*
+
+## Goals
+- [ ] Task 1
+- [ ] Task 2
+
+## Notes
+*What happened today. Use subsections for different topics/projects.*
+
+### Project/Task Name
+*Technical details, commits, commands, investigation work.*
+
+## Reflection
+- **What worked:**
+- **What didn't:**
+- **Open questions:**
+- **Tomorrow's focus:**
+
+## Related
+- [[Project Name]]
+```
 
 Designed for Obsidian vault storage with cross-references and tags.
 
@@ -320,8 +341,10 @@ Designed for Obsidian vault storage with cross-references and tags.
 
 When generating journal drafts, populate sections based on available content:
 
-- **Always include:** Date, YAML frontmatter, Goals/Todos
-- **Conditionally include:** Project wikilink, Context, Technical Work, Commands, Open Questions, Reflection, Next Steps
+- **Always include:** YAML frontmatter, Summary, Goals, Notes, Reflection, Related
+- **Goals section:** Populated with todos from conversation, or placeholder tasks if none
+- **Notes section:** Project/task subsections containing commits, files, commands
+- **Reflection section:** Structured bullets with open questions if any exist
 
 See `references/section_guide.md` for complete population logic and decision criteria for auto/full/quick modes.
 

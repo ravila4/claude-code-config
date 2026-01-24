@@ -1,76 +1,72 @@
 # Section Population Guide
 
 ## Contents
+- [Template Structure](#template-structure)
 - [Always Include](#always-include)
 - [Conditionally Include](#conditionally-include)
 - [Section Decision Logic](#section-decision-logic)
 
 When generating journal drafts, use this guide to determine which sections to include:
 
+## Template Structure
+
+The Daily Log template has four main sections:
+
+1. **Summary** - One-line main focus
+2. **Notes** - What happened (with subsections)
+3. **Reflection** - What worked, what didn't, open questions, tomorrow's focus
+4. **Related** - Linked project notes
+
 ## Always Include
 
-**Date (H1):** `# YYYY-MM-DD`
 **YAML frontmatter:** date and tags
-**Goals/Todo:** From TodoWrite or early user messages - checkbox format
+
+**Summary:** One-line focus from first context message
+- If no context available, use placeholder: `_One-line: main focus for today_`
+
+**Notes:** Container section for what happened
+- Always present, even if subsections are empty
+
+**Related:** Project links section
+- If project detected: `- [[Project Name]]`
+- If no project: `_Add links to related project notes_`
 
 ## Conditionally Include
 
-**Project Wikilink:** Only if clear project focus detected (e.g., "plink", "manifest")
+**Notes subsections:**
 
-- Format: `Working on [[Project Name]]`
+**### Goals:** Include if todos exist
+- From TodoWrite tool uses or early user messages
+- Checkbox format with status grouping
 
-**Context:** Include if:
-
-- Day had clear driving question or problem
-- First user messages provide meaningful context (not just "help me debug X")
-- Skip if day was purely operational or scattered
-
-**Technical Work:** Include if:
-
+**### Technical Work:** Include if:
 - Git commits exist for the day
 - Files were modified (Edit/Write tools used)
-- At least one substantial action taken
+- Format: Bold headers for "Git Commits:" and "Files Modified:"
 
-**Commands Used:** Include if:
-
+**### Commands:** Include if:
 - 3+ significant bash commands run
 - Exclude trivial commands (ls, cat, cd)
 - Format as code block with optional descriptions
 
-**Open Questions:** Include if:
-
-- Unresolved issues mentioned
-- Questions posed by user or Claude
-- Uncertainties or "not sure" statements found
-- Limit to 5 most significant
-
-**Reflection:** Include for deep work days
-
-- Skip for operational/debugging days
-- Use placeholder text in full mode
-- Omit in quick/auto mode unless substantial
-
-**Next Steps:** Include if:
-
-- Clear follow-up items identified
-- Tomorrow's focus is obvious from context
-- Use placeholder in full mode
+**## Reflection:** Include if:
+- Mode is "full", OR
+- Open questions exist (auto mode)
+- Contains: Open Questions, What worked, What didn't, Tomorrow's focus
 
 ## Section Decision Logic
 
 **Auto mode (recommended):**
-
-- Start with required sections
-- Add conditional sections only if they have content
+- Always: frontmatter, Summary, Notes, Related
+- Conditionally: Goals/Technical Work/Commands subsections under Notes
+- Conditionally: Reflection (only if open questions exist)
 - Result: Clean, relevant journal without empty sections
 
 **Full mode:**
-
 - Include all sections
 - Add placeholders for manual completion
 - Best for deep work days needing reflection
 
 **Quick mode:**
-
-- Only: Date, YAML, Goals, Git Commits, Files
+- Only: YAML, Summary, Notes (Goals + Technical Work), Related
 - Minimal structure for operational days

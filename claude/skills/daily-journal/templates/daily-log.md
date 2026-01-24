@@ -1,64 +1,34 @@
 ---
+date: {{date}}
 tags:
-  - development
   - daily-log
-date: YYYY-MM-DD
 ---
+
+## Summary
+
+*One-line: What was today's main focus?*
 
 ## Goals
 
-- [ ] Goal 1
-- [ ] Goal 2
-  - [ ] Subtask 2.1
-  - [ ] Subtask 2.2
-- [ ] Goal 3
+- [ ] Task 1
+- [ ] Task 2
 
-Working on [[Project Name]]
+## Notes
 
----
+*What happened today. Use subsections for different topics/projects.*
 
-## Development Journal
+### Project/Task Name (if applicable)
 
-### Context
-[One-liner: What was the main goal or question driving the day?]
+*Technical details, decisions, code snippets, investigation work.*
 
-### Main Issues
+## Reflection
 
-#### 1. [Problem Name] ([Status: Resolved/Unresolved])
-**[Phase]:** [What happened and when]
+- **What worked:**
+- **What didn't:**
+- **Open questions:**
+- **Tomorrow's focus:**
 
-**Status:** [Current state, why it matters]
+## Related
 
-#### 2. [Another Problem] ([Status])
-[Brief description with key facts and numbers]
-
-### Technical Work
-
-**[Category 1]:**
-- Item 1 (brief description)
-- Item 2 with specific details
-
-**[Category 2]:**
-- Tool/feature built
-- Another item
-
-**Stats:** X commits, Y lines added, Z tests
-
-### Open Questions
-
-1. **[Specific question]:** Brief context
-2. **[Another question]:** Why it matters
-3. **[Third question]:** What needs answering
-
-### Reflection
-
-[1-2 sentences: What did you learn? Be honest about what worked and what didn't.]
-
-### Related Work
-- [[Link 1]] - Context
-- [[Link 2]] - Context
-
-### Tomorrow's Focus
-1. [Actionable item 1]
-2. [Actionable item 2]
-3. [Actionable item 3]
+- [[Project links]]
+- [[Concept notes]]

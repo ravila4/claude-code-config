@@ -99,6 +99,22 @@ scripts/validate_diagram.py diagram.dot --validate-only
 scripts/validate_diagram.py diagram.dot --test-all-layouts
 ```
 
+### 6. Rendering Workflow
+
+Render both PNG (for review/critic) and SVG (for embedding in documents):
+
+```bash
+# PNG at 150 DPI for visual review and critic feedback
+dot -Tpng -Gdpi=150 diagram.dot -o diagram.png
+
+# SVG for embedding in Obsidian, web pages, documentation
+dot -Tsvg diagram.dot -o diagram.svg
+```
+
+**Always keep the `.dot` source file** for future edits.
+
+When using the `visual-design-critic` agent for feedback, **always ask the user before accepting revisions** - the critic provides suggestions, not mandates.
+
 ## Workflow
 
 ### Quick Start (Most Diagrams)
