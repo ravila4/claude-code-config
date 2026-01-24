@@ -21,3 +21,9 @@ packaged-skills/
 
 # System skills
 claude/skills/.system/
+
+# Node
+package-lock.json
+
+# Private journal (Claude Code MCP)
+.private-journal/

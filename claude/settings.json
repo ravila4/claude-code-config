@@ -1,22 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          { "type": "command", "command": "date '+Time: %H:%M'" }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Task",
-        "hooks": [
-          { "type": "command", "command": "date '+Task finished: %H:%M'" }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "Skill(skill-creator)",
@@ -34,6 +17,29 @@
     "deny": [],
     "ask": []
   },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "date '+Time: %H:%M'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "date '+Task finished: %H:%M'"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "${HOME}/.claude/statusline.sh"
@@ -44,5 +50,6 @@
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754080082264
-  }
+  },
+  "model": "sonnet"
 }
