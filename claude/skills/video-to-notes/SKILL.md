@@ -7,6 +7,21 @@ description: Transform screen recordings into enriched meeting notes with transc
 
 Transform screen recordings (MP4) into comprehensive, enriched meeting notes by combining automated transcription, visual frame extraction, and document synthesis.
 
+## Table of Contents
+
+- [Quick Reference](#quick-reference)
+- [Workflow Overview](#workflow-overview)
+- [Step 1: Transcribe Video](#step-1-transcribe-video)
+- [Step 2: Extract Key Frames (Optional)](#step-2-extract-key-frames-optional)
+- [Step 3: Evaluate and Process Extracted Frames](#step-3-evaluate-and-process-extracted-frames)
+- [Step 3.5: Image Post-Processing](#step-35-image-post-processing)
+- [Step 4: Correct Transcription Errors (Parallel Processing)](#step-4-correct-transcription-errors-parallel-processing)
+- [Step 5: Create Enriched Notes](#step-5-create-enriched-notes)
+- [Step 6: Obsidian Integration (Optional)](#step-6-obsidian-integration-optional)
+- [File Organization](#file-organization)
+- [Dependencies](#dependencies)
+- [Configuration](#configuration)
+
 ## Quick Reference
 
 ```bash
@@ -25,15 +40,29 @@ ffmpeg -ss 00:05:22 -i recording.mp4 -frames:v 1 -q:v 2 output.jpg -y
 
 ## Workflow Overview
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  MP4 Video  │ ──▶ │  Transcript │ ──▶ │  Enriched   │
-│             │     │    (SRT)    │     │    Notes    │
-└─────────────┘     └─────────────┘     └─────────────┘
-       │                   │                   │
-       ▼                   ▼                   ▼
-   Key Frames       Parallel LLM         Obsidian
-   (optional)       Correction           Integration
+```mermaid
+flowchart LR
+    subgraph Input
+        video[MP4 Video]
+    end
+
+    subgraph Processing
+        transcript[Transcript<br/>SRT]
+        correction[Parallel LLM<br/>Correction]
+        frames[Key Frames]
+    end
+
+    subgraph Output
+        notes[Enriched<br/>Notes]
+    end
+
+    video -->|transcribe| transcript
+    video -.->|optional| frames
+    transcript --> correction
+    correction --> notes
+    frames -.-> notes
+
+    notes -.->|optional| obsidian[Obsidian<br/>Integration]
 ```
 
 ## Step 1: Transcribe Video
@@ -87,9 +116,50 @@ For detailed evaluation criteria, classification types, and the decision matrix,
 - RE-CREATE: Hand-drawn concepts → create clean Graphviz/TikZ diagram
 - KEEP: Only if visual is truly essential to understanding
 
+## Step 3.5: Image Post-Processing
+
+Before including extracted frames in notes, post-process them to remove distracting UI elements.
+
+### Visual Inspection Approach
+
+1. **View the first extracted frame** to identify UI elements specific to this recording
+2. **Identify noise elements:**
+   - Video call participants bar (Zoom, Meet, Teams)
+   - Presentation toolbars (PowerPoint, Google Slides)
+   - Screen share borders/shadows
+   - Notification overlays
+3. **Determine crop parameters** for this specific video
+4. **Apply consistent crop** to all frames from the same recording
+
+### Common Cropping Patterns
+
+Determine the actual pixel values by inspecting the first frame:
+
+1. **Read the first frame** to visually identify crop boundaries
+2. **Get dimensions** with `identify frame.jpg`
+3. **Batch crop** all frames with the same parameters
+
+```bash
+# Get image dimensions
+identify frame.jpg
+
+# Crop single image: -crop WIDTHxHEIGHT+X+Y
+convert input.jpg -crop 1920x920+0+80 +repage output.jpg
+
+# Batch crop all frames in directory
+for f in *.jpg; do convert "$f" -crop 1920x920+0+80 +repage "cropped_$f"; done
+```
+
+**Typical patterns to remove:**
+- Top 60-100px: Video call participant bar
+- Bottom 40-80px: Presentation controls
+- Side borders: Screen share shadows
+
 ## Step 4: Correct Transcription Errors (Parallel Processing)
 
 Use parallel tasks with a fast, cost-effective model for transcript correction.
+
+**CRITICAL: Launch ALL correction tasks in a SINGLE message for parallel execution.** Sequential launches take N times longer. See `references/transcript-correction-prompt.md` for the parallel execution pattern.
 
 ### 4.1 Apply Programmatic Replacements
 
@@ -129,7 +199,32 @@ If the model suggests new terms, ask the user if they want to add them to `~/.co
 
 ## Step 5: Create Enriched Notes
 
-Synthesize all sources into a comprehensive document:
+Synthesize all sources into a comprehensive document.
+
+### 5.1 Extract Structured Data
+
+For slides containing tables, metrics, or structured information, use **both visual AND text extraction**:
+
+1. **Keep the image** as a visual reference (after cropping)
+2. **Extract data to markdown tables** for searchability and accessibility
+3. **Place table near the image** in the final notes
+
+Example of extracted cost breakdown:
+```markdown
+![[05-22_cost-comparison.jpg]]
+
+| Service | Cost/Month | Notes |
+|---------|-----------|-------|
+| AWS S3 | $45.00 | Standard tier |
+| Compute | $120.00 | t3.medium |
+```
+
+This approach ensures:
+- Visual context is preserved for quick scanning
+- Data is searchable and accessible
+- Tables can be referenced and compared programmatically
+
+### 5.2 Note Structure
 
 **Structure:**
 ```markdown

@@ -2,6 +2,37 @@
 
 Use this prompt template when launching parallel correction tasks. The prompt is model-agnostic - use with any fast, cost-effective model (e.g., `haiku`, `gpt-4o-mini`, `gemini-flash`).
 
+## Parallel Execution Pattern
+
+**CRITICAL: Launch ALL tasks in a SINGLE message**
+
+```
+Correct (parallel - 1x time):
+┌─────────────────────────────────────────┐
+│ Single message with 8 Task tool calls   │
+│ → All run simultaneously                │
+│ → Total time = slowest single chunk     │
+└─────────────────────────────────────────┘
+
+Wrong (sequential - 8x time):
+┌─────────────────────────────────────────┐
+│ Message 1: Task 1 → wait for result     │
+│ Message 2: Task 2 → wait for result     │
+│ ... (8 separate round-trips)            │
+│ → Total time = sum of all chunks        │
+└─────────────────────────────────────────┘
+```
+
+### Chunk Size Guidance
+
+| Recording Length | Chunk Size | Parallel Agents | Rationale |
+|------------------|------------|-----------------|-----------|
+| < 20 min | 50 blocks | 3-5 | Fewer chunks, still fast |
+| 20-40 min | 35-40 blocks | 6-10 | Sweet spot for parallelism |
+| > 40 min | 30-35 blocks | 10-15 | More agents = faster overall |
+
+**Key insight:** Smaller chunks with more agents completes faster than larger chunks with fewer agents, because all agents run simultaneously.
+
 ## Prompt Template
 
 ```

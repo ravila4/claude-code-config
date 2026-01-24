@@ -64,23 +64,99 @@ Then DELETE the original image - the extracted code is more useful.
 
 ## Creating Clean Diagrams
 
-When concepts would benefit from proper visualization, launch parallel sub-agents to create diagrams. Read the `graphviz-diagrams` skill for detailed guidelines.
+When concepts would benefit from proper visualization, launch parallel sub-agents to create diagrams.
 
-**Rendering workflow:**
-1. Create `.dot` source file (keep for future edits)
-2. Render BOTH formats:
-   - `dot -Tpng -Gdpi=150 diagram.dot -o diagram.png` (for critic review)
-   - `dot -Tsvg diagram.dot -o diagram.svg` (for embedding in notes)
-3. Launch `visual-design-critic` agent to review the PNG
-4. **ALWAYS ask user before accepting revisions** from the critic
-5. Embed the SVG in the final notes: `![[diagram.svg]]`
+### Tool Selection
 
-**Common diagram types:**
-- Pipeline/workflow flows → Graphviz with clusters
-- Comparison diagrams → Graphviz with side-by-side subgraphs
-- Data relationships → Graphviz entity-relationship style
-- Mathematical concepts → TikZ (read `tikz-diagrams` skill)
-- Simple 2x2 tables/matrices → Markdown tables (no diagram needed)
+| Diagram Type | Tool | When to Use |
+|--------------|------|-------------|
+| Pipeline/workflow flows | Graphviz | Complex flows with clusters |
+| Sequence diagrams | Mermaid | Interaction sequences, API flows |
+| Data relationships | Graphviz | Entity-relationship style |
+| Simple flowcharts | Mermaid | Quick, simple flows |
+| Mathematical concepts | TikZ | Precise positioning, equations |
+| Simple matrices | Markdown tables | No diagram needed |
+
+Read the `graphviz-diagrams`, `mermaid-diagrams`, or `tikz-diagrams` skills for detailed guidelines.
+
+### Validation Workflow
+
+**IMPORTANT:** Keep original screenshot as reference until diagram is verified.
+
+1. Create diagram source file (`.dot`, `.mmd`, or `.tex`)
+2. Render preview format:
+   - Graphviz: `dot -Tpng -Gdpi=150 diagram.dot -o diagram.png`
+   - Mermaid: Use mermaid-cli or online renderer
+3. **Compare rendered diagram against original screenshot**
+4. Launch `visual-design-critic` agent to review
+5. **ALWAYS ask user before accepting revisions** from the critic
+6. Only after verification: render final SVG and delete original screenshot
+7. Embed in notes: `![[diagram.svg]]`
+
+### Common Meeting Diagram Templates
+
+**Architecture Overview:**
+```dot
+digraph {
+  rankdir=LR
+  subgraph cluster_frontend { label="Frontend"; ... }
+  subgraph cluster_backend { label="Backend"; ... }
+}
+```
+
+**Data Flow:**
+```dot
+digraph {
+  rankdir=TB
+  node [shape=box]
+  Input -> Process -> Output
+}
+```
+
+**Timeline/Sequence:**
+```mermaid
+sequenceDiagram
+  participant User
+  participant API
+  User->>API: Request
+  API-->>User: Response
+```
+
+## Extracting Structured Data
+
+When frames contain tables, metrics, or benchmarks, extract to markdown for searchability.
+
+### When to Extract
+
+- Cost breakdowns and pricing tables
+- Benchmark comparisons (performance metrics)
+- Configuration parameters in tables
+- Feature comparison matrices
+- Any data that might be queried or compared later
+
+### Extraction Approach
+
+1. **Keep the image** as visual reference (crop first if needed)
+2. **Extract to markdown table** immediately below the image
+3. **Preserve exact values** - don't round or summarize
+
+**Example:**
+```markdown
+![[12-45_benchmark-results.jpg]]
+
+| Method | Time (ms) | Memory (MB) | Accuracy |
+|--------|-----------|-------------|----------|
+| Baseline | 145 | 512 | 94.2% |
+| Optimized | 42 | 256 | 94.1% |
+| New Approach | 28 | 128 | 95.3% |
+```
+
+### Benefits
+
+- **Searchable:** Find "Optimized" or specific values later
+- **Accessible:** Screen readers can parse tables
+- **Comparable:** Easy to reference in discussions
+- **Durable:** Data survives even if image is lost
 
 ## Deduplication
 
