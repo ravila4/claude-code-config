@@ -3,7 +3,6 @@
   "permissions": {
     "allow": [
       "Skill(skill-creator)",
-      "Skill(beads-issue-tracking)",
       "Skill(speaking)",
       "Skill(graphviz-diagrams)",
       "Skill(mermaid-diagrams)",
