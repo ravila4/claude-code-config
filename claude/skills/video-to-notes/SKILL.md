@@ -1,9 +1,9 @@
 ---
-name: processing-screen-recordings
+name: video-to-notes
 description: Transform screen recordings into enriched meeting notes with transcripts, key frame extraction, and Obsidian integration. This skill should be used when processing MP4 screen recordings, creating meeting summaries from video, extracting visual context from recordings, or when the user mentions transcribing meetings or screen captures.
 ---
 
-# Processing Screen Recordings
+# Video to Notes
 
 Transform screen recordings (MP4) into comprehensive, enriched meeting notes by combining automated transcription, visual frame extraction, and document synthesis.
 
@@ -11,13 +11,13 @@ Transform screen recordings (MP4) into comprehensive, enriched meeting notes by 
 
 ```bash
 # Transcribe video to SRT (timestamped subtitles)
-~/.claude/skills/processing-screen-recordings/scripts/transcribe.py recording.mp4
+~/.claude/skills/video-to-notes/scripts/transcribe.py recording.mp4
 
 # Apply high-frequency replacements (in-place)
-~/.claude/skills/processing-screen-recordings/scripts/apply_replacements.py recording.srt -i
+~/.claude/skills/video-to-notes/scripts/apply_replacements.py recording.srt -i
 
 # Split SRT for parallel correction (outputs JSON with chunk info)
-~/.claude/skills/processing-screen-recordings/scripts/split_srt.py recording.srt --chunk-size 35
+~/.claude/skills/video-to-notes/scripts/split_srt.py recording.srt --chunk-size 35
 
 # Extract frame at specific timestamp
 ffmpeg -ss 00:05:22 -i recording.mp4 -frames:v 1 -q:v 2 output.jpg -y
@@ -41,7 +41,7 @@ ffmpeg -ss 00:05:22 -i recording.mp4 -frames:v 1 -q:v 2 output.jpg -y
 Run the transcription script:
 
 ```bash
-~/.claude/skills/processing-screen-recordings/scripts/transcribe.py <video.mp4>
+~/.claude/skills/video-to-notes/scripts/transcribe.py <video.mp4>
 ```
 
 **Options:**
@@ -79,7 +79,7 @@ ffmpeg -ss HH:MM:SS -i <video.mp4> -frames:v 1 -q:v 2 "<video_basename>/MM-SS_de
 **CRITICAL:** Most screen recording frames add NO value to meeting notes. Evaluate each frame critically before including it.
 
 For detailed evaluation criteria, classification types, and the decision matrix, read:
-`~/.claude/skills/processing-screen-recordings/references/frame-evaluation.md`
+`~/.claude/skills/video-to-notes/references/frame-evaluation.md`
 
 **Quick decision guide:**
 - DELETE: Redundant, noisy, or better as text
@@ -94,7 +94,7 @@ Use parallel tasks with a fast, cost-effective model for transcript correction.
 ### 4.1 Apply Programmatic Replacements
 
 ```bash
-~/.claude/skills/processing-screen-recordings/scripts/apply_replacements.py <file>.srt -i
+~/.claude/skills/video-to-notes/scripts/apply_replacements.py <file>.srt -i
 ```
 
 Uses `~/.config/transcription/replacements.json` for common error corrections.
@@ -106,7 +106,7 @@ Read `~/.config/transcription/word_list.txt` for domain-specific correct terms.
 ### 4.3 Split Transcript into Chunks
 
 ```bash
-~/.claude/skills/processing-screen-recordings/scripts/split_srt.py <file>.srt --chunk-size 35
+~/.claude/skills/video-to-notes/scripts/split_srt.py <file>.srt --chunk-size 35
 ```
 
 Smaller chunks (35-50 blocks) with more parallel agents is faster than larger chunks.
@@ -121,7 +121,7 @@ Launch multiple Task tool calls **in a single message** for parallel execution.
 - `prompt`: See template in `references/transcript-correction-prompt.md`
 
 For the full prompt template and merge instructions, read:
-`~/.claude/skills/processing-screen-recordings/references/transcript-correction-prompt.md`
+`~/.claude/skills/video-to-notes/references/transcript-correction-prompt.md`
 
 ### 4.5 Update Word List (Optional)
 
@@ -163,7 +163,7 @@ More detailed content, code snippets, architecture decisions.
 
 Continue organizing by main discussion themes.
 
-## Action Items
+## Action Items (If Applicable)
 
 - [ ] Task 1 with owner
 - [ ] Task 2 with owner
