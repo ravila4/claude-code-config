@@ -1,112 +1,281 @@
 ---
 name: daily-journal
 description: Draft, organize, or update development journal entries. Use when user requests daily journal generation, work review, standup preparation, or asks "what did I work on today/this week?"
-argumentHint: "[--date YYYY-MM-DD] [--git-only]"
+argumentHint: "[--date YYYY-MM-DD] [--quick]"
 userInvocable: true
 ---
 
 # Daily Journal
 
-Generate daily journal entries from git commits and Claude Code sessions.
+An interactive, conversational skill for creating meaningful daily journal entries. Conversation first, data second.
 
-## Usage
+## Table of Contents
 
-```bash
-/daily-journal              # Generate today's journal
-/daily-journal --date 2026-01-23  # Specific date
-/daily-journal --git-only   # Skip total recall (faster)
+1. [Philosophy](#philosophy)
+2. [Flow Diagram](#flow-diagram)
+3. [Time-Aware Interaction](#time-aware-interaction)
+4. [The Conversation](#the-conversation)
+5. [Using Data as Memory Aid](#using-data-as-memory-aid)
+6. [Markdown Conventions](#markdown-conventions)
+7. [Template Structure](#template-structure)
+8. [CLI Reference](#cli-reference)
+
+## Philosophy
+
+**Commits are not what matters.** They're often mechanical, LLM-generated, or busywork. A journal should capture:
+
+- What you *actually* focused on
+- How you *felt* about the work
+- What's still open in your mind
+- The human experience of the day
+
+**Conversation first, data second.** Ask the user about their day. Use collected data (git, sessions) only as a *memory jogger* for days when they can't remember what they did.
+
+**Context matters.** Weekends are different from workdays. Mornings are different from evenings. Hobby projects are valid. Tooling optimization is valid.
+
+## Flow Diagram
+
+```mermaid
+flowchart TD
+    Start([/daily-journal]) --> CheckTime{What time is it?}
+
+    CheckTime -->|Morning| MorningFlow
+    CheckTime -->|Afternoon/Evening| EveningFlow
+
+    subgraph MorningFlow[Morning: Planning Mode]
+        M1[Read yesterday's entry] --> M2[Show yesterday's open questions]
+        M2 --> M3{Ask: What's your focus today?}
+        M3 --> M4{Ask: Any carryover from yesterday?}
+        M4 --> M5[Create/update today's entry with intentions]
+    end
+
+    subgraph EveningFlow[Afternoon/Evening: Reflection Mode]
+        E1{Ask: What did you work on?} --> E2{Ask: How did it go?}
+        E2 --> E3{Ask: What's still open?}
+        E3 --> E4[Offer data as memory aid]
+        E4 --> E5{Anything else to add?}
+        E5 --> E6[Synthesize journal from conversation]
+    end
+
+    subgraph DataAid[Data as Memory Aid]
+        D1[Run collect_day_data.py] --> D2[Show: I see activity in X...]
+        D2 --> D3{Worth mentioning?}
+        D3 -->|Yes| D4[User describes in their words]
+        D3 -->|No| D5[Skip]
+    end
+
+    E4 --> DataAid
+    DataAid --> E5
+
+    MorningFlow --> Save
+    EveningFlow --> Save
+
+    Save[Save to Obsidian] --> End([Done])
+
+    style MorningFlow fill:#e8f4e8
+    style EveningFlow fill:#e8e8f4
+    style DataAid fill:#f4f4e8
 ```
 
-## How It Works
+## Time-Aware Interaction
 
-1. **Git-first approach**: Scans `~/Projects/` for repos with commits on the specified date
-2. **Total recall integration**: Discovers additional projects touched via Contextify session logs
-3. **Main project detection**: Determines primary project by commit count and session activity
-4. **Template-compliant output**: Generates markdown matching Ricardo's Obsidian template
+Check the current time before starting. Different times trigger different modes:
 
-## Running the Script
+| Time | Mode | Primary Questions |
+|------|------|-------------------|
+| Before noon | **Planning** | What's your focus? Carryover from yesterday? |
+| Afternoon (12-5pm) | **Mid-day check** | How's the day going? Stuck on anything? |
+| Evening (after 5pm) | **Reflection** | What did you work on? How did it go? |
+| Weekend | **Lighter touch** | What did you tinker with? Any hobby wins? |
 
-When the user invokes `/daily-journal`:
+**How to check:**
+```bash
+# Get current time
+date "+%H:%M %A"  # e.g., "14:32 Saturday"
+```
 
-1. Run the script with appropriate flags:
+Use this to:
+1. Determine mode (morning/afternoon/evening)
+2. Check if weekend (Saturday/Sunday) - add `weekend` tag, lighter expectations
+3. Frame questions appropriately
 
+## The Conversation
+
+### Morning Mode (Planning)
+
+1. Read yesterday's entry if it exists
+2. Show yesterday's "Tomorrow's focus" and "Open questions"
+3. Ask:
+   - "What's your main focus for today?"
+   - "Any carryover from yesterday you want to tackle?"
+   - "Anything blocking you?"
+4. Create entry with intentions (can be updated in evening)
+
+### Evening Mode (Reflection)
+
+1. **Start with open questions** - don't assume anything from data:
+   - "What did you work on today?"
+   - "How did it go? What felt good or frustrating?"
+   - "Any wins? Any blockers?"
+   - "What's still on your mind?"
+
+2. **Offer data as memory aid** (only after user has shared):
+   - "I see you also had activity in [project] - worth mentioning?"
+   - "Looks like you touched [files] - anything notable there?"
+   - User can say "no, that was just mechanical" and it gets skipped
+
+3. **Ask about tomorrow**:
+   - "What's your focus for tomorrow?"
+   - "Any open questions to sleep on?"
+
+### Weekend Mode
+
+- Lighter expectations, different framing
+- "What did you tinker with today?"
+- "Any hobby wins?"
+- "Did you rest?" (rest is valid!)
+- Add `weekend` tag automatically
+
+## Using Data as Memory Aid
+
+The `collect_day_data.py` script is a **secondary tool**, not the primary input.
+
+**When to use it:**
+- User says "I can't remember what I did"
+- After user has shared, to jog memory for forgotten items
+- Never as the source of truth for what mattered
+
+**How to present it:**
+```
+I see some activity that might jog your memory:
+- 3 commits in claude-code-config
+- 45 sessions in aou_qc
+- Files touched in video-to-notes skill
+
+Any of these worth mentioning in your own words?
+```
+
+**Running the script:**
 ```bash
 cd /Users/ricardoavila/Projects/claude-code-config/claude/skills/daily-journal
-uv run scripts/summarize_day.py [--date YYYY-MM-DD] [--git-only]
+uv run scripts/collect_day_data.py [--date YYYY-MM-DD] [--skip-sessions]
 ```
 
-2. Show the generated markdown to the user
-3. Ask if they want to save it to Obsidian (`~/Documents/Obsidian-Notes/Daily Log/YYYY-MM-DD.md`)
+## Markdown Conventions
 
-## Output Structure
+Clearly differentiate personal voice from LLM context using Obsidian-compatible markdown:
 
-The generated journal follows this template:
+### Personal Reflections (User's Voice)
+
+Use blockquotes for the user's own words and feelings:
+
+```markdown
+> Spent most of the morning yak-shaving on my dev tools again.
+> It felt productive in the moment but I'm not sure it was the best use of time.
+> The regenie debugging is getting frustrating - every fix reveals another issue.
+```
+
+### Context/Background (LLM-Provided)
+
+Use regular text or callouts for factual context:
+
+```markdown
+> [!info] Context
+> Continued from [[2026-01-23]] - regenie FID alignment debugging.
+> Related to the empiroar benchmarking project.
+```
+
+### Technical Notes (If Needed)
+
+Use collapsible sections for technical details that shouldn't dominate:
+
+```markdown
+<details>
+<summary>Technical: FID alignment fix</summary>
+
+The issue was that BGEN files use `FID=0` while PLINK uses `FID=IID`.
+Fixed with: `awk '{$1=$2; print}' file.sample`
+
+</details>
+```
+
+### Callout Types (Obsidian)
+
+```markdown
+> [!success] Win
+> Got the daily-journal skill working with interactive mode!
+
+> [!warning] Blocker
+> Still can't get regenie step 2 to recognize the covariate file.
+
+> [!question] Open Question
+> Should I re-run step 1 after changing the FID format?
+```
+
+## Template Structure
+
+The final journal should feel personal, not mechanical:
 
 ```markdown
 ---
-date: YYYY-MM-DD
+date: {date}
 tags:
   - daily-log
-  - [project-tags]
+  - {weekend if applicable}
+  - {project tags from conversation}
 ---
 
-## Summary
-*One-line: What was today's main focus?*
+## {date} - {day of week}
 
-## Goals
-- [x] Completed tasks (from commits)
-- [ ] In-progress tasks
+> {User's summary of the day in their own words - from conversation}
 
-## Notes
+### What I Worked On
 
-### Main Project Name
-**Commits:**
-- commit message 1
-- commit message 2
+> {User's description of their focus, in their voice}
 
-**Files changed:** N files
+> [!info] Context
+> {Any relevant background - continued from yesterday, etc.}
 
-### Side Projects (if any)
-Brief mention of other repos with activity
+### How It Went
 
-## Reflection
-- **What worked:**
-- **What didn't:**
-- **Open questions:**
-- **Tomorrow's focus:**
+> {User's reflection on the experience - what felt good, what was frustrating}
+
+### Open Loops
+
+> [!question] Still thinking about...
+> - {Open questions from conversation}
+> - {Blockers mentioned}
+
+### Tomorrow
+
+> {User's stated intentions for tomorrow}
+
+---
 
 ## Related
-- [[Main Project Link]]
+
+- [[{relevant links}]]
 ```
 
-## CLI Options
+## CLI Reference
 
 | Flag | Description |
 |------|-------------|
-| `--date YYYY-MM-DD` | Generate journal for specific date (default: today) |
-| `--git-only` | Skip Contextify session discovery (faster) |
-| `--projects-dir PATH` | Custom projects directory (default: ~/Projects) |
-| `--output FILE` | Write to file instead of stdout |
+| `--date YYYY-MM-DD` | Target date (default: today) |
+| `--quick` | Skip interactive questions, just use data (not recommended) |
 
-## Data Sources
+## Anti-Patterns
 
-### Git Commits (Primary)
-- Scans all repos in `~/Projects/`
-- Extracts commit messages and file change counts
-- Ranks projects by activity level
+**Don't:**
+- Lead with commits or session counts
+- Generate a "report" from data
+- Assume commits = what mattered
+- Write in third person about the user
+- Fill in feelings or reflections without asking
 
-### Total Recall / Contextify (Secondary)
-- Uses `contextify-query activity` to find session activity
-- Correlates sessions with git repos for better project detection
-- Can be skipped with `--git-only` for faster generation
-
-## Tips
-
-- Run at end of day for best results (more commits to analyze)
-- Use `--git-only` for quick checks during the day
-- The script handles repos with no activity gracefully
-- Side projects with single commits are included but not emphasized
-
-## References
-
-See `references/` for additional documentation on log formats and patterns.
+**Do:**
+- Ask open questions first
+- Let user describe in their own words
+- Use data only as memory jogger
+- Preserve the user's voice in the final output
+- Respect that rest and hobby time are valid
