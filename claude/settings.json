@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "date '+Time: %H:%M'"
+            "command": "date '+Today is %A, %B %e, %Y. Time: %H:%M'"
           }
         ]
       }
