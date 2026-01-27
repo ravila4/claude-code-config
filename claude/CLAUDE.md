@@ -8,8 +8,8 @@ I maintain a customized development environment (Neovim, Obsidian for knowledge 
 
 ## Development Environment
 
-- **Platform:** Mac M1 (ARM architecture)
-- **Containers:** When using Docker, typically linux/amd64
+- **Platform:** Dell XPS 13 (2019), Fedora Linux, x86_64
+- **Desktop Apps:** If a desktop app isn't in PATH, try `flatpak run <app-id>`
 - **Primary Language:** Python
 - **Work:** Bioinformatics data analysis and pipelines
 - **Personal:** General software development and hobby projects
