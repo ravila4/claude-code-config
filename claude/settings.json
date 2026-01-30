@@ -39,18 +39,32 @@
       }
     ]
   },
-  {
-    "attribution": {
-        "commit": "",
-        "pr": ""
-    }
-  },
   "statusLine": {
     "type": "command",
     "command": "${HOME}/.claude/statusline.sh"
   },
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true
+  },
+  "includeCoAuthoredBy": false,
+  "spinnerVerbs": {
+    "mode": "append",
+    "verbs": [
+      "Aligning",
+      "Assembling",
+      "Annealing",
+      "Ligating",
+      "Splicing",
+      "Amplifying",
+      "Synthesizing",
+      "Sequencing",
+      "Annotating",
+      "Transcribing",
+      "Mutating",
+      "Hybridizing",
+      "Coalescing",
+      "Coping"
+    ]
   },
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
