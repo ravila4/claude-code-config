@@ -8,16 +8,14 @@
    - This repo is designed to be symlinked into `{$HOME}/.claude/` (dotfiles style).
    - Use the `scripts/install.sh` script to create the symlinks.
 
-
 ## Repository layout
 
 ```
 .
 ├── claude/
-│   ├── agents/        # agent definitions (markdown)
-│   ├── hooks/         # Claude Code hooks
+│   ├── agents/        # agent definitions
 │   ├── skills/        # reusable skills
-│   ├── CLAUDE.md      # project instructions
+│   ├── CLAUDE.md      # global claude code instructions
 │   └── settings.json  # global settings
 ├── scripts/           # install/uninstall helpers
 └── README.md

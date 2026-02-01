@@ -47,6 +47,26 @@
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true
   },
+  "includeCoAuthoredBy": false,
+  "spinnerVerbs": {
+    "mode": "append",
+    "verbs": [
+      "Aligning",
+      "Assembling",
+      "Annealing",
+      "Ligating",
+      "Splicing",
+      "Amplifying",
+      "Synthesizing",
+      "Sequencing",
+      "Annotating",
+      "Transcribing",
+      "Mutating",
+      "Hybridizing",
+      "Coalescing",
+      "Coping"
+    ]
+  },
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754080082264

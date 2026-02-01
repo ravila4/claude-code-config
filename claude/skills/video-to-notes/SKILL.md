@@ -36,6 +36,9 @@ Transform screen recordings (MP4) into comprehensive, enriched meeting notes by 
 
 # Extract frame at specific timestamp
 ffmpeg -ss 00:05:22 -i recording.mp4 -frames:v 1 -q:v 2 output.jpg -y
+
+# Crop image - detect boxes and crop to selection with padding
+~/.claude/skills/video-to-notes/scripts/detect_boxes.py frame.jpg --keep-nested --crop A -p 20 -o cropped.jpg
 ```
 
 ## Workflow Overview
@@ -116,44 +119,64 @@ For detailed evaluation criteria, classification types, and the decision matrix,
 - RE-CREATE: Hand-drawn concepts → create clean Graphviz/TikZ diagram
 - KEEP: Only if visual is truly essential to understanding
 
-## Step 3.5: Image Post-Processing
+## Step 3.5: Image Cropping
 
-Before including extracted frames in notes, post-process them to remove distracting UI elements.
+Crop extracted frames to remove distracting UI elements and focus on relevant content.
 
-### Visual Inspection Approach
+### Bounding Box Detection
 
-1. **View the first extracted frame** to identify UI elements specific to this recording
-2. **Identify noise elements:**
-   - Video call participants bar (Zoom, Meet, Teams)
-   - Presentation toolbars (PowerPoint, Google Slides)
-   - Screen share borders/shadows
-   - Notification overlays
-3. **Determine crop parameters** for this specific video
-4. **Apply consistent crop** to all frames from the same recording
+Use `detect_boxes.py` with `--keep-nested` to find all rectangular elements in the image.
 
-### Common Cropping Patterns
+```bash
+# Detect and label all boxes (including nested elements)
+~/.claude/skills/video-to-notes/scripts/detect_boxes.py frame.jpg --keep-nested --json
 
-Determine the actual pixel values by inspecting the first frame:
+# View annotated image, then crop to selected box with padding
+~/.claude/skills/video-to-notes/scripts/detect_boxes.py frame.jpg --keep-nested --crop A -p 20 -o cropped.jpg
 
-1. **Read the first frame** to visually identify crop boundaries
-2. **Get dimensions** with `identify frame.jpg`
-3. **Batch crop** all frames with the same parameters
+# Span multiple boxes if needed
+~/.claude/skills/video-to-notes/scripts/detect_boxes.py frame.jpg --keep-nested --crop A+B -p 20
+```
+
+### Workflow
+
+1. **Detect**: Run `detect_boxes.py --keep-nested` → view annotated image
+2. **Select**: Pick the box that best contains the target content
+3. **Crop**: Apply padding, using asymmetric padding if needed (e.g., `-p 15,20,20,100` for extra left padding to capture y-axis labels)
+4. **Verify**: Read back the cropped image and check for issues
+5. **Iterate**: Adjust box selection or padding if needed
+
+### Verify Checklist (for plots/figures)
+
+After cropping, check that the result includes:
+- [ ] Plot title
+- [ ] X-axis label and tick marks
+- [ ] Y-axis label and tick marks
+- [ ] Legend (if present)
+- [ ] All data point labels/annotations
+- [ ] No unwanted elements (slide titles, footers, other UI)
+
+If elements are missing, use asymmetric padding to expand in that direction.
+
+### Padding Formats (CSS-style)
+
+```
+-p 20              # 20px on all sides
+-p 10,30           # 10px top/bottom, 30px left/right
+-p 10,20,30,40     # top, right, bottom, left
+```
+
+### Fallback: Manual Crop
+
+If `detect_boxes.py` finds no useful boxes (rare), use imagemagick directly:
 
 ```bash
 # Get image dimensions
 identify frame.jpg
 
-# Crop single image: -crop WIDTHxHEIGHT+X+Y
-convert input.jpg -crop 1920x920+0+80 +repage output.jpg
-
-# Batch crop all frames in directory
-for f in *.jpg; do convert "$f" -crop 1920x920+0+80 +repage "cropped_$f"; done
+# Manual crop: -crop WIDTHxHEIGHT+X+Y
+convert frame.jpg -crop 800x600+100+50 +repage cropped.jpg
 ```
-
-**Typical patterns to remove:**
-- Top 60-100px: Video call participant bar
-- Bottom 40-80px: Presentation controls
-- Side borders: Screen share shadows
 
 ## Step 4: Correct Transcription Errors (Parallel Processing)
 
