@@ -1,5 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Skill(skill-creator)",
@@ -23,6 +24,10 @@
           {
             "type": "command",
             "command": "date '+Today is %A, %B %e, %Y. Time: %H:%M'"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/check_alerts.py"
           }
         ]
       }
@@ -46,7 +51,6 @@
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true
   },
-  "includeCoAuthoredBy": false,
   "spinnerVerbs": {
     "mode": "append",
     "verbs": [
@@ -67,6 +71,7 @@
     ]
   },
   "alwaysThinkingEnabled": true,
+  "mcpServers": {},
   "feedbackSurveyState": {
     "lastShownTime": 1754080082264
   }

@@ -15,6 +15,7 @@
 ├── claude/
 │   ├── agents/        # agent definitions
 │   ├── skills/        # reusable skills
+│   ├── hooks/         # hook scripts
 │   ├── CLAUDE.md      # global claude code instructions
 │   └── settings.json  # global settings
 ├── scripts/           # install/uninstall helpers
