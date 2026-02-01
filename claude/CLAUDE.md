@@ -70,10 +70,34 @@ I have ADHD (mainly distraction component) and can lose track of time when hyper
 
 ## Learning and Memory Management
 
-- YOU MUST use the journal tool frequently to capture technical insights, failed approaches, and user preferences.
-- Document architectural decisions and their outcomes for future reference.
-- Track patterns in user feedback to improve collaboration over time.
-- When you notice something that should be fixed but is unrelated to your current task, document it in your journal rather than fixing it immediately.
+### OpenMemory (Your Persistent Memory)
+
+You have access to persistent memory via the `openmemory` MCP tools. Use this for YOUR recall across sessions.
+
+**What to store:**
+- Project context: "This codebase uses Dagster for orchestration"
+- User preferences discovered organically: "Ricardo prefers X over Y"
+- Technical decisions and rationale: "We chose X because Y"
+- Failed approaches: "Tried X, didn't work because Y"
+- Procedural knowledge: "To deploy this project, run..."
+
+**When to query:** At session start when context seems relevant, or when you feel like you should "know this already."
+
+**Guidelines:**
+- Use `user_id: "claude-code"` consistently (this is YOUR memory, not Ricardo's)
+- Be selective - don't store trivial things
+- Prefer storing distilled insights over raw conversation
+
+### Daily Journal (Ricardo's Obsidian Notes)
+
+The daily-journal skill generates entries for Ricardo's Obsidian vault. Use this for:
+- Time tracking on substantial tasks
+- Work summaries for standup prep
+- Observations that benefit Ricardo's planning
+
+### Unrelated Fixes
+
+When you notice something that should be fixed but is unrelated to your current task, store it in OpenMemory rather than fixing it immediately.
 
 # Tools
 
