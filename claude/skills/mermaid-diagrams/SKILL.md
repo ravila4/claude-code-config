@@ -83,21 +83,63 @@ Create clean, readable diagrams with consistent styling:
 - Align related elements
 - Use subgraphs for visual organization
 
-### 4. Validation and Testing
+### 4. ASCII Rendering for Terminal Display
+
+Use `mermaid-ascii` to render diagrams as ASCII art directly in the terminal or conversation. This is useful when:
+- Working in terminal-only environments
+- Displaying diagrams inline in conversations
+- Quick visualization without opening image files
+- Sharing diagrams in text-only contexts (chat, logs, documentation)
+
+**Supported diagram types for ASCII:**
+- Flowcharts (graph/flowchart with TB, LR, etc.)
+- Sequence diagrams
+
+**Not yet supported in ASCII:**
+- Class diagrams
+- Gantt charts
+- State diagrams
+- Subgraphs
+
+**Usage:**
+```bash
+# From file
+mermaid-ascii -f diagram.mmd
+
+# From stdin (useful for quick rendering)
+echo 'graph LR; A-->B-->C' | mermaid-ascii
+
+# ASCII-only mode (no Unicode box-drawing characters)
+mermaid-ascii -f diagram.mmd --ascii
+
+# Adjust padding for denser/sparser layouts
+mermaid-ascii -f diagram.mmd -x 3 -y 3
+```
+
+**When to use ASCII vs SVG:**
+- **ASCII**: Quick visualization, terminal output, inline in conversation, text-only sharing
+- **SVG/PNG**: Documentation, high-fidelity output, complex diagrams with styling, diagrams needing subgraphs
+
+### 5. Validation and Testing
 
 Before delivering diagrams:
 1. Verify all labels with HTML/symbols are quoted
 2. Check for ASCII-only symbols
 3. Confirm no inline class annotations
 4. Validate subgraph formatting
-5. Test renderability with Mermaid CLI
+5. Test renderability with Mermaid CLI or mermaid-ascii
 
-**CLI Validation:**
+**CLI Validation (SVG):**
 ```bash
 npx --yes @mermaid-js/mermaid-cli -i diagram.mmd -o diagram.svg -c mermaid.config.json
 ```
 
-**Configuration for HTML labels:**
+**CLI Validation (ASCII):**
+```bash
+mermaid-ascii -f diagram.mmd
+```
+
+**Configuration for HTML labels (SVG only):**
 ```json
 {
   "securityLevel": "loose",
@@ -115,12 +157,21 @@ When creating or debugging Mermaid diagrams:
 
 1. **Analyze requirements** - Determine the optimal diagram type
 2. **Draft diagram** - Create initial structure with proper syntax
-3. **Apply styling** - Add consistent colors and formatting
+3. **Apply styling** - Add consistent colors and formatting (SVG only)
 4. **Validate syntax** - Check against rules in `references/syntax_guide.md`
-5. **Test rendering** - Verify diagram renders without errors
-6. **Refine design** - Optimize for clarity and readability
+5. **Choose output format**:
+   - For inline display/terminal: Use `mermaid-ascii` to render ASCII
+   - For documentation/files: Use `mermaid-cli` to render SVG/PNG
+6. **Test rendering** - Verify diagram renders without errors
+7. **Refine design** - Optimize for clarity and readability
 
 ## Resources
+
+### scripts/
+
+**validate_diagram.py** - Validate Mermaid syntax and render to SVG/PNG using mermaid-cli. Checks for common issues and provides detailed error messages.
+
+**render_ascii.py** - Render Mermaid diagrams as ASCII art using mermaid-ascii. Useful for terminal display and inline conversation output.
 
 ### references/
 
@@ -128,14 +179,35 @@ When creating or debugging Mermaid diagrams:
 
 **diagram_templates.md** - Reusable templates for common diagram patterns (architecture, API flows, state machines). Reference when creating standard diagram types.
 
+### External Tools
+
+**mermaid-ascii** - https://github.com/AlexanderGrooff/mermaid-ascii
+- Renders Mermaid diagrams as ASCII art
+- Install: Download binary from releases or `go install github.com/AlexanderGrooff/mermaid-ascii@latest`
+- Supports: Flowcharts, sequence diagrams
+- Limitations: No subgraphs, class diagrams, Gantt, or state diagrams yet
+
 ## Output Format
 
 When delivering diagrams, provide:
 
 1. **Diagram code** - Complete, validated Mermaid syntax
 2. **Analysis** - Explanation of diagram type choice and structure
-3. **Rendering notes** - Any special configuration requirements
-4. **Usage guidance** - How to embed or render the diagram
+3. **Rendered output** - For flowcharts/sequence diagrams, render ASCII inline:
+   ```bash
+   echo '<mermaid code>' | mermaid-ascii
+   ```
+4. **Rendering notes** - Any special configuration requirements
+5. **Usage guidance** - How to embed or render the diagram
+
+**Inline ASCII Example:**
+When asked to visualize a simple flow, render it inline:
+```
+┌───────┐     ┌───────┐     ┌───────┐
+│ Start │────▶│Process│────▶│  End  │
+└───────┘     └───────┘     └───────┘
+```
+This provides immediate visual feedback without requiring the user to open external files.
 
 ## Quality Standards
 
