@@ -123,6 +123,8 @@ For detailed evaluation criteria, classification types, and the decision matrix,
 
 Crop extracted frames to remove distracting UI elements and focus on relevant content.
 
+**CRITICAL: ALWAYS use `detect_boxes.py` for cropping.** Do NOT use manual ImageMagick commands (`convert -crop`) - the detect_boxes workflow produces better results and is more repeatable.
+
 ### Bounding Box Detection
 
 Use `detect_boxes.py` with `--keep-nested` to find all rectangular elements in the image.
@@ -166,9 +168,14 @@ If elements are missing, use asymmetric padding to expand in that direction.
 -p 10,20,30,40     # top, right, bottom, left
 ```
 
-### Fallback: Manual Crop
+### Fallback: Manual Crop (Last Resort)
 
-If `detect_boxes.py` finds no useful boxes (rare), use imagemagick directly:
+**Only use this if `detect_boxes.py --keep-nested` finds NO useful boxes.** Before falling back:
+1. Run detect_boxes.py and view the annotated image
+2. Try spanning multiple boxes with `--crop A+B`
+3. Try different padding values
+
+If none of that works, use imagemagick directly:
 
 ```bash
 # Get image dimensions
@@ -234,7 +241,7 @@ For slides containing tables, metrics, or structured information, use **both vis
 
 Example of extracted cost breakdown:
 ```markdown
-![[05-22_cost-comparison.jpg]]
+![[_images/05-22_cost-comparison.jpg]]
 
 | Service | Cost/Month | Notes |
 |---------|-----------|-------|
@@ -294,15 +301,30 @@ Continue organizing by main discussion themes.
 - Use checkbox format `- [ ]` for action items
 - Include `empirico/meeting` tag for Empirico meetings
 - Add `[[internal links]]` to related Obsidian notes
-- Embed visualizations inline within relevant topic sections: `![[diagram.svg]]`
+- Embed visualizations inline within relevant topic sections: `![[_images/diagram.jpg]]`
 
 ## Step 6: Obsidian Integration (Optional)
 
 To save to Obsidian vault at ${HOME}/Documents/Obsidian-Notes:
 
-**Folder:** Place in appropriate location (e.g., `Empirico/Meetings/`)
+**Note location:** Place in appropriate folder (e.g., `Empirico/Meetings/`)
 
 **Filename convention:** `YYYY-MM-DD - Meeting Title.md`
+
+**Attachments:** Copy images to the `_images/` subfolder within the same directory as the note:
+```bash
+# Example structure
+Empirico/Meetings/
+├── _images/
+│   ├── 03-42_cropped.jpg
+│   └── 07-08_cropped.jpg
+└── 2026-02-02 - Meeting Title.md
+```
+
+**Image embeds:** Use the `_images/` path prefix in wiki-links:
+```markdown
+![[_images/03-42_cropped.jpg]]
+```
 
 **Internal Links:** Add `[[Related Note]]` links to existing relevant notes throughout the document.
 
