@@ -326,7 +326,13 @@ Empirico/Meetings/
 ![[_images/03-42_cropped.jpg]]
 ```
 
-**Internal Links:** Add `[[Related Note]]` links to existing relevant notes throughout the document.
+**Internal Links:** Use `obsidian-semantic search` with key topics from the meeting to find notes to link:
+```bash
+# Search for notes related to main meeting topics
+obsidian-semantic search "topic from meeting" -n 5
+obsidian-semantic search "another key topic" -n 5
+```
+Add `[[Related Note]]` links to matching notes throughout the document.
 
 ## File Organization
 

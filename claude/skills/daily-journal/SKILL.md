@@ -104,8 +104,9 @@ Use this to:
 ### Morning Mode (Planning)
 
 1. Read yesterday's entry if it exists
-2. Show yesterday's "Tomorrow's focus" and "Open questions"
-3. Ask:
+2. Run `obsidian-semantic related "Daily Log/<yesterday>.md" -n 5` to surface notes related to yesterday's topics
+3. Show yesterday's "Tomorrow's focus", "Open questions", and relevant related notes
+4. Ask:
    - "What's your main focus for today?"
    - "Any carryover from yesterday you want to tackle?"
    - "Anything blocking you?"
@@ -254,7 +255,8 @@ tags:
 
 ## Related
 
-- [[{relevant links}]]
+Use `obsidian-semantic related "Daily Log/{date}.md" -n 5` to populate with meaningful links:
+- [[{relevant links from semantic search}]]
 ```
 
 ## CLI Reference
