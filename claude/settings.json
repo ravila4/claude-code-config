@@ -17,7 +17,6 @@
     "deny": [],
     "ask": []
   },
-  "model": "sonnet[1m]",
   "hooks": {
     "UserPromptSubmit": [
       {
