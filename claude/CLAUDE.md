@@ -72,30 +72,24 @@ I have ADHD (mainly distraction component) and can lose track of time when hyper
 
 ### OpenMemory (Your Persistent Memory)
 
-You have access to persistent memory via the `openmemory` MCP tools. Use this for YOUR recall across sessions.
+You have access to persistent memory via the `openmemory` MCP tools. This is YOUR long-term recall across sessions. Use it proactively -- don't wait to be asked.
 
-**What to store:**
-- Project context: "This codebase uses Dagster for orchestration"
-- User preferences discovered organically: "Ricardo prefers X over Y"
-- Technical decisions and rationale: "We chose X because Y"
-- Failed approaches: "Tried X, didn't work because Y"
-- Procedural knowledge: "To deploy this project, run..."
+**Store memories as you work, not after.** Concrete triggers:
+
+- After a **web search or documentation dive** yields useful results, store the distilled finding immediately.
+- After Ricardo **corrects you or states a preference**, store it as a user preference.
+- After a **failed approach**, store what was tried and why it didn't work.
+- After an **architectural decision**, store the choice and rationale before moving on.
+- When you discover **how a codebase or tool works**, store the key patterns, gotchas, or setup procedures.
 
 **When to query:** At session start when context seems relevant, or when you feel like you should "know this already."
 
 **Guidelines:**
 - Use `user_id: "claude-code"` consistently (this is YOUR memory, not Ricardo's)
-- Be selective - don't store trivial things
-- Prefer storing distilled insights over raw conversation
+- Prefer distilled insights over verbose notes
+- Use descriptive tags for discoverability
 
-### Daily Journal (Ricardo's Obsidian Notes)
-
-The daily-journal skill generates entries for Ricardo's Obsidian vault. Use this for:
-- Time tracking on substantial tasks
-- Work summaries for standup prep
-- Observations that benefit Ricardo's planning
-
-### Unrelated Fixes
+OpenMemory is for cross-session technical recall. The daily-journal skill is for Ricardo's work narrative (time tracking, standup prep) -- see that skill for details.
 
 When you notice something that should be fixed but is unrelated to your current task, store it in OpenMemory rather than fixing it immediately.
 
