@@ -23,13 +23,13 @@ Audio communication channel using text-to-speech. Gets user's attention when the
 
 ## Installation
 
-The `speak` command is automatically installed on first use. If you want to install it manually:
+The `speak` command is a `uv run --script` script. Symlink it onto your PATH:
 
 ```bash
-uv tool install --editable ~/.claude/skills/speak
+ln -sf ~/.claude/skills/speaking/scripts/speak ~/.local/bin/speak
 ```
 
-This installs the `speak` command globally on your PATH.
+Dependencies (`kokoro-onnx`, `soundfile`) are resolved automatically by `uv run` on first invocation. Kokoro models (~340 MB) are downloaded on first use.
 
 ## Basic Usage
 
