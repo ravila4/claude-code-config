@@ -247,6 +247,58 @@ Result: Next chunk generates while current chunk plays = zero lag between segmen
 
 The background worker auto-starts on first use and shuts down after 30 seconds of inactivity.
 
+## Audio Briefing
+
+The `briefing` command converts dense text (markdown docs, research notes, long explanations) into a spoken audio walkthrough using Qwen3-TTS with voice cloning.
+
+### When to Use Briefing vs Speak
+
+| | `speak` | `briefing` |
+|---|---|---|
+| **Length** | 1-5 sentences | Paragraphs to pages |
+| **Speed** | Instant (Kokoro ONNX) | Slower (~1.1x realtime generation) |
+| **Voice** | Multiple built-in voices | Cloned voice (Rachel) |
+| **Use case** | Alerts, short updates | Document walkthroughs, research summaries |
+| **LLM rewrite** | No | Yes (ollama), or `--raw` to skip |
+
+### Installation
+
+```bash
+ln -sf ~/.claude/skills/speaking/scripts/briefing ~/.local/bin/briefing
+```
+
+Dependencies (`mlx-audio`, `httpx`) are resolved automatically by `uv run` on first invocation. The Qwen3-TTS model is downloaded on first use.
+
+### Usage
+
+```bash
+# Rewrite via ollama then speak (standalone CLI use)
+briefing input.txt
+
+# Skip LLM rewrite, speak text as-is (when Claude has already rewritten)
+briefing input.txt --raw
+echo "Pre-written conversational text here." | briefing --raw
+
+# Verbose mode for debugging
+briefing input.txt --raw --verbose
+```
+
+**When Claude invokes briefing:** Rewrite the text yourself into conversational narration, then pipe it with `--raw`. This avoids the ollama dependency and gives you control over the rewrite quality.
+
+### How It Works
+
+1. **Model loading** starts in a background thread immediately
+2. **Text rewrite** via ollama runs in parallel (or skipped with `--raw`)
+3. Text is **split into paragraph chunks** (merges short paragraphs to avoid tiny clips)
+4. **Pre-buffers** 3 chunks of audio, then streams: plays chunk N while generating N+1
+5. Temp WAV files are cleaned up after each chunk plays
+
+### Requirements
+
+- macOS Apple Silicon (uses MLX for inference)
+- `afplay` (macOS built-in) for audio playback
+- ollama running locally (only for non-`--raw` mode)
+
 ## Listening
 
 The `listen` command captures voice input from the default microphone and transcribes it via faster-whisper. It is the counterpart to `speak`.

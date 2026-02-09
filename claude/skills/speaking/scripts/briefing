@@ -1,0 +1,341 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mlx-audio>=0.3.1",
+#     "httpx",
+# ]
+#
+# [tool.uv]
+# prerelease = "allow"
+# ///
+"""
+Audio briefing: converts dense text into a spoken conversational walkthrough.
+
+Pipeline:
+  1. Start loading Qwen3-TTS model (background thread)
+  2. Call ollama to rewrite text as conversational narration (parallel)
+  3. Split rewritten text into paragraph chunks
+  4. Pre-buffer N chunks of audio, then stream: play chunk N while generating N+1
+
+Usage:
+    briefing input.txt
+    briefing input.txt --raw   # skip LLM rewrite
+    echo "wall of text" | briefing --raw
+"""
+import argparse
+import subprocess
+import sys
+import tempfile
+import threading
+import time
+from pathlib import Path
+from queue import Empty, Queue
+
+MODEL_ID = "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit"
+OLLAMA_MODEL = "qwen3:8b"
+OLLAMA_URL = "http://localhost:11434/api/chat"
+
+PRE_BUFFER_CHUNKS = 3  # Base model is slower (~1.1x RT), need more buffer
+
+# Voice cloning reference (resolved relative to this script)
+REF_AUDIO = str(Path(__file__).resolve().parent / "voices" / "rachel.mp3")
+REF_TEXT = "May I ask you a personal question? Have you ever retired a human by mistake?"
+
+REWRITE_PROMPT = """\
+You are a podcast narrator preparing a spoken walkthrough of a technical document.
+
+Transform the following text into natural, conversational narration suitable for \
+text-to-speech. Rules:
+
+- Write as if you're explaining this to a colleague over coffee
+- Use complete sentences, no bullet points or lists
+- Expand abbreviations on first use (e.g. "FTS" becomes "full-text search")
+- Skip code blocks entirely -- describe what the code does in plain English
+- Skip tables -- summarize the key points in prose
+- Remove all markdown formatting (headers, bold, backticks, etc.)
+- Don't say "as shown below" or reference visual elements
+- Add natural transitions: "so the idea is...", "the key thing here is...", "next up..."
+- Keep it concise -- aim for roughly half the length of the original
+- Separate distinct topics with blank lines (these become natural pause points)
+- Do NOT add any preamble like "Here's the walkthrough" -- just start talking
+- Do NOT use /no_think or any special tags
+
+TEXT TO TRANSFORM:
+"""
+
+VERBOSE = False
+
+
+def log(msg: str) -> None:
+    if VERBOSE:
+        timestamp = time.strftime("%H:%M:%S")
+        print(f"[{timestamp}] {msg}", file=sys.stderr)
+
+
+def load_tts_model_and_ref():
+    """Load Qwen3-TTS model and pre-encode reference audio. Runs in background thread."""
+    from mlx_audio.tts.utils import load_model
+    from mlx_audio.utils import load_audio
+
+    model = load_model(MODEL_ID)
+    ref_audio = load_audio(REF_AUDIO, sample_rate=model.sample_rate)
+    return model, ref_audio
+
+
+def rewrite_for_speech(text: str) -> str:
+    """Call ollama to rewrite text as conversational narration."""
+    import httpx
+
+    print("[rewrite] Calling ollama to rewrite text for speech...", file=sys.stderr)
+    t0 = time.time()
+
+    response = httpx.post(
+        OLLAMA_URL,
+        json={
+            "model": OLLAMA_MODEL,
+            "messages": [
+                {"role": "user", "content": REWRITE_PROMPT + text},
+            ],
+            "stream": False,
+            "options": {"num_ctx": 8192},
+        },
+        timeout=300,
+    )
+    response.raise_for_status()
+
+    result = response.json()["message"]["content"]
+    elapsed = time.time() - t0
+    print(f"[rewrite] Done in {elapsed:.1f}s ({len(result)} chars)", file=sys.stderr)
+    return result
+
+
+def split_into_chunks(text: str) -> list[str]:
+    """Split text into paragraph-sized chunks for independent TTS generation.
+
+    Splits on double newlines (paragraph boundaries). Merges very short
+    paragraphs with the next one to avoid tiny audio clips.
+    """
+    MIN_CHUNK_CHARS = 100
+
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+
+    chunks = []
+    current = ""
+    for para in paragraphs:
+        if current:
+            current += " " + para
+        else:
+            current = para
+
+        if len(current) >= MIN_CHUNK_CHARS:
+            chunks.append(current)
+            current = ""
+
+    # Don't lose the trailing text
+    if current:
+        if chunks:
+            chunks[-1] += " " + current
+        else:
+            chunks.append(current)
+
+    return chunks
+
+
+def generate_chunk_audio(model, ref_audio, text: str, chunk_idx: int) -> tuple[str, float]:
+    """Generate audio for a single text chunk. Returns (wav_path, duration_secs)."""
+    import mlx.core as mx
+    from mlx_audio.audio_io import write as audio_write
+
+    t0 = time.time()
+    audio_parts = [
+        r.audio
+        for r in model.generate(
+            text=text,
+            ref_audio=ref_audio,
+            ref_text=REF_TEXT,
+            lang_code="English",
+            verbose=False,
+        )
+    ]
+    gen_time = time.time() - t0
+
+    audio = mx.concatenate(audio_parts, axis=0)
+    duration = audio.shape[0] / model.sample_rate
+
+    chunk_path = tempfile.mktemp(suffix=f"_chunk_{chunk_idx:03d}.wav")
+    audio_write(chunk_path, audio, model.sample_rate)
+
+    log(
+        f"[tts] Chunk {chunk_idx + 1}: "
+        f"{len(text)} chars -> {duration:.1f}s audio "
+        f"({gen_time:.1f}s gen, {gen_time/duration:.2f}x RT)"
+    )
+
+    return chunk_path, duration
+
+
+def play_wav_file(path: str) -> None:
+    """Play a WAV file via afplay (blocks until done)."""
+    subprocess.run(["afplay", path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def run_chunked_pipeline(model, ref_audio, text: str) -> None:
+    """Generate and play audio in chunks with pre-buffering."""
+    chunks = split_into_chunks(text)
+    print(f"[pipeline] Split into {len(chunks)} chunks", file=sys.stderr)
+    for i, chunk in enumerate(chunks):
+        log(f"  [{i + 1}] {chunk[:80]}...")
+
+    # Queue: generator puts (wav_path, chunk_idx) or None for done
+    audio_queue: Queue = Queue()
+    prebuffer_ready = threading.Event()
+    total_duration = 0.0
+
+    def generator_thread():
+        nonlocal total_duration
+        for i, chunk_text in enumerate(chunks):
+            wav_path, duration = generate_chunk_audio(model, ref_audio, chunk_text, i)
+            total_duration += duration
+            audio_queue.put((wav_path, i))
+
+            # Signal pre-buffer is ready once we have enough chunks
+            if i + 1 >= min(PRE_BUFFER_CHUNKS, len(chunks)):
+                prebuffer_ready.set()
+
+        audio_queue.put(None)  # Signal done
+
+    def player_thread():
+        # Wait for pre-buffer before starting playback
+        n_prebuf = min(PRE_BUFFER_CHUNKS, len(chunks))
+        print(f"[play] Waiting for {n_prebuf} chunk(s) to buffer...", file=sys.stderr)
+        prebuffer_ready.wait()
+        print("[play] Pre-buffer ready, starting playback", file=sys.stderr)
+
+        played = 0
+        while True:
+            try:
+                item = audio_queue.get(timeout=120)
+            except Empty:
+                print("[play] Timeout waiting for next chunk", file=sys.stderr)
+                break
+
+            if item is None:
+                break
+
+            wav_path, chunk_idx = item
+            played += 1
+            log(f"[play] Playing chunk {chunk_idx + 1}/{len(chunks)}")
+            play_wav_file(wav_path)
+            # Clean up temp file after playback
+            Path(wav_path).unlink(missing_ok=True)
+
+        print(f"[play] Done, played {played} chunks", file=sys.stderr)
+
+    t0 = time.time()
+
+    gen_t = threading.Thread(target=generator_thread)
+    play_t = threading.Thread(target=player_thread)
+
+    gen_t.start()
+    play_t.start()
+
+    gen_t.join()
+    play_t.join()
+
+    wall_time = time.time() - t0
+    print(
+        f"\n[pipeline] Total audio: {total_duration:.1f}s, wall time: {wall_time:.1f}s",
+        file=sys.stderr,
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Convert text into a spoken audio briefing via Qwen3-TTS",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""\
+Examples:
+  briefing input.txt
+  briefing input.txt --raw
+  echo "wall of text" | briefing --raw
+""",
+    )
+    parser.add_argument(
+        "input_file",
+        nargs="?",
+        help="Text file to convert (reads from stdin if not provided)",
+    )
+    parser.add_argument(
+        "--raw",
+        action="store_true",
+        help="Skip LLM rewrite, use input text as-is",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable verbose logging for debugging",
+    )
+    args = parser.parse_args()
+
+    global VERBOSE
+    VERBOSE = args.verbose
+
+    if args.input_file:
+        text = Path(args.input_file).read_text()
+    elif not sys.stdin.isatty():
+        text = sys.stdin.read()
+    else:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+
+    text = text.strip()
+    if not text:
+        print("Error: empty input", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Input: {len(text)} chars", file=sys.stderr)
+    t_start = time.time()
+
+    # Start model + ref audio loading in background thread immediately
+    model_holder: list = [None]
+    ref_audio_holder: list = [None]
+    model_error: list = [None]
+
+    def _load():
+        try:
+            print("[model] Loading Qwen3-TTS + reference audio...", file=sys.stderr)
+            t0 = time.time()
+            model_holder[0], ref_audio_holder[0] = load_tts_model_and_ref()
+            print(f"[model] Ready in {time.time() - t0:.1f}s", file=sys.stderr)
+        except Exception as e:
+            model_error[0] = e
+
+    model_thread = threading.Thread(target=_load)
+    model_thread.start()
+
+    # Rewrite text in parallel (or skip if --raw)
+    if args.raw:
+        speech_text = text
+        print("[rewrite] Skipped (--raw mode)", file=sys.stderr)
+    else:
+        speech_text = rewrite_for_speech(text)
+        print(f"\n--- Rewritten text ---\n{speech_text}\n---\n", file=sys.stderr)
+
+    # Wait for model to finish loading
+    model_thread.join()
+    if model_error[0]:
+        print(f"[model] Error: {model_error[0]}", file=sys.stderr)
+        sys.exit(1)
+
+    model = model_holder[0]
+    ref_audio = ref_audio_holder[0]
+
+    # Run the chunked pipeline with pre-buffering
+    run_chunked_pipeline(model, ref_audio, speech_text)
+
+    print(f"\nTotal wall time: {time.time() - t_start:.1f}s", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
