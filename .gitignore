@@ -26,8 +26,8 @@ claude/skills/.system/
 package-lock.json
 package.json
 
-# Private journal (Claude Code MCP)
-.private-journal/
+# Scratch / temporary
+.scratch/
 
 # Runtime databases
 claude/hooks/alerts.db

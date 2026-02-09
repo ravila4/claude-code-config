@@ -64,7 +64,7 @@ MAX_CONCURRENT_CONNECTIONS = 24  # Limit concurrent socket connections
 MODEL_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx"
 VOICES_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin"
 
-DEFAULT_VOICE = "am_echo"
+DEFAULT_VOICE = "af_sarah"
 DEFAULT_SPEED = 1.0
 DEFAULT_LANG = "en-us"
 

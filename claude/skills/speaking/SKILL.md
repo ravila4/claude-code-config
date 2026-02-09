@@ -246,3 +246,26 @@ Queue mode uses multi-threading for seamless playback:
 Result: Next chunk generates while current chunk plays = zero lag between segments.
 
 The background worker auto-starts on first use and shuts down after 30 seconds of inactivity.
+
+## Listening
+
+The `listen` command captures voice input from the default microphone and transcribes it via faster-whisper. It is the counterpart to `speak`.
+
+```bash
+# Run with defaults (120s timeout, 5s silence detection)
+listen
+
+# Do NOT pass flags unless explicitly asked -- defaults are tuned
+```
+
+To minimize delay between speaking and listening, chain them in a single command:
+
+```bash
+speak "Your summary here" && listen
+```
+
+**Output behavior:**
+- Transcribed text prints to **stdout**
+- Status messages ("Listening...", "Transcribing...") print to **stderr**
+- A chime plays when recording starts
+- If no speech is detected, stdout is **empty** (check for this to determine if the user responded)

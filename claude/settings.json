@@ -11,8 +11,23 @@
       "Skill(prompt-optimization)",
       "Skill(daily-journal)",
       "Skill(test-driven-development)",
-      "Bash(speak:*)",
-      "Bash(git status:*)"
+      "Bash(speak *)",
+      "Bash(speak)",
+      "Bash(* | speak *)",
+      "Bash(* | speak)",
+      "Bash(speak * && listen)",
+      "Bash(speak * && listen *)",
+      "Bash(listen *)",
+      "Bash(listen)",
+      "Bash(/Users/ricardoavila/.local/bin/speak *)",
+      "Bash(/Users/ricardoavila/.claude/skills/speaking/scripts/speak *)",
+      "Bash(/Users/ricardoavila/.local/bin/listen *)",
+      "Bash(/Users/ricardoavila/.claude/skills/speaking/scripts/listen *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)"
     ],
     "deny": [],
     "ask": []
@@ -39,6 +54,44 @@
           {
             "type": "command",
             "command": "date '+Task finished: %H:%M'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/afk/afk-notify.sh",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/afk/afk-notify.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/afk/afk-stop-hook.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/session-recall-index.sh",
+            "timeout": 30
           }
         ]
       }

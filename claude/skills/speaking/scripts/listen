@@ -1,0 +1,169 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#   "sounddevice",
+#   "numpy",
+#   "faster-whisper",
+# ]
+# ///
+"""
+listen - Voice capture and transcription using faster-whisper.
+
+Records from the default microphone with silence detection, transcribes
+via faster-whisper small.en, and prints the result to stdout.
+
+Status messages go to stderr. Stdout is empty if no speech was detected.
+
+Usage:
+    listen                    # Default: 30s timeout, 3s silence
+    listen --timeout 60       # Longer timeout
+    listen --silence 2        # Shorter silence threshold
+    listen --threshold 0.02   # Higher volume threshold
+"""
+
+import argparse
+import subprocess
+import sys
+import tempfile
+import threading
+import wave
+from pathlib import Path
+
+CHIME_PATH = "/System/Library/Sounds/Ping.aiff"
+
+SAMPLE_RATE = 16000
+
+
+def record_voice(
+    timeout: float = 30,
+    silence_threshold: float = 0.01,
+    silence_duration: float = 3.0,
+    output_path: Path | None = None,
+) -> Path | None:
+    """Record audio from default mic, stopping after silence or timeout.
+
+    Returns path to WAV file if speech was detected, or None if only silence.
+    """
+    import numpy as np
+    import sounddevice as sd
+
+    blocksize = 1024
+    frames: list[np.ndarray] = []
+    speech_detected = False
+    silent_frames = 0
+    silence_frame_limit = int(silence_duration * SAMPLE_RATE / blocksize)
+    stop_event = threading.Event()
+
+    def callback(indata, _frame_count, _time_info, _status):
+        nonlocal speech_detected, silent_frames
+        frames.append(indata.copy())
+        rms = np.sqrt(np.mean(indata**2))
+
+        if rms >= silence_threshold:
+            speech_detected = True
+            silent_frames = 0
+        elif speech_detected:
+            silent_frames += 1
+
+        if speech_detected and silent_frames >= silence_frame_limit:
+            stop_event.set()
+
+    stream = sd.InputStream(
+        samplerate=SAMPLE_RATE,
+        channels=1,
+        dtype="float32",
+        blocksize=blocksize,
+        callback=callback,
+    )
+    with stream:
+        stop_event.wait(timeout=timeout)
+
+    if not speech_detected:
+        return None
+
+    audio = np.concatenate(frames)
+    audio_int16 = (audio * 32767).astype(np.int16)
+
+    if output_path is None:
+        output_path = Path(tempfile.mktemp(suffix=".wav"))
+
+    with wave.open(str(output_path), "wb") as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)  # 16-bit
+        wf.setframerate(SAMPLE_RATE)
+        wf.writeframes(audio_int16.tobytes())
+
+    return output_path
+
+
+def transcribe_audio(audio_path: Path) -> str | None:
+    """Transcribe audio using faster-whisper small.en model.
+
+    Returns transcribed text, or None if no speech was recognized.
+    """
+    from faster_whisper import WhisperModel
+
+    model = WhisperModel("small.en", compute_type="int8")
+    segments, _ = model.transcribe(str(audio_path))
+    text = "".join(s.text for s in segments).strip()
+    return text if text else None
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Record voice and transcribe via faster-whisper",
+    )
+    parser.add_argument(
+        "--timeout",
+        type=float,
+        default=120,
+        help="Max recording time in seconds (default: 120)",
+    )
+    parser.add_argument(
+        "--silence",
+        type=float,
+        default=5.0,
+        help="Seconds of silence before stopping (default: 5)",
+    )
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=0.01,
+        help="RMS threshold for speech detection (default: 0.01)",
+    )
+    args = parser.parse_args()
+
+    print("Listening...", file=sys.stderr)
+    subprocess.Popen(
+        ["afplay", CHIME_PATH],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+    audio_path = None
+    try:
+        audio_path = record_voice(
+            timeout=args.timeout,
+            silence_threshold=args.threshold,
+            silence_duration=args.silence,
+        )
+
+        if audio_path is None:
+            print("No speech detected.", file=sys.stderr)
+            return
+
+        print("Transcribing...", file=sys.stderr)
+        text = transcribe_audio(audio_path)
+
+        if text:
+            print(text)
+        else:
+            print("No speech recognized.", file=sys.stderr)
+    finally:
+        if audio_path is not None:
+            audio_path.unlink(missing_ok=True)
+
+
+if __name__ == "__main__":
+    main()
