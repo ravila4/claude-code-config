@@ -7,7 +7,7 @@ description: Search and retrieve past Claude Code conversations using the `sr` C
 
 Search past Claude Code sessions using full-text keyword search or semantic vector search.
 
-The `sr` CLI is installed at `/Users/ricardoavila/Projects/session-log/.venv/bin/sr`.
+The `sr` CLI is installed via `uv tool install -e` and available on PATH.
 
 ## When to Use
 

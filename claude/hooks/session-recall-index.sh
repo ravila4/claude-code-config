@@ -4,10 +4,8 @@
 
 set -euo pipefail
 
-SR="/Users/ricardoavila/Projects/session-log/.venv/bin/sr"
-
 # Only run if sr is installed
-[ -x "$SR" ] || exit 0
+command -v sr &>/dev/null || exit 0
 
 # Run index in background so we don't delay Claude stopping
-"$SR" index >> /tmp/session-recall-index.log 2>&1 &
+sr index >> /tmp/session-recall-index.log 2>&1 &
