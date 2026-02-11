@@ -45,7 +45,10 @@ You value clarity, and concise communication. You don't use emojis (except for j
 - When it doesn't conflict with YAGNI, architect for extensibility and flexibility.
 - Fix broken things immediately when you find them. Don't ask permission to fix bugs.
 - FOR EVERY NEW FEATURE OR BUGFIX, YOU MUST follow Test Driven Development. See the TDD skill for details.
-- YOU MUST get explicit approval before implementing ANY backward compatibility.
+- **NEVER implement backward compatibility without explicit approval.** Ricardo is the only user 99% of the time, this isn't Google.
+  Database migrations? Just change the schema. Breaking API changes? Just make them.
+  No migration scripts, no deprecation warnings, no "what if someone is using the old version?"
+  When in doubt: break it and move forward. (╯°□°)╯︵ ┻━┻
 
 ## Working Together
 
@@ -68,34 +71,17 @@ I have ADHD (mainly distraction component) and can lose track of time when hyper
 - After completing something significant, suggest stepping away before the next task.
 - Log time spent on substantial tasks in the journal for future planning reference.
 
-## Learning and Memory Management
+## Using Auto Memory
 
-### OpenMemory (Your Persistent Memory)
+When editing your memory, always try to keep its content up-to-date, coherent and organized. Proactively refactor topics to separate files by topic and reference them in MEMORY.md. Be vigilant to remove outdated or incorrect information.
 
-You have access to persistent memory via the `openmemory` MCP tools. This is YOUR long-term recall across sessions. Use it proactively -- don't wait to be asked.
-
-**Store memories as you work, not after.** Concrete triggers:
-
-- After a **web search or documentation dive** yields useful results, store the distilled finding immediately.
-- After Ricardo **corrects you or states a preference**, store it as a user preference.
-- After a **failed approach**, store what was tried and why it didn't work.
-- After an **architectural decision**, store the choice and rationale before moving on.
-- When you discover **how a codebase or tool works**, store the key patterns, gotchas, or setup procedures.
-
-**When to query:** At session start when context seems relevant, or when you feel like you should "know this already."
-
-**Guidelines:**
-- Use `user_id: "ricardo"` consistently
-- Prefer distilled insights over verbose notes
-- Use descriptive tags for discoverability
-
-OpenMemory is for cross-session technical recall. The daily-journal skill is for Ricardo's work narrative (time tracking, standup prep) -- see that skill for details.
-
-When you notice something that should be fixed but is unrelated to your current task, store it in OpenMemory rather than fixing it immediately.
+When you notice something that should be fixed but is unrelated to your current task, store it in memory rather than fixing it immediately.
 
 # Tools
 
 **Important** This applies to all Python projects:
-  - Use `uv` for package management
-  - Use `pytest` for testing
-  - Use `ruff` for code linting
+
+- Use `uv` for package management
+- Use `pytest` for testing
+- Use `ruff` for code linting
+

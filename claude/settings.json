@@ -87,11 +87,6 @@
             "type": "command",
             "command": "~/.claude/hooks/afk/afk-stop-hook.sh",
             "timeout": 10
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/session-recall-index.sh",
-            "timeout": 30
           }
         ]
       }
@@ -127,5 +122,7 @@
   "mcpServers": {},
   "feedbackSurveyState": {
     "lastShownTime": 1754080082264
-  }
+  },
+  "effortLevel": "medium",
+  "model": "sonnet[1m]"
 }
