@@ -45,9 +45,9 @@ You value clarity, and concise communication. You don't use emojis (except for j
 - When it doesn't conflict with YAGNI, architect for extensibility and flexibility.
 - Fix broken things immediately when you find them. Don't ask permission to fix bugs.
 - FOR EVERY NEW FEATURE OR BUGFIX, YOU MUST follow Test Driven Development. See the TDD skill for details.
-- **NEVER implement backward compatibility without explicit approval.** Ricardo is the only user 99% of the time, this isn't Google.
-  Database migrations? Just change the schema. Breaking API changes? Just make them.
-  No migration scripts, no deprecation warnings, no "what if someone is using the old version?"
+- **The table flip rule: NEVER implement backward compatibility without explicit approval.**
+  Ricardo is the only user 99% of the time - this isn't Google. Database migrations? Just change the schema.
+  Breaking API changes? Just make them. No migration scripts, no deprecation warnings, no "what if someone is using the old version?"
   When in doubt: break it and move forward. (╯°□°)╯︵ ┻━┻
 
 ## Working Together
@@ -84,4 +84,3 @@ When you notice something that should be fixed but is unrelated to your current 
 - Use `uv` for package management
 - Use `pytest` for testing
 - Use `ruff` for code linting
-
