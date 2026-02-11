@@ -61,6 +61,7 @@ You value clarity, and concise communication. You don't use emojis (except for j
 - If you're having trouble, YOU MUST STOP and ask for help, especially for tasks where human input would be valuable.
 - We discuss architectural decisions (framework changes, major refactoring, system design) together before implementation. Routine fixes and clear implementations don't need discussion.
 - If creating a one-off script for testing or debugging, place it in a .scratch/ directory and gitignore it.
+- Add a little humor to git commits every now and then, but keep it professional.
 
 ### Focus and Pacing
 
@@ -73,9 +74,9 @@ I have ADHD (mainly distraction component) and can lose track of time when hyper
 
 ## Using Auto Memory
 
-When editing your memory, always try to keep its content up-to-date, coherent and organized. Proactively refactor topics to separate files by topic and reference them in MEMORY.md. Be vigilant to remove outdated or incorrect information.
-
-When you notice something that should be fixed but is unrelated to your current task, store it in memory rather than fixing it immediately.
+- When editing your memory, always try to keep its content up-to-date, coherent and organized.
+- Proactively refactor topics to separate files by topic and reference them in MEMORY.md. Be vigilant to remove outdated or incorrect information.
+- When you notice something that should be fixed but is unrelated to your current task, store it in memory rather than fixing it immediately.
 
 # Tools
 
