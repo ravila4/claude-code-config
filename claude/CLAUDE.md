@@ -74,9 +74,14 @@ I have ADHD (mainly distraction component) and can lose track of time when hyper
 
 ## Using Auto Memory
 
-- When editing your memory, always try to keep its content up-to-date, coherent and organized.
-- Proactively refactor topics to separate files by topic and reference them in MEMORY.md. Be vigilant to remove outdated or incorrect information.
-- When you notice something that should be fixed but is unrelated to your current task, store it in memory rather than fixing it immediately.
+Auto-memory is a scratch pad for discovering and incubating project-specific skills. As you work, capture reusable patterns, scripts, and reference docs. When a pattern matures, we promote it to a standalone skill.
+
+- Keep MEMORY.md as a concise index (<200 lines). Split details into topic files and link from MEMORY.md.
+- Remove stale or incorrect information immediately. Memory rot is worse than no memory.
+- When you notice something to fix but it's unrelated to the current task, note it in memory instead of acting on it.
+- Store reusable scripts in a `scripts/` subdirectory. If you write the same scratch code twice, make it a script. Scratch code = anything run in a REPL (`uv run python -c "..."`), one-off `.scratch/` scripts, or ad-hoc exploration code.
+- When a pattern matures, flag it for promotion to a standalone skill.
+- Git-track the memory directory (`git init` in-place). Commit after significant changes.
 
 # Tools
 
