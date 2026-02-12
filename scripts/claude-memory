@@ -1,0 +1,147 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.10"
+# ///
+"""Resolve and interact with the Claude Code auto-memory directory for a project."""
+
+import argparse
+import subprocess
+import sys
+from pathlib import Path
+
+CLAUDE_PROJECTS_DIR = Path.home() / ".claude" / "projects"
+
+
+def get_memory_dir(project_path: Path) -> Path:
+    """Convert a project path to its Claude Code memory directory."""
+    encoded = "-" + str(project_path).strip("/").replace("/", "-")
+    return CLAUDE_PROJECTS_DIR / encoded / "memory"
+
+
+def git_init_memory(memory_dir: Path) -> bool:
+    """Initialize a git repo in a memory dir and make an initial commit.
+
+    Returns True if a new repo was created, False if one already existed.
+    """
+    if (memory_dir / ".git").exists():
+        return False
+
+    # Only init dirs that have actual files (skip empty memory dirs)
+    files = [f for f in memory_dir.iterdir() if f.name != ".git"]
+    if not files:
+        return False
+
+    subprocess.run(["git", "init"], cwd=memory_dir, capture_output=True)
+    subprocess.run(["git", "add", "."], cwd=memory_dir, capture_output=True)
+    subprocess.run(
+        ["git", "commit", "-m", "Initial memory snapshot"],
+        cwd=memory_dir,
+        capture_output=True,
+    )
+    return True
+
+
+def all_memory_dirs() -> list[Path]:
+    """Return all existing memory directories."""
+    return sorted(
+        d
+        for d in CLAUDE_PROJECTS_DIR.glob("*/memory")
+        if d.is_dir()
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Claude Code auto-memory viewer")
+    parser.add_argument(
+        "project",
+        nargs="?",
+        default=".",
+        help="Project directory (default: current directory)",
+    )
+    parser.add_argument("--open", action="store_true", help="Open in Finder")
+    parser.add_argument("--cat", action="store_true", help="Print MEMORY.md contents")
+    parser.add_argument(
+        "--list", action="store_true", help="List files in the memory directory"
+    )
+    parser.add_argument(
+        "--init", action="store_true", help="Git-init the memory directory"
+    )
+    parser.add_argument(
+        "--init-all",
+        action="store_true",
+        help="Git-init ALL memory directories that have files",
+    )
+    parser.add_argument(
+        "--diff", action="store_true", help="Show git diff of the memory directory"
+    )
+    args = parser.parse_args()
+
+    # --init-all doesn't need a specific project
+    if args.init_all:
+        for d in all_memory_dirs():
+            if git_init_memory(d):
+                project_name = d.parent.name
+                print(f"Initialized: {project_name}")
+        return
+
+    project_path = Path(args.project).resolve()
+    memory_dir = get_memory_dir(project_path)
+
+    if not memory_dir.exists():
+        print(f"No memory directory found for {project_path}", file=sys.stderr)
+        print(f"Expected: {memory_dir}", file=sys.stderr)
+        sys.exit(1)
+
+    if args.init:
+        if git_init_memory(memory_dir):
+            print(f"Initialized git repo in {memory_dir}")
+        else:
+            print("Already initialized (or empty)", file=sys.stderr)
+    elif args.diff:
+        if not (memory_dir / ".git").exists():
+            print("Not a git repo. Run with --init first.", file=sys.stderr)
+            sys.exit(1)
+        result = subprocess.run(
+            ["git", "diff", "HEAD"],
+            cwd=memory_dir,
+            capture_output=True,
+            text=True,
+        )
+        # Also show untracked files
+        status = subprocess.run(
+            ["git", "status", "--short"],
+            cwd=memory_dir,
+            capture_output=True,
+            text=True,
+        )
+        if result.stdout:
+            print(result.stdout, end="")
+        if status.stdout:
+            untracked = [
+                line for line in status.stdout.splitlines() if line.startswith("??")
+            ]
+            if untracked:
+                print("\nUntracked files:")
+                for line in untracked:
+                    print(f"  {line[3:]}")
+        if not result.stdout and not status.stdout:
+            print("No changes.")
+    elif args.cat:
+        memory_md = memory_dir / "MEMORY.md"
+        if memory_md.exists():
+            print(memory_md.read_text())
+        else:
+            print("No MEMORY.md found", file=sys.stderr)
+            sys.exit(1)
+    elif args.open:
+        subprocess.run(["open", memory_dir])
+    elif args.list:
+        for f in sorted(memory_dir.iterdir()):
+            if f.name != ".git":
+                print(f.name)
+    else:
+        print(memory_dir)
+
+
+if __name__ == "__main__":
+    main()
