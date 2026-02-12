@@ -27,10 +27,18 @@
       "Bash(git diff *)",
       "Bash(git log *)",
       "Bash(git show *)",
-      "Bash(git branch *)"
+      "Bash(git branch *)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv sync:*)",
+      "Bash(uv run ruff check:*)",
+      "Bash(wc:*)",
+      "Bash(sr search:*)",
+      "Bash(ssh:*)",
+      "Bash(codex exec:*)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "defaultMode": "default"
   },
   "hooks": {
     "UserPromptSubmit": [
@@ -122,7 +130,5 @@
   "mcpServers": {},
   "feedbackSurveyState": {
     "lastShownTime": 1754080082264
-  },
-  "effortLevel": "medium",
-  "model": "sonnet[1m]"
+  }
 }
