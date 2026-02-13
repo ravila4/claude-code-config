@@ -7,6 +7,7 @@
 import argparse
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 CLAUDE_PROJECTS_DIR = Path.home() / ".claude" / "projects"
@@ -16,6 +17,18 @@ def get_memory_dir(project_path: Path) -> Path:
     """Convert a project path to its Claude Code memory directory."""
     encoded = "-" + str(project_path).strip("/").replace("/", "-")
     return CLAUDE_PROJECTS_DIR / encoded / "memory"
+
+
+def configure_git_author(repo_dir: Path) -> None:
+    """Set the local git author to Claude in a repo."""
+    subprocess.run(
+        ["git", "config", "user.name", "Claude"], cwd=repo_dir, capture_output=True
+    )
+    subprocess.run(
+        ["git", "config", "user.email", "noreply@anthropic.com"],
+        cwd=repo_dir,
+        capture_output=True,
+    )
 
 
 def git_init_memory(memory_dir: Path) -> bool:
@@ -32,6 +45,7 @@ def git_init_memory(memory_dir: Path) -> bool:
         return False
 
     subprocess.run(["git", "init"], cwd=memory_dir, capture_output=True)
+    configure_git_author(memory_dir)
     subprocess.run(["git", "add", "."], cwd=memory_dir, capture_output=True)
     subprocess.run(
         ["git", "commit", "-m", "Initial memory snapshot"],
@@ -74,14 +88,20 @@ def main() -> None:
     parser.add_argument(
         "--diff", action="store_true", help="Show git diff of the memory directory"
     )
+    parser.add_argument(
+        "--commit", action="store_true", help="Stage and commit all memory changes"
+    )
     args = parser.parse_args()
 
     # --init-all doesn't need a specific project
     if args.init_all:
         for d in all_memory_dirs():
+            project_name = d.parent.name
             if git_init_memory(d):
-                project_name = d.parent.name
                 print(f"Initialized: {project_name}")
+            elif (d / ".git").exists():
+                configure_git_author(d)
+                print(f"Configured:  {project_name}")
         return
 
     project_path = Path(args.project).resolve()
@@ -97,6 +117,25 @@ def main() -> None:
             print(f"Initialized git repo in {memory_dir}")
         else:
             print("Already initialized (or empty)", file=sys.stderr)
+    elif args.commit:
+        if not (memory_dir / ".git").exists():
+            print("Not a git repo. Run with --init first.", file=sys.stderr)
+            sys.exit(1)
+        subprocess.run(["git", "add", "."], cwd=memory_dir, capture_output=True)
+        status = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=memory_dir,
+            capture_output=True,
+            text=True,
+        )
+        if not status.stdout.strip():
+            print("No changes to commit.")
+        else:
+            msg = f"Memory snapshot {date.today()}"
+            subprocess.run(
+                ["git", "commit", "-m", msg], cwd=memory_dir, capture_output=True
+            )
+            print(msg)
     elif args.diff:
         if not (memory_dir / ".git").exists():
             print("Not a git repo. Run with --init first.", file=sys.stderr)
