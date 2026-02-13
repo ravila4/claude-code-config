@@ -1,6 +1,6 @@
 ---
 name: alerts
-description: Set time-based reminders that surface via hook on prompt submission. Use proactively when user mentions stopping times, deadlines, or break points. Also use when noticing long focus sessions that may benefit from a break reminder.
+description: Set time-based reminders that surface via hook on prompt submission. Use proactively when user mentions stopping times, deadlines, or break points. Also use when noticing long focus sessions that may benefit from a break reminder. NOT for process monitoring — use `sleep` instead (alerts require user input to fire).
 ---
 
 # Alerts
@@ -18,6 +18,7 @@ Time-based reminder system for managing focus and pacing. Alerts are stored in S
 **Do NOT set alerts for:**
 - Tasks Claude will complete in the current turn
 - Information that should go in OpenMemory instead
+- **Process monitoring** (e.g., "check if the build finished", "see if the pipeline completed"). Alerts require user input (prompt submission) to fire, so they cannot reliably check on running processes. Use `sleep <seconds>` in Bash instead — it blocks inline and resumes without requiring user interaction.
 
 ## Tools
 
