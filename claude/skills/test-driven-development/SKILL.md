@@ -15,9 +15,9 @@ Before writing any code, pass it through two gates:
 ```mermaid
 flowchart TD
     A[New code to write] --> B[Decompose into pieces]
-    B --> C{{"Logic Gate:\nDoes this piece contain logic?"}}
-    C -->|"Conditionals, transformations,\nvalidation, state changes,\nerror handling"| D["Iron Rule: TDD"]
-    C -->|"Dataclasses, config,\nthin wrappers, type aliases,\nformatting"| E[Write directly]
+    B --> C{{"Logic Gate: Does this piece contain logic?"}}
+    C -->|"Conditionals, transformations, validation, state changes, error handling"| D["Iron Rule: TDD"]
+    C -->|"Dataclasses, config, thin wrappers, type aliases, formatting"| E[Write directly]
     D --> F["RED: Write failing test"]
     F --> G["GREEN: Minimal implementation"]
     G --> H["REFACTOR: Clean up"]
