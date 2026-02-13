@@ -1,39 +1,74 @@
 ---
 name: test-driven-development
-description: (TDD) Use when implementing any feature or bugfix, before writing implementation code - write the test first, watch it fail, write minimal code to pass
+description: (TDD) Use when implementing any feature or bugfix. Apply the Logic Gate to identify what needs tests, then use the Iron Rule for strict test-first development on logic.
 ---
 
 # Test-Driven Development (TDD)
 
-## Overview
+## The Two Gates
 
-Write the test before the implementation, observe it fail, then write the simplest code to make it pass. If you haven't witnessed the test fail, you lack certainty that it validates the correct behavior.
+Before writing any code, pass it through two gates:
 
-## When to Use
+1. **The Logic Gate** — Triage. Does this piece contain logic?
+2. **The Iron Rule** — For everything that passes the Logic Gate, strict TDD applies.
 
-Apply TDD consistently to:
-- Feature development
-- Bug resolution
-- Code refactoring
-- Behavioral modifications
+```mermaid
+flowchart TD
+    A[New code to write] --> B[Decompose into pieces]
+    B --> C{{"Logic Gate:\nDoes this piece contain logic?"}}
+    C -->|"Conditionals, transformations,\nvalidation, state changes,\nerror handling"| D["Iron Rule: TDD"]
+    C -->|"Dataclasses, config,\nthin wrappers, type aliases,\nformatting"| E[Write directly]
+    D --> F["RED: Write failing test"]
+    F --> G["GREEN: Minimal implementation"]
+    G --> H["REFACTOR: Clean up"]
+    H --> I{More pieces?}
+    E --> I
+    I -->|Yes| C
+    I -->|No| J[Done]
+```
 
-**Exceptions** require explicit user approval:
-- Throwaway prototypes
-- Auto-generated code
-- Configuration files
+## Gate 1: The Logic Gate
 
-## The Iron Law
+Decompose the work into its constituent pieces. For each piece, ask: **does this contain logic?**
 
-**Production code must never exist without a preceding failing test.**
+**Passes the Logic Gate (requires TDD):**
+- Conditionals and branching
+- Data transformations and computations
+- Validation and parsing
+- State management and transitions
+- Error handling with recovery logic
+- Business rules and domain logic
+- Algorithm implementations
 
-If code is written before tests:
-1. Delete it entirely
-2. Restart with tests first
-3. No exceptions - don't keep it as reference, don't look at it, just delete
+**Does NOT pass the Logic Gate (write directly):**
+- Dataclasses, NamedTuples, TypedDicts (pure data declarations)
+- Type aliases and protocol definitions
+- Configuration and constants
+- Thin wrappers that only delegate (no branching, no transformation)
+- Plot formatting and visual styling
+- Boilerplate (`__init__.py`, module-level setup)
+- String templates and static content
+
+**When in doubt:** If you can't point to a conditional, transformation, or state change, it probably doesn't pass the Logic Gate.
+
+### Triage Output
+
+Before writing code, briefly identify what passes and what doesn't:
+- "These pieces contain logic and need TDD: X, Y"
+- "These are declarations/glue and can be written directly: Z"
+
+## Gate 2: The Iron Rule
+
+**For code that passes the Logic Gate: never write logic without a preceding failing test.**
+
+If logic is written before its test:
+1. Stop — the test you write now can only describe what you already wrote, not verify intended behavior
+2. Delete the logic and restart test-first
+3. This applies to logic specifically, not declarations
 
 ## Red-Green-Refactor Cycle
 
-### RED Phase: Write a Failing Test
+### RED: Write a Failing Test
 
 Write a single minimal test demonstrating intended behavior:
 - Clear, descriptive name
@@ -48,7 +83,7 @@ Run tests and confirm:
 - Not failing due to syntax errors
 - This verification is non-negotiable
 
-### GREEN Phase: Minimal Implementation
+### GREEN: Minimal Implementation
 
 Write the simplest possible code satisfying the test:
 - Avoid feature creep
@@ -61,7 +96,7 @@ Confirm:
 - The new test passes
 - No existing tests break
 
-### REFACTOR Phase: Clean Up
+### REFACTOR: Clean Up
 
 Improve code quality while maintaining green status:
 - Eliminate duplication
@@ -86,36 +121,25 @@ Improve code quality while maintaining green status:
 - Lacks systematic documentation
 - Not reproducible
 
-**"Deleting hours of work wastes effort"**
-- Sunk cost fallacy
-- Unverified code is technical debt
-
 **"Tests-after achieve identical goals"**
 - Tests-first answer: "What should happen?"
 - Tests-after answer: "What does this do?"
 - Fundamentally different approaches
 
-## Red Flags Requiring Restart
-
-Delete code and restart with TDD if:
-- Code written before tests
-- Tests pass immediately on first run
-- Can't explain why test failed
-- Any rationalization about "just this once"
-
 ## Verification Checklist
 
 Before considering work complete:
-- [ ] Every new function has corresponding tests
-- [ ] Each test failed before implementation
+- [ ] Logic Gate triage was performed
+- [ ] Every piece containing logic has corresponding tests
+- [ ] Each test for logic failed before implementation
 - [ ] Failures occurred for expected reasons
 - [ ] Code written is minimal
 - [ ] All tests pass without errors or warnings
 - [ ] Real code tested (mocks only when necessary)
-- [ ] Edge cases and error conditions covered
+- [ ] Edge cases and error conditions covered for logic
 
 ## Integration with Other Skills
 
 **Testing skill ecosystem:**
-- **testing-anti-patterns** - What to avoid when writing tests (mocking pitfalls, production pollution)
-- **legacy-code-testing** - When adding tests to existing untested code (seams, characterization tests)
+- **testing-anti-patterns** — What to avoid when writing tests (mocking pitfalls, production pollution). Especially relevant during the RED phase: ensure tests validate behavior, not mock existence.
+- **legacy-code-testing** — When adding tests to existing untested code (seams, characterization tests). Start with the Logic Gate to identify which legacy code actually needs tests.

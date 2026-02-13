@@ -335,8 +335,8 @@ Watch for these warning signs:
 ## Integration with Other Skills
 
 **Testing skill ecosystem:**
-- **test-driven-development** - Prevents anti-patterns through test-first workflow
-- **legacy-code-testing** - Apply these principles when retrofitting tests (avoid over-mocking seams)
+- **test-driven-development** — Prevents anti-patterns through test-first workflow. Use the **Logic Gate** to triage what needs tests before applying these patterns — anti-patterns matter most in code that passes the Logic Gate (i.e., actual logic, not declarations).
+- **legacy-code-testing** — Apply these principles when retrofitting tests (avoid over-mocking seams)
 
 **Works with:**
 - Code review processes (verify test quality in reviews)
