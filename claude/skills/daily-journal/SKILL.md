@@ -266,6 +266,26 @@ Use `obsidian-semantic related "Daily Log/{date}.md" -n 5` to populate with mean
 | `--date YYYY-MM-DD` | Target date (default: today) |
 | `--quick` | Skip interactive questions, just use data (not recommended) |
 
+## Editing Past Entries
+
+**Never delete historical context.** Journal entries are a record of thinking over time - even wrong thinking has value.
+
+- **Cross out** outdated items with strikethrough: `~~Outdated info~~`
+- Add a brief explanation when crossing out: `~~Thought X caused the bug~~ Turned out to be a race condition`
+- **Only delete** if something is factually incorrect (e.g., wrong date, wrong project name)
+- Completed items, debunked theories, abandoned plans, tasks no longer relevant → strike through, don't delete
+
+**Examples:**
+
+```markdown
+### Open Loops
+
+> [!question] Still thinking about...
+> - ~~Should I re-run step 1 after changing FID format?~~ No, step 2 handles it
+> - ~~Investigate flaky test in pipeline~~ Was a CI caching issue, fixed 2026-01-25
+> - New question that replaced the old one
+```
+
 ## Anti-Patterns
 
 **Don't:**
@@ -274,6 +294,7 @@ Use `obsidian-semantic related "Daily Log/{date}.md" -n 5` to populate with mean
 - Assume commits = what mattered
 - Write in third person about the user
 - Fill in feelings or reflections without asking
+- Delete outdated entries, completed items, or debunked theories (strike them out instead)
 
 **Do:**
 - Ask open questions first
