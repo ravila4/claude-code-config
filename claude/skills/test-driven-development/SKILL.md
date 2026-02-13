@@ -138,6 +138,12 @@ Before considering work complete:
 - [ ] Real code tested (mocks only when necessary)
 - [ ] Edge cases and error conditions covered for logic
 
+## Debugging Integration
+
+Bug found? Write failing test reproducing it. Follow TDD cycle. Test proves fix and prevents regression.
+
+Never fix bugs without a test.
+
 ## Integration with Other Skills
 
 **Testing skill ecosystem:**
