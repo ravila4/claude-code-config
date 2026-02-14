@@ -32,6 +32,7 @@
       "Bash(uv sync:*)",
       "Bash(uv run ruff check:*)",
       "Bash(wc:*)",
+      "Bash(sleep:*)",
       "Bash(sr search:*)",
       "Bash(ssh:*)",
       "Bash(codex exec:*)"
