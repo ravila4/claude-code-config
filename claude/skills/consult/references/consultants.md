@@ -41,21 +41,25 @@ opencode run -m {model} "{query}"
 | Model | Use Case |
 |-------|----------|
 | auto | Let Cursor choose |
-| gemini-3-pro | Google's latest, good for large context |
-| gemini-3-flash | Fast Google queries |
+| opus-4.6-thinking | Claude deep reasoning (default) |
+| opus-4.6 | Claude 4.6 without thinking |
+| opus-4.5-thinking | Claude 4.5 deep reasoning |
+| sonnet-4.5-thinking | Claude balanced with thinking |
+| sonnet-4.5 | Fast balanced Claude |
+| gpt-5.3-codex | Latest OpenAI code-focused |
 | gpt-5.2 | OpenAI general reasoning |
 | gpt-5.2-high | Higher capability GPT |
-| opus-4.5-thinking | Claude deep reasoning |
-| opus-4.5 | Claude without extended thinking |
-| sonnet-4.5 | Balanced Claude |
-| composer-1 | Cursor's native model |
+| gemini-3-pro | Google's latest, good for large context |
+| gemini-3-flash | Fast Google queries |
+| composer-1.5 | Cursor's latest native model |
 
 ### Via codex
 | Model | Use Case |
 |-------|----------|
-| gpt-5.2-codex | Default. Code-focused |
-| gpt-5.2 | General reasoning |
-| gpt-5.1-codex-max | Maximum capability |
+| gpt-5.1-codex-max | Deep reasoning flagship |
+| gpt-5.1-codex | Default. Code-focused |
+| gpt-5.1-codex-mini | Cheaper/faster |
+| gpt-5.1 | General reasoning |
 
 ### Via claude
 | Model | Use Case |

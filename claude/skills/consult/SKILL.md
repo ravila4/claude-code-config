@@ -44,8 +44,9 @@ For multiple consultants, launch parallel Task calls with this skill.
 |---------|-----------|-------|
 | gemini | cursor-agent | gemini-3-pro |
 | gpt-5.2 | cursor-agent | gpt-5.2 |
-| opus | cursor-agent | opus-4.5 |
-| codex | codex exec | gpt-5.2-codex |
+| gpt-5.3 | cursor-agent | gpt-5.3-codex |
+| opus | cursor-agent | opus-4.6-thinking |
+| codex | codex exec | gpt-5.1-codex |
 | claude | claude | sonnet |
 | opencode | opencode | (run `opencode models`) |
 
