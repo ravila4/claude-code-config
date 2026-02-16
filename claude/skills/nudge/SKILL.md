@@ -1,30 +1,30 @@
 ---
-name: alerts
-description: Set time-based reminders that surface via hook on prompt submission. Use proactively when user mentions stopping times, deadlines, or break points. Also use when noticing long focus sessions that may benefit from a break reminder. NOT for process monitoring — use `sleep` instead (alerts require user input to fire).
+name: nudge
+description: Nudge the user with time-based reminders (stopping times, meetings, break suggestions). Surfaces via hook on prompt submission — requires human interaction to fire. NOT for process monitoring or job polling — use `sleep` in Bash instead.
 ---
 
-# Alerts
+# Nudge
 
-Time-based reminder system for managing focus and pacing. Alerts are stored in SQLite and surface via hook when due.
+Human-facing reminder system for managing focus and pacing. Nudges are stored in SQLite and surface via hook when due.
 
 ## When to Use
 
-**Proactively set alerts when:**
+**Proactively set nudges when:**
 - User mentions a stopping time ("stop me at 11", "I need to wrap up by 5")
 - User mentions a deadline or meeting ("standup in 30 minutes")
 - A long focus session (2+ hours) is underway without breaks
 - User asks for a reminder explicitly
 
-**Do NOT set alerts for:**
+**Do NOT use nudge for:**
 - Tasks Claude will complete in the current turn
 - Information that should go in OpenMemory instead
-- **Process monitoring** (e.g., "check if the build finished", "see if the pipeline completed"). Alerts require user input (prompt submission) to fire, so they cannot reliably check on running processes. Use `sleep <seconds>` in Bash instead — it blocks inline and resumes without requiring user interaction.
+- **Process monitoring** (e.g., "check if the build finished", "see if the pipeline completed"). Nudges require user input (prompt submission) to fire, so they cannot check on running processes. Use `sleep <seconds>` in Bash instead — it blocks inline and resumes without requiring user interaction.
 
 ## Tools
 
 Scripts are located at `~/.claude/hooks/`:
 
-### Adding an Alert
+### Adding a Nudge
 
 ```bash
 python3 ~/.claude/hooks/add_alert.py "<time>" "<message>"
@@ -36,15 +36,15 @@ python3 ~/.claude/hooks/add_alert.py "<time>" "<message>"
 - `+30m` - 30 minutes from now
 - `+2h` - 2 hours from now
 
-### Acknowledging an Alert
+### Acknowledging a Nudge
 
-When an alert has been addressed, dismiss it:
+When a nudge has been addressed, dismiss it:
 
 ```bash
 python3 ~/.claude/hooks/ack_alert.py <id>
 ```
 
-### Viewing Alerts
+### Viewing Nudges
 
 ```bash
 sqlite3 ~/.claude/hooks/alerts.db "SELECT id, due_at, message FROM alerts WHERE acknowledged = 0"
@@ -54,7 +54,7 @@ sqlite3 ~/.claude/hooks/alerts.db "SELECT id, due_at, message FROM alerts WHERE 
 
 Messages are notes-to-self for Claude. Include:
 
-1. **Reason** - Why this alert was set
+1. **Reason** - Why this nudge was set
 2. **Action** - What to do when it fires
 
 Format: `reason - action to take`
@@ -68,13 +68,13 @@ User mentioned standup in 30m - remind to prep notes
 Deployment window opens at 14:00 - remind user to run deploy script
 ```
 
-## When Alerts Fire
+## When Nudges Fire
 
-Due alerts appear in the system-reminder on each prompt submission. When an alert fires:
+Due nudges appear in the system-reminder on each prompt submission. When a nudge fires:
 
 1. Read the message to understand context and action
 2. Take the specified action (remind user, suggest break, etc.)
-3. Acknowledge the alert so it doesn't repeat
+3. Acknowledge the nudge so it doesn't repeat
 
 ## Database Schema
 
@@ -88,4 +88,4 @@ CREATE TABLE alerts (
 )
 ```
 
-The database syncs with git, so alerts persist across machines.
+The database syncs with git, so nudges persist across machines.
