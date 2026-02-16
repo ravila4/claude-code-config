@@ -56,10 +56,11 @@ opencode run -m {model} "{query}"
 ### Via codex
 | Model | Use Case |
 |-------|----------|
-| gpt-5.1-codex-max | Deep reasoning flagship |
-| gpt-5.1-codex | Default. Code-focused |
-| gpt-5.1-codex-mini | Cheaper/faster |
-| gpt-5.1 | General reasoning |
+| gpt-5.3-codex | Default. Latest frontier agentic coding |
+| gpt-5.2-codex | Frontier coding model |
+| gpt-5.1-codex-max | Deep and fast reasoning flagship |
+| gpt-5.2 | Knowledge, reasoning, and coding |
+| gpt-5.1-codex-mini | Cheaper, faster, less capable |
 
 ### Via claude
 | Model | Use Case |
