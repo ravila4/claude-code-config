@@ -27,6 +27,11 @@ The Daily Log template has four main sections:
 **Notes:** Container section for what happened
 - Always present, even if subsections are empty
 
+**Day Footer:** Horizontal rule + italicized one-liner closing out the day
+- Format: `*{Day character} - {One-line takeaway}*`
+- Always include when closing off an entry at end of day
+- Goes after last content section, before Related links
+
 **Related:** Project links section
 - If project detected: `- [[Project Name]]`
 - If no project: `_Add links to related project notes_`

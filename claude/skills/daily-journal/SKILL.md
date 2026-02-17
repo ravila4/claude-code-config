@@ -202,16 +202,18 @@ Fixed with: `awk '{$1=$2; print}' file.sample`
 
 ### Callout Types (Obsidian)
 
-```markdown
-> [!success] Win
-> Got the daily-journal skill working with interactive mode!
+| Callout | Role | Example titles |
+|---------|------|----------------|
+| `[!info]` | Context, continuity, collapsible references | "Context", "Cloud Logging URLs" |
+| `[!success]` | Wins, milestones, progress | "Win", "Big day", "Progress" |
+| `[!warning]` | Concerns, friction, blockers | "Blocker", "Growing Pain" |
+| `[!question]` | Open loops, things still thinking about | "Still thinking about..." |
+| `[!bug]` | Bugs discovered | "Script Bug Found" |
+| `[!note]` | Observations, non-actionable insights | "Observation: ..." |
 
-> [!warning] Blocker
-> Still can't get regenie step 2 to recognize the covariate file.
+Use the collapsible variant (`[!info]-`) for bulky reference material (URLs, log snippets).
 
-> [!question] Open Question
-> Should I re-run step 1 after changing the FID format?
-```
+See [callout-conventions.md](references/callout-conventions.md) for detailed examples and placement guidance.
 
 ## Template Structure
 
@@ -253,6 +255,8 @@ tags:
 
 ---
 
+*{Day character} - {One-line takeaway}*
+
 ## Related
 
 Use `obsidian-semantic related "Daily Log/{date}.md" -n 5` to populate with meaningful links:
@@ -285,6 +289,26 @@ Use `obsidian-semantic related "Daily Log/{date}.md" -n 5` to populate with mean
 > - ~~Investigate flaky test in pipeline~~ Was a CI caching issue, fixed 2026-01-25
 > - New question that replaced the old one
 ```
+
+## Day Footer
+
+Every entry ends with a footer: a horizontal rule followed by an italicized one-liner that captures the overall character of the day. This goes **after** the last content section and **before** the Related links.
+
+**Format:** `*{Day character} - {One-line takeaway}*`
+
+The "day character" is a brief descriptor of the day's shape — how long, what kind of energy. The takeaway summarizes the arc.
+
+```markdown
+---
+
+*Full day - Cursor SSH working, merged analytical + common variant lists, BATCH_JOB_ID refactor complete, but blocked on gc-batch permissions for live testing*
+```
+
+**Guidelines:**
+- Always include when closing off an entry at end of day
+- Day character can mention: duration (short/full/long), time of day (morning/evening/overnight), energy (productive/scattered/chill)
+- Takeaway should be conversational, not a formal summary
+- Keep it to one line
 
 ## Anti-Patterns
 

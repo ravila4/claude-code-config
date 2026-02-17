@@ -29,6 +29,10 @@ tags:
 - **Open questions:**
 - **Tomorrow's focus:**
 
+---
+
+*{Day character} - {One-line takeaway}*
+
 ## Related
 
 - [[Project links]]
